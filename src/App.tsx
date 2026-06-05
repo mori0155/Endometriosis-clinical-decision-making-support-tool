@@ -37,7 +37,9 @@ export default function App() {
 
     // History
     autoimmuneHistory: false,
+    autoimmuneDetails: "none",
     familyHistory: false,
+    familyHistoryRelation: "none",
 
     // Exam
     examinationPerformed: "no",
@@ -111,7 +113,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans flex flex-col selection:bg-yellow-100 relative" id="main-clinician-dashboard">
+    <div className="min-h-screen bg-yellow-50/50 text-slate-900 font-sans flex flex-col selection:bg-yellow-105 relative" id="main-clinician-dashboard">
       
       {/* Disclaimer Modal Popup */}
       {isDisclaimerOpen && (
@@ -190,15 +192,18 @@ export default function App() {
       </header>
 
       {/* Audit & Legal status strip */}
-      <div className="bg-yellow-50/50 border-b border-yellow-250 px-4 py-2 flex items-center justify-between text-[11px] text-slate-750" id="advisory-strip">
+      <div className="bg-yellow-50/50 border-b border-yellow-250 px-4 py-3 flex flex-col gap-2 text-[11px] text-slate-750" id="advisory-strip">
         <div className="flex items-center gap-2">
           <ClipboardCheck className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
           <span>
             <strong>RANZCOG Guideline Status:</strong> Audited with May 2025 GRADE recommendations. Evidence locked to EndoAus protocols.
           </span>
         </div>
-        <div className="hidden lg:block text-[10px] text-slate-400 uppercase font-semibold">
-          Source Validation: Verified Live Database Connection
+        <div className="bg-[#0f172a] text-white p-3 rounded-md flex items-start space-x-2.5 mt-1 border border-slate-800 shadow-sm" id="top-disclaimer">
+          <div className="w-2 h-2 bg-yellow-400 rounded-full shrink-0 mt-1 animate-pulse"></div>
+          <p className="text-[10px] leading-tight max-w-none text-slate-100">
+            <strong>DISCLAIMER:</strong> This clinical tool of RANZCOG Australian living evidence guide works strictly as a decision support aid. It does NOT replace the professional judgment of a clinical medical practitioner. Medical professionals remain solely responsible for all diagnostic and treatment decisions.
+          </p>
         </div>
       </div>
 
@@ -295,14 +300,11 @@ export default function App() {
       </main>
 
       {/* High Density Litigation disclaimer Footer */}
-      <footer className="bg-slate-900 border-t border-slate-950 px-4 py-3 flex flex-col md:flex-row items-start md:items-center justify-between text-slate-400 gap-3" id="clinical-disclaimer-panel">
-        <div className="flex items-center space-x-2">
-          <div className="w-2.5 h-2.5 bg-yellow-400 rounded-full shrink-0"></div>
-          <p className="text-[10px] leading-tight max-w-380 text-slate-400">
-            <strong>DISCLAIMER:</strong> This clinical tool of RANZCOG Australian living evidence guide works strictly as a decision support aid. It does NOT replace the professional judgment of a clinical medical practitioner. Medical professionals remain solely responsible for all diagnostic and treatment decisions.
-          </p>
-        </div>
-        <div className="text-[9px] font-mono text-slate-500 whitespace-nowrap">
+      <footer className="bg-slate-900 border-t border-slate-950 px-4 py-3 flex items-center justify-between text-slate-400" id="clinical-disclaimer-panel">
+        <p className="text-[10px] text-slate-550">
+          EndoAssessor CDSS — Built with audited evidence.
+        </p>
+        <div className="text-[9px] font-mono text-slate-505 whitespace-nowrap">
           Sess: 0x82f..8c | v_env_secured
         </div>
       </footer>

@@ -1,7 +1,13 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
+
+const Type = {
+  OBJECT: "OBJECT" as const,
+  ARRAY: "ARRAY" as const,
+  STRING: "STRING" as const,
+};
 
 dotenv.config();
 
@@ -157,8 +163,8 @@ Patient Profile Entered:
 - Additional user-specified custom symptoms (free-text):
   * ${patientData.otherSymptomsFreeText || "None entered"}
 - Medical and Family History:
-  * Autoimmune history: ${patientData.autoimmuneHistory ? "YES" : "NO"}
-  * First-degree relatives with endometriosis history: ${patientData.familyHistory ? "YES" : "NO"}
+  * Autoimmune history: ${patientData.autoimmuneHistory ? "YES" : "NO"}${patientData.autoimmuneHistory && patientData.autoimmuneDetails && patientData.autoimmuneDetails !== 'none' ? ` (Specific condition: ${patientData.autoimmuneDetails.replace('_', ' ')})` : ""}
+  * First-degree relatives with endometriosis history: ${patientData.familyHistory ? "YES" : "NO"}${patientData.familyHistory && patientData.familyHistoryRelation && patientData.familyHistoryRelation !== 'none' ? ` (Relation: ${patientData.familyHistoryRelation})` : ""}
 - Physical Examination:
   * Performed status: ${patientData.examinationPerformed}
   * Exam notes: ${patientData.examinationDetails || "No details provided"}

@@ -57,7 +57,9 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
       urinarySymptoms: false,
       allergies: false,
       autoimmuneHistory: false,
+      autoimmuneDetails: "none",
       familyHistory: false,
+      familyHistoryRelation: "none",
       examinationPerformed: "no",
       examinationDetails: "",
       ultrasoundDone: "no",
@@ -119,6 +121,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                 <option value="unspecified">-- Choose Fertility Intentions --</option>
                 <option value="yes">Yes, actively trying to conceive</option>
                 <option value="no">No active pregnancy plan</option>
+                <option value="unknown">Unknown / Not determined</option>
               </select>
             </div>
           </div>
@@ -223,53 +226,105 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
         </div>
 
         {/* Section 4: History & Diagnostics */}
-        <div className="space-y-3 pt-2" id="medical-family-investigations">
+        <div className="space-y-4 pt-2" id="medical-family-investigations">
           <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
             4. Family History & Co-morbidities
           </label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             
-            <label className={`flex items-start p-3 border rounded text-xs cursor-pointer select-none transition-all duration-150 ${
-              formData.familyHistory 
-                ? "border-yellow-400 bg-yellow-50 text-slate-900" 
-                : "border-slate-200 hover:border-slate-300 text-slate-700 bg-white"
-            }`}>
-              <input
-                type="checkbox"
-                name="familyHistory"
-                checked={formData.familyHistory}
-                onChange={handleInputChange}
-                className="mt-0.5 w-3.5 h-3.5 text-yellow-600 rounded focus:ring-yellow-500 accent-yellow-500"
-                id="chk-family-history"
-              />
-              <div className="ml-2.5">
-                <span className="block font-bold">First-Degree Relative</span>
-                <span className="block text-[10px] text-slate-550 mt-0.5 leading-normal">
-                  Mother or sister has confirmed diagnosis (increases risk up to 30%).
-                </span>
+            {/* First-Degree Relative Radio buttons */}
+            <div className="p-3 border border-slate-205 rounded-md bg-white space-y-2">
+              <span className="block text-xs font-bold text-slate-700 flex items-center justify-between">
+                <span>First-Degree Relative History</span>
+              </span>
+              <p className="text-[10px] text-slate-450 leading-relaxed">
+                Confirmed endometriosis diagnosis in immediate family (increases risk up to 30%).
+              </p>
+              <div className="space-y-1.5 pt-1">
+                {[
+                  { label: "No family history in first-degree relatives", value: "none" },
+                  { label: "Mother has confirmed diagnosis", value: "mother" },
+                  { label: "Sister has confirmed diagnosis", value: "sister" },
+                  { label: "Both Mother and Sister have confirmed diagnosis", value: "both" }
+                ].map((option) => {
+                  const isSelected = (formData.familyHistoryRelation || "none") === option.value;
+                  return (
+                    <label
+                      key={option.value}
+                      className={`flex items-center p-2 rounded border text-[11px] cursor-pointer select-none transition-all duration-150 ${
+                        isSelected
+                          ? "border-yellow-400 bg-yellow-50 text-slate-900 font-semibold"
+                          : "border-slate-100 hover:border-slate-200 text-slate-700 hover:bg-slate-50/50"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="familyHistoryRelation"
+                        value={option.value}
+                        checked={isSelected}
+                        onChange={() => {
+                          onFormChange({
+                            ...formData,
+                            familyHistoryRelation: option.value as any,
+                            familyHistory: option.value !== "none"
+                          });
+                        }}
+                        className="w-3.5 h-3.5 text-yellow-600 focus:ring-yellow-500 accent-yellow-500 shrink-0"
+                      />
+                      <span className="ml-2 leading-snug">{option.label}</span>
+                    </label>
+                  );
+                })}
               </div>
-            </label>
+            </div>
 
-            <label className={`flex items-start p-3 border rounded text-xs cursor-pointer select-none transition-all duration-150 ${
-              formData.autoimmuneHistory 
-                ? "border-yellow-400 bg-yellow-50 text-slate-900" 
-                : "border-slate-200 hover:border-slate-300 text-slate-700 bg-white"
-            }`}>
-              <input
-                type="checkbox"
-                name="autoimmuneHistory"
-                checked={formData.autoimmuneHistory}
-                onChange={handleInputChange}
-                className="mt-0.5 w-3.5 h-3.5 text-yellow-600 rounded focus:ring-yellow-500 accent-yellow-500"
-                id="chk-autoimmune-history"
-              />
-              <div className="ml-2.5">
-                <span className="block font-bold">Autoimmune disease</span>
-                <span className="block text-[10px] text-slate-550 mt-0.5 leading-normal">
-                  Sjögren's, Lupus, RA, or Celiac Disease increases statistical probability.
-                </span>
+            {/* Autoimmune History Radio buttons */}
+            <div className="p-3 border border-slate-205 rounded-md bg-white space-y-2">
+              <span className="block text-xs font-bold text-slate-700">
+                Autoimmune Disease History
+              </span>
+              <p className="text-[10px] text-slate-450 leading-relaxed">
+                Co-morbid immune conditions that statistically increase endometriosis clinical correlation.
+              </p>
+              <div className="space-y-1.5 pt-1">
+                {[
+                  { label: "No history of autoimmune disease", value: "none" },
+                  { label: "Sjögren's Syndrome", value: "sjogrens" },
+                  { label: "Lupus (Systemic Lupus Erythematosus)", value: "lupus" },
+                  { label: "Rheumatoid Arthritis", value: "rheumatoid_arthritis" },
+                  { label: "Celiac Disease", value: "celiac" },
+                  { label: "Other Autoimmune Condition", value: "other" }
+                ].map((option) => {
+                  const isSelected = (formData.autoimmuneDetails || "none") === option.value;
+                  return (
+                    <label
+                      key={option.value}
+                      className={`flex items-center p-1.5 rounded border text-[11px] cursor-pointer select-none transition-all duration-150 ${
+                        isSelected
+                          ? "border-yellow-400 bg-yellow-50 text-slate-900 font-semibold"
+                          : "border-slate-100 hover:border-slate-200 text-slate-700 hover:bg-slate-50/50"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="autoimmuneDetails"
+                        value={option.value}
+                        checked={isSelected}
+                        onChange={() => {
+                          onFormChange({
+                            ...formData,
+                            autoimmuneDetails: option.value as any,
+                            autoimmuneHistory: option.value !== "none"
+                          });
+                        }}
+                        className="w-3.5 h-3.5 text-yellow-600 focus:ring-yellow-500 accent-yellow-500 shrink-0"
+                      />
+                      <span className="ml-2 leading-snug">{option.label}</span>
+                    </label>
+                  );
+                })}
               </div>
-            </label>
+            </div>
 
           </div>
         </div>

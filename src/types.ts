@@ -1,6 +1,6 @@
 export interface PatientDetails {
   age: string; // empty string or number string
-  fertilityPriority: 'yes' | 'no' | 'unspecified';
+  fertilityPriority: 'yes' | 'no' | 'unspecified' | 'unknown';
   severePainfulPeriods: boolean;
   painWithSex: boolean;
   infertility: boolean;
@@ -18,7 +18,9 @@ export interface PatientDetails {
 
   // History
   autoimmuneHistory: boolean;
+  autoimmuneDetails?: 'none' | 'sjogrens' | 'lupus' | 'rheumatoid_arthritis' | 'celiac' | 'other';
   familyHistory: boolean; // first-degree relative
+  familyHistoryRelation?: 'none' | 'mother' | 'sister' | 'both';
 
   // Physical Examination
   examinationPerformed: 'yes_normal' | 'yes_abnormal' | 'no' | 'inappropriate';

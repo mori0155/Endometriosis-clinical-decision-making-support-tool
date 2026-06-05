@@ -69,6 +69,21 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
     }
   };
 
+  // Dynamic progress label and subtext based on percentage
+  const getProgressLabel = (pct: number) => {
+    if (pct < 30) return "Analyzing Patient Demographics...";
+    if (pct < 65) return "Evaluating Guidelines & Evidence...";
+    if (pct < 90) return "Generating Clinical Insights...";
+    return "Almost done: Finalizing Clinical Report...";
+  };
+
+  const getProgressSubtext = (pct: number) => {
+    if (pct < 30) return "Extracting symptoms, risk factors, and prior diagnostic values.";
+    if (pct < 65) return "Cross-referencing clinical profile against RANZCOG GRADE evidence guidelines.";
+    if (pct < 90) return "Drafting professional EMR notes and organizing indicated referral pathways.";
+    return "Performing final clinical logical safety checks on contraception & fertility priority.";
+  };
+
   if (isLoading) {
     return (
       <div className="bg-white border border-slate-200 rounded-lg p-10 text-center space-y-5 shadow-sm" id="results-skeleton">
@@ -85,10 +100,10 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
           </div>
         </div>
         <p className="text-slate-700 text-xs font-bold uppercase tracking-wider">
-          Evidence Engine Evaluating Criteria...
+          {getProgressLabel(progress)}
         </p>
         <p className="text-[11px] text-slate-400 max-w-sm mx-auto leading-relaxed">
-          Cross-referencing provided patient details against RANZCOG GRADE evidence protocols.
+          {getProgressSubtext(progress)}
         </p>
       </div>
     );
