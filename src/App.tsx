@@ -82,9 +82,23 @@ export default function App() {
         body: JSON.stringify({ patient: formData })
       });
 
-      const data = await response.json();
+      const responseText = await response.text();
+      let data: any = null;
+      try {
+        data = JSON.parse(responseText);
+      } catch (_) {
+        // Not valid JSON
+      }
+
       if (!response.ok) {
-        throw new Error(data.error || "A secure server connection failure prevented evaluation.");
+        throw new Error(
+          (data && data.error) ||
+          (responseText ? `Server Error (${response.status}): ${responseText.slice(0, 180)}` : `Server returned error status (${response.status})`)
+        );
+      }
+
+      if (!data) {
+        throw new Error(`Failed to parse response: ${responseText.slice(0, 100)}`);
       }
 
       setAssessmentResult(data.result);

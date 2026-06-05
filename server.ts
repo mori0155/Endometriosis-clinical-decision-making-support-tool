@@ -102,6 +102,11 @@ app.post("/api/assess", async (req, res) => {
     const missingItems: string[] = [];
     if (!patientData.age) {
       missingItems.push("Patient Age");
+    } else {
+      const ageNum = parseInt(patientData.age, 10);
+      if (!isNaN(ageNum) && (ageNum < 15 || ageNum > 45)) {
+        missingItems.push(`CLINICAL FLAG: Patient age (${ageNum} years) is outside the typical reproductive age range of 15-45 years`);
+      }
     }
     if (patientData.fertilityPriority === "unspecified") {
       missingItems.push("Pregnancy / Fertility Intention (Trying to conceive vs. Not trying)");
@@ -123,9 +128,18 @@ Instructions:
 6. Provide referrals that closely correspond to the guideline criteria.
 7. Break down management options exactly into Medical/Hormonal, Analgesics, Non-Pharmacological, and Surgical categories. Ensure you pay extreme attention to the contraception choice and fertility planning (e.g., highlighting that hormonal suppression is strictly contraindicated in patients attempting to conceive, citing CQ18 Recommendation 64).
 8. Generate a "clinicSummary": a formal, professional clinic EMR note that the clinician can copy directly into their records. The summary should write out: clinical profile, level of suspicion, reference justifications, first-line imaging needs, and clinical recommendations.
+9. Crucially, if the patient's age lies outside the typical range of 15-45 (e.g., under 15 or over 45), you must explicitly address this in your clinicalReasoning and clinicSummary. Discuss any clinical implications, guideline deviations, or required differential diagnostics (e.g., prepubertal or postmenopausal etiology).
 
 Patient Profile Entered:
-- Age: ${patientData.age || "Not entered"}
+- Age: ${patientData.age || "Not entered"}${(() => {
+  if (patientData.age) {
+    const ageNum = parseInt(patientData.age, 10);
+    if (!isNaN(ageNum) && (ageNum < 15 || ageNum > 45)) {
+      return " (CLINICAL NOTE: Outside typical premenopausal reproductive age window of 15-45)";
+    }
+  }
+  return "";
+})()}
 - Desire for Fertility (Trying to conceive?): ${patientData.fertilityPriority}
 - Primary symptoms:
   * Severe painful periods (dysmenorrhea): ${patientData.severePainfulPeriods ? "YES" : "NO"}
