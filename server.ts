@@ -37,6 +37,41 @@ function getGeminiClient(): GoogleGenAI {
   return aiClient;
 }
 
+interface RetryParams {
+  model: string;
+  contents: any;
+  config: any;
+}
+
+async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, maxRetries = 3): Promise<any> {
+  let attempt = 0;
+  while (attempt < maxRetries) {
+    try {
+      return await ai.models.generateContent(params);
+    } catch (err: any) {
+      attempt++;
+      const errorMessage = err?.message || String(err);
+      const isTransient = errorMessage.includes("503") ||
+                          errorMessage.includes("UNAVAILABLE") ||
+                          errorMessage.includes("overloaded") ||
+                          errorMessage.includes("high demand") ||
+                          errorMessage.includes("429") ||
+                          errorMessage.includes("RESOURCE_EXHAUSTED") ||
+                          errorMessage.includes("quota") ||
+                          err?.status === "UNAVAILABLE" ||
+                          err?.code === 503;
+
+      if (isTransient && attempt < maxRetries) {
+        const delay = Math.pow(2, attempt) * 1000 + Math.random() * 500;
+        console.warn(`[GEMINI RETRY] API transient load/congestion error (attempt ${attempt}/${maxRetries}): ${errorMessage}. Retrying in ${Math.round(delay)}ms...`);
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        continue;
+      }
+      throw err;
+    }
+  }
+}
+
 // Summary of RANZCOG Guidelines extracted directly from the gold standard living evidence document
 const RANZCOG_GUIDELINES = `
 Australian Living Evidence Guideline: Endometriosis (RANZCOG) Guidelines:
@@ -184,8 +219,8 @@ ${RANZCOG_GUIDELINES}
 You must return a raw JSON response strictly conforming to the response schema. No markup outside the JSON. Do not prefix the output with any Markdown formatting like \`\`\`json. Only JSON.
 `;
 
-    // Call Gemini using the recommended SDK format
-    const response = await ai.models.generateContent({
+    // Call Gemini using the robust retry wrapper to handle transient demand spikes
+    const response = await generateContentWithRetry(ai, {
       model: "gemini-3.5-flash",
       contents: prompt,
       config: {
@@ -268,6 +303,15 @@ You must return a raw JSON response strictly conforming to the response schema. 
 
   } catch (error: any) {
     console.error("Clinical assessment error:", error);
+    
+    // Check if the error is due to Model 503 high demand/rate limits
+    const errMsg = error?.message || String(error);
+    if (errMsg.includes("503") || errMsg.includes("UNAVAILABLE") || errMsg.includes("high demand") || errMsg.includes("overloaded")) {
+      return res.status(503).json({ 
+        error: "The clinical analysis engine (Gemini API) is currently experiencing peak high demand and rate limits. Please click 'Run Clinical Evaluation' again in 5-10 seconds to retry. We apologize for the transient delay." 
+      });
+    }
+    
     return res.status(500).json({ error: error.message || "An error occurred during medical analysis." });
   }
 });
