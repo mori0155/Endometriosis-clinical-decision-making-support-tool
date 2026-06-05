@@ -1,0 +1,6 @@
+{
+  "name": "Endometriosis Clinical Guidance Assistant",
+  "description": "Evidence-based helper supporting clinicians with suspected endometriosis or adenomyosis patient profiling, suspicion ratings, and copied EMR notes strictly justified by RANZCOG guidelines.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
