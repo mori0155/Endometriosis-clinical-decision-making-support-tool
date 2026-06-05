@@ -135,7 +135,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
             <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
               2. Commonest Symptoms (Associated with 25% – 70% of cases)
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {[
                 { label: "Severe painful periods (dysmenorrhoea)", key: "severePainfulPeriods", id: "chk-dysmenorrhea" },
                 { label: "Deep pain with sex (dyspareunia)", key: "painWithSex", id: "chk-dyspareunia" },
@@ -173,7 +173,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
             <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
               3. Less Common Symptoms (Associated with 10% – 25% of cases)
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {[
                 { label: "Bowel symptoms (constipation/dyschezia)", key: "bowelSymptoms" },
                 { label: "Severe tiredness / chronic fatigue", key: "severeTiredness" },
@@ -377,7 +377,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
         {/* Section 6: Prior Imaging & Investigations */}
         <div className="space-y-3 pt-2" id="report-imaging-criteria">
           <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
-            6. Diagnostic Imaging & Lab Findings
+            6. Diagnostic Imaging & Pathology Findings
           </label>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

@@ -165,11 +165,11 @@ export default function App() {
             </svg>
           </div>
           <div>
-            <h1 className="text-sm font-bold text-slate-800 uppercase tracking-tight flex items-center gap-1.5">
+            <h1 className="text-xl font-extrabold text-slate-800 uppercase tracking-tight flex items-center gap-1.5">
               EndoAssessor
             </h1>
             <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">
-              Clinical Decision Support System
+              Clinical Decision Support System for Endometriosis
             </p>
           </div>
         </div>
@@ -192,26 +192,18 @@ export default function App() {
       </header>
 
       {/* Audit & Legal status strip */}
-      <div className="bg-yellow-50/50 border-b border-yellow-250 px-4 py-3 flex flex-col gap-2 text-[11px] text-slate-750" id="advisory-strip">
-        <div className="flex items-center gap-2">
-          <ClipboardCheck className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-          <span>
-            <strong>RANZCOG Guideline Status:</strong> Audited with May 2025 GRADE recommendations. Evidence locked to EndoAus protocols.
-          </span>
-        </div>
-        <div className="bg-[#0f172a] text-white p-3 rounded-md flex items-start space-x-2.5 mt-1 border border-slate-800 shadow-sm" id="top-disclaimer">
-          <div className="w-2 h-2 bg-yellow-400 rounded-full shrink-0 mt-1 animate-pulse"></div>
-          <p className="text-[10px] leading-tight max-w-none text-slate-100">
-            <strong>DISCLAIMER:</strong> This clinical tool of RANZCOG Australian living evidence guide works strictly as a decision support aid. It does NOT replace the professional judgment of a clinical medical practitioner. Medical professionals remain solely responsible for all diagnostic and treatment decisions.
-          </p>
-        </div>
+      <div className="bg-[#0f172a] border-b border-slate-800 px-5 py-3.5 flex items-start sm:items-center gap-3" id="advisory-strip">
+        <div className="w-2 h-2 bg-yellow-400 rounded-full shrink-0 mt-1.5 sm:mt-0 animate-pulse"></div>
+        <p className="text-[11.5px] md:text-xs leading-relaxed text-slate-100">
+          <strong>DISCLAIMER:</strong> This clinical tool of RANZCOG Australian living evidence guide works strictly as a decision support aid. It does NOT replace the professional judgment of a clinical medical practitioner. Medical professionals remain solely responsible for all diagnostic and treatment decisions.
+        </p>
       </div>
 
       {/* Main split-screen panel container */}
       <main className="flex-1 max-w-[1400px] w-full mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start" id="main-advisor-workspace">
         
         {/* Left column */}
-        <div className="lg:col-span-5 space-y-6">
+        <div className="lg:col-span-7 space-y-6">
           <div className="bg-white rounded-lg border border-slate-250 shadow-sm overflow-hidden">
             <div className="p-3.5 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
               <h2 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
@@ -230,7 +222,7 @@ export default function App() {
         </div>
 
         {/* Right column */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-5 space-y-6">
           
           {/* Clinical Execution level Error Notification banner */}
           {clinicalError && (
