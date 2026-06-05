@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/assess", "destination": "/api/assess.ts" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
