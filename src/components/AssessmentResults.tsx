@@ -23,6 +23,7 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
 }) => {
   const [editedSummary, setEditedSummary] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   // Sync edited summary with incoming assessment summaries
   useEffect(() => {
@@ -32,6 +33,31 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
       setEditedSummary('');
     }
   }, [assessment]);
+
+  // Generate simulated percentage progress
+  useEffect(() => {
+    if (isLoading) {
+      setProgress(0);
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev < 35) {
+            return prev + Math.floor(Math.random() * 6) + 4; // fast early jump
+          } else if (prev < 75) {
+            return prev + Math.floor(Math.random() * 3) + 2; // slow down a bit
+          } else if (prev < 93) {
+            return prev + Math.floor(Math.random() * 2) + 1; // very slow approach
+          } else if (prev < 99) {
+            return prev + (Math.random() > 0.8 ? 1 : 0); // micro-increments
+          }
+          return prev;
+        });
+      }, 120);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [isLoading]);
 
   const handleCopy = async () => {
     try {
@@ -45,14 +71,23 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
 
   if (isLoading) {
     return (
-      <div className="bg-white border border-slate-200 rounded-lg p-10 text-center space-y-4" id="results-skeleton">
+      <div className="bg-white border border-slate-200 rounded-lg p-10 text-center space-y-5 shadow-sm" id="results-skeleton">
         <div className="flex justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-550"></div>
+          <div className="relative flex items-center justify-center w-16 h-16" id="results-skeleton-spinner">
+            {/* Spinning track ring */}
+            <div className="absolute inset-0 rounded-full border-4 border-slate-100"></div>
+            {/* Active spinning partial border indicator */}
+            <div className="absolute inset-0 rounded-full border-4 border-yellow-400 border-t-transparent animate-spin"></div>
+            {/* Centered progress text */}
+            <span className="text-xs font-mono font-bold text-slate-800">
+              {progress}%
+            </span>
+          </div>
         </div>
         <p className="text-slate-700 text-xs font-bold uppercase tracking-wider">
           Evidence Engine Evaluating Criteria...
         </p>
-        <p className="text-[11px] text-slate-400">
+        <p className="text-[11px] text-slate-400 max-w-sm mx-auto leading-relaxed">
           Cross-referencing provided patient details against RANZCOG GRADE evidence protocols.
         </p>
       </div>
@@ -97,9 +132,9 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
           </svg>
           <div className="text-[11px] text-slate-800 leading-tight space-y-1">
-            <strong className="text-slate-900 font-bold">Incomplete Clinical Data Provided:</strong>
+            <strong className="text-slate-900 font-bold">Clinical Alerts & Guidelines Indicators:</strong>
             <p className="text-slate-600 leading-normal">
-              RANZCOG guidelines note the absence of certain diagnostics values may impair precision:
+              Please review the following diagnostic notifications or omitted clinical values:
             </p>
             <ul className="list-disc pl-3 mt-1 text-[10px] space-y-0.5 font-bold text-amber-800">
               {assessment.missingItemsList.map((item, idx) => (
