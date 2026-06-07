@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PatientDetails, ClinicalAssessmentResult } from './types';
 import { AssessmentForm } from './components/AssessmentForm';
 import { AssessmentResults } from './components/AssessmentResults';
@@ -114,6 +114,28 @@ export default function App() {
 
   // Selected clinical question state for RANZCOG Reference Index overlay
   const [selectedCQKey, setSelectedCQKey] = useState<string | null>(null);
+
+  // Local dynamic clock state matching user's locale formatting
+  const [currentDateTime, setCurrentDateTime] = useState<string>("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const formatted = now.toLocaleString(undefined, {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+      setCurrentDateTime(formatted);
+    };
+
+    updateTime();
+    const intervalId = setInterval(updateTime, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   // Clinical profile initialization
   const [formData, setFormData] = useState<PatientDetails>({
@@ -501,8 +523,9 @@ export default function App() {
         <p className="text-[10px] text-slate-550">
           EndoAssessor CDSS — Built with audited evidence.
         </p>
-        <div className="text-[9px] font-mono text-slate-505 whitespace-nowrap">
-          Sess: 0x82f..8c | v_env_secured
+        <div className="text-[10px] font-medium text-slate-400 select-none flex items-center gap-1">
+          <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full shrink-0"></span>
+          <span>{currentDateTime || "Retrieving local clock..."}</span>
         </div>
       </footer>
 
