@@ -371,14 +371,14 @@ export default function App() {
               <p>
                 Select a Clinical Question (CQ) below to view its specific RANZCOG gold-standard recommendations, evidence outcomes, and diagnostic parameters directly:
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700 font-bold">
+              <div className="grid grid-cols-1 gap-2 text-slate-700 font-bold">
                 <button
                   type="button"
                   onClick={() => setSelectedCQKey('CQ1')}
                   className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>CQ1: Signs & Symptoms profiling</span>
+                  <span>Signs & Symptoms profiling</span>
                 </button>
                 <button
                   type="button"
@@ -386,7 +386,7 @@ export default function App() {
                   className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>CQ5: Referral to Secondary Care</span>
+                  <span>Referral to Secondary Care</span>
                 </button>
                 <button
                   type="button"
@@ -394,7 +394,7 @@ export default function App() {
                   className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>CQ7: Pelvic Diagnostic Imaging</span>
+                  <span>Pelvic Diagnostic Imaging</span>
                 </button>
                 <button
                   type="button"
@@ -402,7 +402,7 @@ export default function App() {
                   className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>CQ10: Analgesic Treatments</span>
+                  <span>Analgesic Treatments</span>
                 </button>
                 <button
                   type="button"
@@ -410,7 +410,7 @@ export default function App() {
                   className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>CQ12: Hormonal Suppression trials</span>
+                  <span>Hormonal Suppression trials</span>
                 </button>
                 <button
                   type="button"
@@ -418,7 +418,7 @@ export default function App() {
                   className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>CQ13: Adenomyosis Management</span>
+                  <span>Adenomyosis Management</span>
                 </button>
                 <button
                   type="button"
@@ -426,7 +426,7 @@ export default function App() {
                   className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>CQ14: Surgical Excision vs. Ablation</span>
+                  <span>Surgical Excision vs. Ablation</span>
                 </button>
                 <button
                   type="button"
@@ -434,7 +434,7 @@ export default function App() {
                   className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>CQ19: Asymptomatic Surveillance</span>
+                  <span>Asymptomatic Surveillance</span>
                 </button>
               </div>
             </div>
@@ -459,6 +459,9 @@ export default function App() {
             <div className="bg-slate-900 p-4 shrink-0 flex items-center justify-between border-b border-slate-950">
               <div className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4 text-yellow-400 shrink-0" />
+                <span className="bg-yellow-400 text-slate-950 font-extrabold px-1.5 py-0.5 rounded text-[10px] font-mono tracking-wider">
+                  {selectedCQKey}
+                </span>
                 <h3 className="text-xs font-bold text-white uppercase tracking-wider">
                   {CQ_DETAILS[selectedCQKey].title}
                 </h3>
