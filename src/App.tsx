@@ -9,12 +9,111 @@ import {
   ChevronRight,
   ClipboardCheck,
   AlertCircle,
-  FileText
+  FileText,
+  X
 } from 'lucide-react';
+
+interface CQGuideline {
+  title: string;
+  question: string;
+  keyRecommendations: string[];
+  clinicalSignificance: string;
+}
+
+const CQ_DETAILS: Record<string, CQGuideline> = {
+  CQ1: {
+    title: "CQ1: Signs & Symptoms Profiling (RANZCOG Page 14)",
+    question: "Do certain signs or symptoms predict the presence of endometriosis?",
+    keyRecommendations: [
+      "Commonest symptoms (25% - 70% prevalence) [RANZCOG Page 14]: severe painful periods (dysmenorrhoea), deep pain during or after sex (dyspareunia), pelvic pain (chronic or cyclical), heavy menstrual bleeding, and infertility.",
+      "Less common symptoms (10% - 25% prevalence) [RANZCOG Page 14]: bowel symptoms (constipation, pain on bowel movement/dyschezia, bloating), chronic fatigue/tiredness, back pain, sleep difficulties, headache/cyclical migraines, urinary symptoms (urine burn/dysuria), and history of allergies (such as hay fever or sinusitis).",
+      "Common signs during pelvic examination [RANZCOG Page 14]: reduced pelvic organ mobility, enlargement of pelvic organs, visible vaginal lesions, tenderness in the vagina/pelvic structures, or posterior vaginal wall nodularity.",
+      "Clinical Note [RANZCOG Page 14]: A normal pelvic examination does NOT exclude endometriosis. Examination may be inappropriate or declined (especially in adolescents or those with vaginismus/no sexual activity history)."
+    ],
+    clinicalSignificance: "Comprehensive recording of multi-system clinical symptoms is the cornerstone of clinical suspicion, driving key decisions in accordance with RANZCOG Page 14."
+  },
+  CQ5: {
+    title: "CQ5: Referral to Secondary Care (RANZCOG Page 17, 44)",
+    question: "When should a patient with suspected/confirmed endometriosis be referred?",
+    keyRecommendations: [
+      "Refer to secondary gynaecology services [RANZCOG Page 17]: When first-line primary management (such as NSAIDs or combined oral contraceptives) is not effective, is poorly tolerated, or is contraindicated.",
+      "Refer upon physical signs [RANZCOG Page 17]: Refer when abnormal pelvic signs are found on physical examination and the patient fails empirical therapy.",
+      "Refer based on imaging findings [RANZCOG Page 44]: Refer immediately when diagnostic pelvic imaging (TVUS or MRI) suggests the presence of an endometrioma or deep endometriosis involving the bowel, bladder, or ureters.",
+      "Refer for advanced surgery [RANZCOG Page 44]: Suspected deep lesions involving bowel, bladder, or ureters must be referred to gynaecologists with advanced laparoscopic surgical expertise or specialized interdisciplinary services with colorectal/urological input."
+    ],
+    clinicalSignificance: "Timely referral avoids diagnostic delay and ensures patients are matched with the appropriate tier of clinical or surgical expertise in accordance with RANZCOG Page 17 & Page 44."
+  },
+  CQ7: {
+    title: "CQ7: Pelvic Diagnostic Imaging (RANZCOG Page 18, 50)",
+    question: "What imaging modality should be used first-line for suspected endometriosis?",
+    keyRecommendations: [
+      "First-line Pelvic Ultrasound [RANZCOG Page 18]: Offer transvaginal pelvic ultrasound (TVUS) to all patients with symptoms suggestive of endometriosis, even if examinations are normal.",
+      "Alternative Imaging for Adolescents / Non-sexually active [RANZCOG Page 50]: Offer transabdominal pelvic ultrasound (or MRI/transperineal scan if indicated) if transvaginal imaging is not appropriate, unavailable, or declined.",
+      "Alternative/Second-line Imaging [RANZCOG Page 18, Page 50]: Provide Pelvic MRI as a second-line investigation if TVUS is inconclusive, unavailable, or if deep endometriosis (bowel, bladder, ureter) or endometrioma is suspected for surgical mapping.",
+      "Exclusions & Marker limits [RANZCOG Page 18]: Do NOT use CT scan as a primary modality to investigate endometriosis due to low sensitivity and radiation exposure. Do NOT use regular serum CA125 assays as a routine diagnostic tool (low sensitivity; a normal CA125 does not exclude endometriosis)."
+    ],
+    clinicalSignificance: "Advanced pre-surgical imaging protocols optimize mapping of deep endometriosis lesions across pelvic structures in accordance with RANZCOG Page 18 & Page 50."
+  },
+  CQ10: {
+    title: "CQ10: Analgesic Treatments (RANZCOG Page 19, 60)",
+    question: "Which non-hormonal analgesic options should be offered to control pain?",
+    keyRecommendations: [
+      "First-line Analgesic Trial [RANZCOG Page 19]: Offer a short-term trial of non-steroidal anti-inflammatory drugs (NSAIDs, e.g., Naproxen or Ibuprofen) alone or in combination with Paracetamol/Acetaminophen for primary pain management.",
+      "Opioid Constraints [RANZCOG Page 19, Page 60]: Caution: Do NOT prescribe opioid medications for routine, long-term chronic pelvic pain due to severe dependency risks and minimal evidence of benefit for neuropathic cyclic pain. Use only at lowest effective doses for acute severe flare-ups.",
+      "Alternative supportive care [RANZCOG Page 60]: Discuss secondary non-pharmacological therapies such as acupuncture, low-FODMAP diet, fish oil, and vitamin D supplements, noting that evidence is limited but valuable for self-management."
+    ],
+    clinicalSignificance: "Effective non-hormonal pain relief ensures physical coping capacity during diagnostic investigations or while awaiting specialist assessment in accordance with RANZCOG Page 19 & Page 60."
+  },
+  CQ12: {
+    title: "CQ12: Hormonal Suppression Trials (RANZCOG Page 20, 67)",
+    question: "What are the first-line and second-line medical hormonal options?",
+    keyRecommendations: [
+      "First-line Hormonals [RANZCOG Page 20]: For patients not trying to conceive, offer combined oral contraceptives (COCs) or progestogens (such as oral dienogest, medroxyprogesterone injection, or LNG-IUD) as first-line empirical treatments.",
+      "Treatment Selection [RANZCOG Page 20]: All first-line hormonal treatments demonstrate similar efficacy in controlling dysmenorrhoea and heavy bleeding; selection should depend on patient preference, side effects, and cost.",
+      "Conception Contraindications [RANZCOG Page 20, Page 67]: Hormonal suppression is strictly contraindicated in patients actively trying to conceive, as they prevent ovulation and do not improve unassisted pregnancy rates during or after treatment.",
+      "Second-line therapies [RANZCOG Page 20, Page 67]: Consider second-line therapies (GnRH agonists or antagonists) under specialist guidance for patients whose symptoms fail to respond to first-line hormonal options. Use 'add-back' hormone replacement therapy to protect bone density."
+    ],
+    clinicalSignificance: "Empirical hormonal trials can safely bypass diagnostic delays and provide continuous relief, rendering laparoscopy unnecessary for many mild-to-moderate cases in accordance with RANZCOG Page 20 & Page 67."
+  },
+  CQ13: {
+    title: "CQ13: Adenomyosis Management (RANZCOG Page 21, 73)",
+    question: "How should suspected or confirmed adenomyosis be managed?",
+    keyRecommendations: [
+      "Diagnostic Suspicion [RANZCOG Page 21]: Identify suspected adenomyosis during pelvic transvaginal ultrasound or MRI via distinct heterogeneous myometrial patterns or asymmetric wall thickening.",
+      "First-line medical therapies [RANZCOG Page 21, Page 73]: Offer hormonal suppression agents—such as the levonorgestrel-releasing intrauterine system (LNG-IUD), combined oral contraceptives, oral dienogest, or etonogestrel implant—to control adenomyosis-associated pelvic pain and heavy menstrual bleeding.",
+      "Surgical considerations [RANZCOG Page 73]: Discuss surgical options (e.g., adenomyomectomy, uterine artery embolisation, or hysterectomy) if medical treatments fail and the patient has completed their family planning."
+    ],
+    clinicalSignificance: "Adenomyosis frequently coexists with endometriosis and requires dedicated high-potency progestins or LNG-IUD to manage significant uterine enlargement and menorrhagia in accordance with RANZCOG Page 21 & Page 73."
+  },
+  CQ14: {
+    title: "CQ14: Surgical Excision vs. Ablation (RANZCOG Page 21, 76)",
+    question: "What is the role of laparoscopy and surgical excision representing cyst treatment?",
+    keyRecommendations: [
+      "Surgical Role [RANZCOG Page 21]: Select conservative laparoscopic surgery (excision or ablation of lesions) to improve pain outcomes in patients with mild-to-moderate disease.",
+      "Endometrioma Excision [RANZCOG Page 21, Page 76]: For ovarian endometriomas, laparoscopic cyst excision (cystectomy) is strongly recommended over cyst ablation or drainage alone, as excision results in lower pain and recurrence rates.",
+      "Abdominal Access [RANZCOG Page 76]: Laparoscopic approach is strongly preferred over open laparotomy to minimize adhesions, pain, and hospital stay.",
+      "Repeat Surgeries [RANZCOG Page 76]: Advise careful consideration before pursuing repeat laparoscopic surgeries, as each additional procedure increases adhesion severity and risk of bowel/bladder injury."
+    ],
+    clinicalSignificance: "Laparoscopic cystectomy remains the most durable option for endometriomas, balancing recurrence prevention with ovarian reserve protection in accordance with RANZCOG Page 21 & Page 76."
+  },
+  CQ19: {
+    title: "CQ19: Asymptomatic Surveillance (RANZCOG Page 25, 96)",
+    question: "How should an incidental finding of asymptomatic endometriosis be approached?",
+    keyRecommendations: [
+      "Avoid Treatment [RANZCOG Page 25]: Do NOT offer medical or surgical treatment for incidental findings of asymptomatic endometriosis or endometriomas on imaging or other unrelated surgeries.",
+      "Expectant Surveillance [RANZCOG Page 25, Page 96]: Inform the patient about the low likelihood of rapid progression and recommend expectant, individualized, non-invasive surveillance.",
+      "Mitigate Risk [RANZCOG Page 96]: Avoid unnecessary medical therapies or clearance surgeries, which could introduce unnecessary operative risks, hormonal side effects, and patient anxiety."
+    ],
+    clinicalSignificance: "Observing asymptomatic disease minimizes over-treatment and focuses medical resources on quality-of-life-limiting symptomatology in accordance with RANZCOG Page 25 & Page 96."
+  }
+};
 
 export default function App() {
   // Disclaimer state (shows immediately on initial app render)
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(true);
+
+  // Selected clinical question state for RANZCOG Reference Index overlay
+  const [selectedCQKey, setSelectedCQKey] = useState<string | null>(null);
 
   // Clinical profile initialization
   const [formData, setFormData] = useState<PatientDetails>({
@@ -239,57 +338,163 @@ export default function App() {
             assessment={assessmentResult}
             isLoading={isLoading}
           />
-          
-          {/* Bottom High Density Guideline reference index board */}
+                 {/* Bottom High Density Guideline reference index board */}
           <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-4 space-y-3" id="quick-links-evidence">
             <h4 className="text-xs font-bold text-slate-700 uppercase tracking-tight flex items-center gap-1.5 pb-2 border-b border-slate-100">
-              <BookOpen className="w-3.5 h-3.5 text-yellow-600" />
+              <BookOpen className="w-3.5 h-3.5 text-yellow-605" />
               Living Evidence Guideline Reference Index
             </h4>
             
             <div className="text-[11px] text-slate-650 leading-relaxed space-y-2.5">
               <p>
-                RANZCOG Clinical Questions (CQ) & diagnostic components integrated into this advisor tool:
+                Select a Clinical Question (CQ) below to view its specific RANZCOG gold-standard recommendations, evidence outcomes, and diagnostic parameters directly:
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-600 font-medium">
-                <div className="flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/50 hover:border-yellow-300">
-                  <ChevronRight className="w-3 h-3 text-yellow-600 shrink-0" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700 font-bold">
+                <button
+                  type="button"
+                  onClick={() => setSelectedCQKey('CQ1')}
+                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
                   <span>CQ1: Signs & Symptoms profiling</span>
-                </div>
-                <div className="flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/50 hover:border-yellow-300">
-                  <ChevronRight className="w-3 h-3 text-yellow-600 shrink-0" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedCQKey('CQ5')}
+                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
                   <span>CQ5: Referral to Secondary Care</span>
-                </div>
-                <div className="flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/50 hover:border-yellow-300">
-                  <ChevronRight className="w-3 h-3 text-yellow-600 shrink-0" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedCQKey('CQ7')}
+                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
                   <span>CQ7: Pelvic Diagnostic Imaging</span>
-                </div>
-                <div className="flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/50 hover:border-yellow-300">
-                  <ChevronRight className="w-3 h-3 text-yellow-600 shrink-0" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedCQKey('CQ10')}
+                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
                   <span>CQ10: Analgesic Treatments</span>
-                </div>
-                <div className="flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/50 hover:border-yellow-300">
-                  <ChevronRight className="w-3 h-3 text-yellow-600 shrink-0" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedCQKey('CQ12')}
+                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
                   <span>CQ12: Hormonal Suppression trials</span>
-                </div>
-                <div className="flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/50 hover:border-yellow-300">
-                  <ChevronRight className="w-3 h-3 text-yellow-600 shrink-0" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedCQKey('CQ13')}
+                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
                   <span>CQ13: Adenomyosis Management</span>
-                </div>
-                <div className="flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/50 hover:border-yellow-300">
-                  <ChevronRight className="w-3 h-3 text-yellow-600 shrink-0" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedCQKey('CQ14')}
+                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
                   <span>CQ14: Surgical Excision vs. Ablation</span>
-                </div>
-                <div className="flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/50 hover:border-yellow-300">
-                  <ChevronRight className="w-3 h-3 text-yellow-600 shrink-0" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedCQKey('CQ19')}
+                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
                   <span>CQ19: Asymptomatic Surveillance</span>
-                </div>
+                </button>
               </div>
             </div>
           </div>
 
         </div>
       </main>
+
+      {/* RANZCOG Guideline Detail Modal Dialogue */}
+      {selectedCQKey && CQ_DETAILS[selectedCQKey] && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs" 
+          onClick={() => setSelectedCQKey(null)}
+          id="guideline-dialog-backdrop"
+        >
+          <div 
+            className="bg-white rounded-lg border-2 border-yellow-400 shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col overflow-hidden animate-in fade-in duration-150"
+            onClick={(e) => e.stopPropagation()}
+            id="guideline-dialog-content"
+          >
+            {/* Modal Header */}
+            <div className="bg-slate-900 p-4 shrink-0 flex items-center justify-between border-b border-slate-950">
+              <div className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-yellow-400 shrink-0" />
+                <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                  {CQ_DETAILS[selectedCQKey].title}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedCQKey(null)}
+                className="text-slate-400 hover:text-white p-1 rounded transition-colors cursor-pointer"
+                aria-label="Close guideline detail"
+                id="guideline-dialog-close-icon"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Scrollable Modal Content */}
+            <div className="p-5 overflow-y-auto space-y-4 text-xs leading-relaxed text-slate-700">
+              <div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5">Clinical Question</span>
+                <p className="font-bold text-slate-800 text-sm leading-snug">
+                  "{CQ_DETAILS[selectedCQKey].question}"
+                </p>
+              </div>
+
+              <div className="space-y-2.5">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Gold-Standard Practice Recommendations</span>
+                <ul className="space-y-2">
+                  {CQ_DETAILS[selectedCQKey].keyRecommendations.map((rec, idx) => (
+                    <li key={idx} className="flex items-start gap-2 bg-slate-50 p-2.5 rounded border border-slate-150">
+                      <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full shrink-0 mt-1.5"></div>
+                      <span className="text-slate-650 font-medium">{rec}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-yellow-50/50 rounded-lg p-3.5 border border-yellow-200">
+                <span className="text-[10px] font-bold text-yellow-750 uppercase tracking-widest block mb-0.5">Clinical Significance & Impact</span>
+                <p className="text-slate-650 font-semibold italic">
+                  {CQ_DETAILS[selectedCQKey].clinicalSignificance}
+                </p>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="bg-slate-50 border-t border-slate-150 px-5 py-3 flex justify-end shrink-0">
+              <button
+                type="button"
+                onClick={() => setSelectedCQKey(null)}
+                className="px-4 py-2 bg-slate-900 text-white rounded text-xs font-bold uppercase tracking-wider hover:bg-slate-800 transition-colors shadow-sm cursor-pointer"
+                id="guideline-dialog-close-btn"
+              >
+                Close Guideline Reference
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* High Density Litigation disclaimer Footer */}
       <footer className="bg-slate-900 border-t border-slate-950 px-4 py-3 flex items-center justify-between text-slate-400" id="clinical-disclaimer-panel">
