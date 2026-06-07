@@ -212,7 +212,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-yellow-50/50 text-slate-900 font-sans flex flex-col selection:bg-yellow-105 relative" id="main-clinician-dashboard">
+    <div className="min-h-screen bg-yellow-50/85 text-slate-900 font-sans flex flex-col selection:bg-yellow-105 relative" id="main-clinician-dashboard">
       
       {/* Disclaimer Modal Popup */}
       {isDisclaimerOpen && (
@@ -473,7 +473,7 @@ export default function App() {
                 </ul>
               </div>
 
-              <div className="bg-yellow-50/50 rounded-lg p-3.5 border border-yellow-200">
+              <div className="bg-yellow-50/85 rounded-lg p-3.5 border border-yellow-250">
                 <span className="text-[10px] font-bold text-yellow-750 uppercase tracking-widest block mb-0.5">Clinical Significance & Impact</span>
                 <p className="text-slate-650 font-semibold italic">
                   {CQ_DETAILS[selectedCQKey].clinicalSignificance}
