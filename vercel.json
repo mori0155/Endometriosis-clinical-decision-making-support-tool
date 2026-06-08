@@ -2,6 +2,7 @@
   "version": 2,
   "rewrites": [
     { "source": "/api/assess", "destination": "/api/assess.ts" },
+    { "source": "/api/check-api-key", "destination": "/api/check-api-key.ts" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
