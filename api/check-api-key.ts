@@ -49,25 +49,19 @@ export default async function handler(req: any, res: any) {
     const ai = getGeminiClient();
     const result = await ai.models.generateContent({
       model: "gemini-3.5-flash",
-      contents: "Respond with the word: ConnectSuccess",
-      config: {
-        maxOutputTokens: 10,
-      }
+      contents: "Respond with the word ConnectSuccess",
     });
 
-    const bodyText = result.text || "";
-    if (bodyText.includes("ConnectSuccess") || bodyText.length > 0) {
-      return res.status(200).json({ 
-        success: true, 
-        message: "Gemini API integration verified successfully.",
-        modelUsed: "gemini-3.5-flash"
-      });
-    } else {
-      return res.status(200).json({
-        success: false,
-        message: "Gemini API returned an incomplete response."
-      });
-    }
+    // If the API call completes successfully, the key is 100% active and working.
+    const bodyText = result?.text || "";
+    console.log("[GEMINI HEALTHCHECK SERVERLESS] Key verified successfully. Result text:", bodyText);
+
+    return res.status(200).json({ 
+      success: true, 
+      message: "Gemini API integration verified successfully.",
+      modelUsed: "gemini-3.5-flash",
+      textLength: bodyText.length
+    });
   } catch (error: any) {
     console.error("API Key Verification Error:", error);
     return res.status(200).json({

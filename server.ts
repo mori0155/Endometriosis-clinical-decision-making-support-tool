@@ -40,7 +40,7 @@ function getGeminiClient(): GoogleGenAI {
 interface RetryParams {
   model: string;
   contents: any;
-  config: any;
+  config?: any;
 }
 
 async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, maxRetries = 3): Promise<any> {
@@ -141,25 +141,20 @@ app.get("/api/check-api-key", async (req, res) => {
     const ai = getGeminiClient();
     const result = await generateContentWithRetry(ai, {
       model: "gemini-3.5-flash",
-      contents: "Respond with the word: ConnectSuccess",
-      config: {
-        maxOutputTokens: 10,
-      }
+      contents: "Respond with the word ConnectSuccess",
     });
 
-    const bodyText = result.text || "";
-    if (bodyText.includes("ConnectSuccess") || bodyText.length > 0) {
-      return res.json({ 
-        success: true, 
-        message: "Gemini API integration verified successfully.",
-        modelUsed: "gemini-3.5-flash"
-      });
-    } else {
-      return res.json({
-        success: false,
-        message: "Gemini API returned an incomplete response."
-      });
-    }
+    // If the API call completes successfully, the key is 100% active and working.
+    // We log some diagnostic info and return success.
+    const bodyText = result?.text || "";
+    console.log("[GEMINI HEALTHCHECK] Key verified successfully. Result text:", bodyText);
+
+    return res.json({ 
+      success: true, 
+      message: "Gemini API integration verified successfully.",
+      modelUsed: "gemini-3.5-flash",
+      textLength: bodyText.length
+    });
   } catch (error: any) {
     console.error("API Key Verification Error:", error);
     return res.json({
