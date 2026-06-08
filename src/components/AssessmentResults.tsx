@@ -127,9 +127,9 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
       case 'High':
         return 'bg-red-50 text-red-700 border-red-200';
       case 'Moderate':
-        return 'bg-yellow-50 text-amber-800 border-yellow-250';
+        return 'bg-orange-50 text-orange-850 border-orange-200';
       case 'Low':
-        return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+        return 'bg-green-50 text-green-700 border-green-200';
       default:
         return 'bg-slate-100 text-slate-600 border-slate-200';
     }
@@ -142,7 +142,7 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
       
       {/* Clinician Missing Info Warning banner */}
       {hasMissingVariables && (
-        <div className="p-3 bg-yellow-50/85 border border-yellow-250 rounded flex space-x-3 items-start" id="missing-info-warning-container">
+        <div className="p-3 bg-white border border-yellow-250 rounded flex space-x-3 items-start" id="missing-info-warning-container">
           <svg className="w-4 h-4 text-yellow-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
           </svg>
