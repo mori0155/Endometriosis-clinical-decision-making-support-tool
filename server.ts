@@ -127,6 +127,48 @@ Australian Living Evidence Guideline: Endometriosis (RANZCOG) Guidelines:
    - For patients with incidental finding of asymptomatic endometriosis/endometrioma on imaging, advise them of the low likelihood of progression and recommend expectant/individualised surveillance. Unnecessary medical/surgical interventions can cause harm.
 `;
 
+// Connection status healthcheck endpoint
+app.get("/api/check-api-key", async (req, res) => {
+  try {
+    const key = process.env.GEMINI_API_KEY;
+    if (!key) {
+      return res.json({ 
+        success: false, 
+        message: "GEMINI_API_KEY is not defined in the environment. Please configure it in Settings > Secrets." 
+      });
+    }
+
+    const ai = getGeminiClient();
+    const result = await generateContentWithRetry(ai, {
+      model: "gemini-3.5-flash",
+      contents: "Respond with the word: ConnectSuccess",
+      config: {
+        maxOutputTokens: 10,
+      }
+    });
+
+    const bodyText = result.text || "";
+    if (bodyText.includes("ConnectSuccess") || bodyText.length > 0) {
+      return res.json({ 
+        success: true, 
+        message: "Gemini API integration verified successfully.",
+        modelUsed: "gemini-3.5-flash"
+      });
+    } else {
+      return res.json({
+        success: false,
+        message: "Gemini API returned an incomplete response."
+      });
+    }
+  } catch (error: any) {
+    console.error("API Key Verification Error:", error);
+    return res.json({
+      success: false,
+      message: error?.message || String(error)
+    });
+  }
+});
+
 // Clinical assessment API endpoint
 app.post("/api/assess", async (req, res) => {
   try {

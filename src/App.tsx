@@ -137,6 +137,32 @@ export default function App() {
     return () => clearInterval(intervalId);
   }, []);
 
+  // Gemini API key status healthcheck
+  const [apiKeyStatus, setApiKeyStatus] = useState<{
+    checked: boolean;
+    success: boolean;
+    message: string;
+  }>({ checked: false, success: false, message: "" });
+
+  useEffect(() => {
+    fetch("/api/check-api-key")
+      .then((res) => res.json())
+      .then((data) => {
+        setApiKeyStatus({
+          checked: true,
+          success: !!data.success,
+          message: data.message || ""
+        });
+      })
+      .catch((err) => {
+        setApiKeyStatus({
+          checked: true,
+          success: false,
+          message: err.message || "Failed to contact integration endpoint."
+        });
+      });
+  }, []);
+
   // Clinical profile initialization
   const [formData, setFormData] = useState<PatientDetails>({
     age: "",
@@ -522,11 +548,32 @@ export default function App() {
       )}
 
       {/* High Density Litigation disclaimer Footer */}
-      <footer className="bg-slate-900 border-t border-slate-950 px-4 py-3 flex items-center justify-between text-slate-400" id="clinical-disclaimer-panel">
-        <p className="text-[10px] text-slate-550">
-          EndoAssessor CDSS — Built with audited evidence.
-        </p>
-        <div className="text-[10px] font-medium text-slate-400 select-none flex items-center gap-1">
+      <footer className="bg-slate-900 border-t border-slate-950 px-4 py-3 flex items-center justify-between text-slate-400 gap-4 flex-wrap sm:flex-nowrap" id="clinical-disclaimer-panel">
+        <div className="flex items-center gap-2 flex-wrap text-[10px]">
+          <p className="text-slate-550">
+            EndoAssessor CDSS — Built with audited evidence.
+          </p>
+          <span className="text-slate-750 hidden sm:inline">|</span>
+          <div className="flex items-center gap-1.5 shrink-0">
+            {!apiKeyStatus.checked ? (
+              <>
+                <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-ping"></span>
+                <span className="text-slate-500">Checking connection...</span>
+              </>
+            ) : apiKeyStatus.success ? (
+              <>
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full shrink-0"></span>
+                <span className="text-emerald-500 font-bold" title={apiKeyStatus.message}>Gemini Key: Active</span>
+              </>
+            ) : (
+              <>
+                <span className="w-1.5 h-1.5 bg-rose-500 rounded-full shrink-0 animate-pulse"></span>
+                <span className="text-rose-400 font-bold hover:underline cursor-help" title={apiKeyStatus.message}>Gemini Key: Fault ({apiKeyStatus.message.slice(0, 45)}...)</span>
+              </>
+            )}
+          </div>
+        </div>
+        <div className="text-[10px] font-medium text-slate-400 select-none flex items-center gap-1 whitespace-nowrap">
           <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full shrink-0"></span>
           <span>{currentDateTime || "Retrieving local clock..."}</span>
         </div>
