@@ -320,7 +320,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
           {/* Less Common Symptoms Area */}
           <div className="space-y-2 pt-1">
             <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
-              3. Less Common Symptoms (Associated with 10% – 25% of cases)
+              3. Less Common Symptoms
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {[

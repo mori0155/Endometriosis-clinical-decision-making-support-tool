@@ -464,12 +464,14 @@ export default function App() {
           
           {/* Clinical Execution level Error Notification banner */}
           {clinicalError && (
-            <div className="bg-rose-50 border border-rose-150 rounded-lg p-3.5 flex items-start gap-2.5 text-rose-800 text-xs leading-relaxed shadow-sm transition-all" id="dashboard-clinical-error-banner">
-              <AlertCircle className="w-4.5 h-4.5 text-rose-600 shrink-0 mt-0.5" />
-              <div>
-                <strong className="block font-bold mb-0.5 text-rose-900">Clinical Prerequisite Blocked</strong>
-                <span>{clinicalError}</span>
+            <div className="bg-rose-50 border border-rose-150 rounded-lg p-4 text-rose-800 text-xs leading-relaxed shadow-sm transition-all space-y-2" id="dashboard-clinical-error-banner">
+              <div className="flex items-center justify-center gap-2.5">
+                <AlertCircle className="w-6 h-6 text-rose-600 shrink-0" />
+                <strong className="font-bold text-rose-900 text-sm">Unable to generate clinical analysis</strong>
               </div>
+              <p className="text-center text-rose-800">
+                {clinicalError}
+              </p>
             </div>
           )}
 
