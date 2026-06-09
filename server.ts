@@ -355,7 +355,7 @@ You must return a raw JSON response strictly conforming to the response schema. 
       lowErrMsg.includes("depleted")
     ) {
       return res.status(429).json({ 
-        error: "Your daily Gemini API key request limit has been exhausted. Please configure your own active API key in Settings > Secrets to continue generating reviews, or try again tomorrow." 
+        error: "The EndoAssessor has reached its daily capacity for analysing patient profiles. Access will be restored tomorrow. For urgent clinical use, please contact your local system support team/administrator." 
       });
     }
 

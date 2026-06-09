@@ -120,7 +120,7 @@ const getFriendlyErrorMessage = (raw: string): string => {
     low.includes("exhausted") || 
     low.includes("depleted")
   ) {
-    return "Daily Request Limit Exhausted (429)";
+    return "Daily Capacity Reached";
   }
   if (low.includes("503") || low.includes("unavailable") || low.includes("overloaded")) {
     return "Service Temporarily Unavailable (503)";
@@ -322,7 +322,7 @@ export default function App() {
         lowMsg.includes("exhausted") || 
         lowMsg.includes("depleted")
       ) {
-        setClinicalError("Your daily Gemini API key request limit has been exhausted. Please configure your own active API key in Settings > Secrets to continue generating reviews, or try again tomorrow.");
+        setClinicalError("The EndoAssessor has reached its daily capacity for analysing patient profiles. Access will be restored tomorrow. For urgent clinical use, please contact your local system support team/administrator.");
       } else {
         setClinicalError(rawMsg);
       }
