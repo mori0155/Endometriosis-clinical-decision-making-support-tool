@@ -45,8 +45,38 @@ export interface PatientDetails {
   ca125Value: string;
   ca125Date?: string;
 
+  // Plural collections (supporting more than one entry)
+  ultrasounds?: UltrasoundRecord[];
+  mris?: MriRecord[];
+  laparoscopies?: LaparoscopyRecord[];
+  ca125s?: Ca125Record[];
+
   // Additional options
   otherSymptomsFreeText?: string;
+}
+
+export interface UltrasoundRecord {
+  done: 'yes_transvaginal' | 'yes_transabdominal' | 'no';
+  findings: string;
+  date?: string;
+}
+
+export interface MriRecord {
+  done: 'yes' | 'no';
+  findings: string;
+  date?: string;
+}
+
+export interface LaparoscopyRecord {
+  done: 'yes' | 'no';
+  findings: string;
+  date?: string;
+}
+
+export interface Ca125Record {
+  done: 'yes' | 'no';
+  value: string;
+  date?: string;
 }
 
 export interface Citation {

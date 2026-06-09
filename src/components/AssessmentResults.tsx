@@ -24,6 +24,7 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
   const [editedSummary, setEditedSummary] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [showDeclaration, setShowDeclaration] = useState(false);
 
   // Sync edited summary with incoming assessment summaries
   useEffect(() => {
@@ -59,7 +60,13 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
     }
   }, [isLoading]);
 
-  const handleCopy = async () => {
+  const handleCopy = () => {
+    // Show clinicians the declaration model prior to copying actual text
+    setShowDeclaration(true);
+  };
+
+  const handleConfirmCopy = async () => {
+    setShowDeclaration(false);
     try {
       await navigator.clipboard.writeText(editedSummary);
       setCopySuccess(true);
@@ -364,6 +371,48 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
           <span className="bg-slate-100 hover:bg-slate-150 px-1.5 py-0.5 rounded border border-slate-200 select-all font-mono">Ref: CQ12-Rec_35</span>
         </div>
       </div>
+
+      {showDeclaration && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-[1px] flex items-center justify-center p-4 z-50 animate-in fade-in duration-200" id="declaration-modal-overlay">
+          <div className="bg-white rounded-lg border border-slate-200 shadow-xl max-w-md w-full overflow-hidden animate-in zoom-in-95 duration-150" id="declaration-modal">
+            <div className="p-5 space-y-4">
+              <div className="flex gap-3 items-start text-yellow-600">
+                <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide">
+                    Clinician Responsibility Declaration
+                  </h3>
+                  <p className="text-[11px] text-slate-500">
+                    To maintain clinical accountability and ensure patient safety, please confirm your review of this generated summary prior to export.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3.5 bg-slate-50 border border-slate-200 rounded text-slate-700 text-xs leading-relaxed font-medium font-sans">
+                "I have had the opportunity to review and modify the information this tool has provided in line with my professional judgement, and understand I remain responsible for any final recommendations provided to the patient."
+              </div>
+
+              <div className="pt-2 flex justify-end gap-2 text-xs">
+                <button
+                  type="button"
+                  onClick={() => setShowDeclaration(false)}
+                  className="px-3.5 py-2 border border-slate-300 hover:bg-slate-50 rounded font-semibold text-slate-600 cursor-pointer transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleConfirmCopy}
+                  className="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 border border-yellow-500 rounded font-bold text-slate-950 hover:shadow transition-all cursor-pointer"
+                  id="confirm-declaration-copy-btn"
+                >
+                  Yes, I Agree & Copy
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

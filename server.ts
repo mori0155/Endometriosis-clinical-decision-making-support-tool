@@ -51,15 +51,19 @@ async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, ma
     } catch (err: any) {
       attempt++;
       const errorMessage = err?.message || String(err);
-      const isTransient = errorMessage.includes("503") ||
+      const errLower = errorMessage.toLowerCase();
+      const isTransient = (errorMessage.includes("503") ||
                           errorMessage.includes("UNAVAILABLE") ||
                           errorMessage.includes("overloaded") ||
                           errorMessage.includes("high demand") ||
-                          errorMessage.includes("429") ||
-                          errorMessage.includes("RESOURCE_EXHAUSTED") ||
-                          errorMessage.includes("quota") ||
                           err?.status === "UNAVAILABLE" ||
-                          err?.code === 503;
+                          err?.code === 503) &&
+                          !errLower.includes("429") &&
+                          !errLower.includes("resource_exhausted") &&
+                          !errLower.includes("quota") &&
+                          !errLower.includes("limit") &&
+                          !errLower.includes("exhausted") &&
+                          !errLower.includes("depleted");
 
       if (isTransient && attempt < maxRetries) {
         const delay = Math.pow(2, attempt) * 1000 + Math.random() * 500;

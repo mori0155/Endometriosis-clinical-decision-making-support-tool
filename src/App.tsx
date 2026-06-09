@@ -204,7 +204,13 @@ export default function App() {
 
   useEffect(() => {
     fetch("/api/check-api-key")
-      .then((res) => res.json())
+      .then(async (res) => {
+        const text = await res.text();
+        if (text.trim().startsWith("<!doctype") || text.trim().startsWith("<html") || text.trim().startsWith("<!DOCTYPE")) {
+          throw new Error("Server temporarily busy (returned redirect).");
+        }
+        return JSON.parse(text);
+      })
       .then((data) => {
         setApiKeyStatus({
           checked: true,
@@ -264,6 +270,10 @@ export default function App() {
     ca125Done: "no",
     ca125Value: "",
     ca125Date: "",
+    ultrasounds: [],
+    mris: [],
+    laparoscopies: [],
+    ca125s: [],
     otherSymptomsFreeText: ""
   });
 
@@ -291,22 +301,31 @@ export default function App() {
       });
 
       const responseText = await response.text();
+      const isHtml = responseText.trim().startsWith("<!doctype") || responseText.trim().startsWith("<html") || responseText.trim().startsWith("<!DOCTYPE");
+      
       let data: any = null;
-      try {
-        data = JSON.parse(responseText);
-      } catch (_) {
-        // Not valid JSON
+      if (!isHtml) {
+        try {
+          data = JSON.parse(responseText);
+        } catch (_) {
+          // Not valid JSON
+        }
       }
 
       if (!response.ok) {
+        if (isHtml) {
+          throw new Error(`The clinical evaluator is currently experiencing server-side congestion (Status ${response.status}). Please wait 10-15 seconds and try again.`);
+        }
         throw new Error(
           (data && data.error) ||
           (responseText ? `Server Error (${response.status}): ${responseText.slice(0, 180)}` : `Server returned error status (${response.status})`)
         );
       }
 
-      if (!data) {
-        throw new Error(`Failed to parse response: ${responseText.slice(0, 100)}`);
+      if (isHtml || !data) {
+        throw new Error(
+          "The assessment endpoint returned an unexpected response format. This typically indicates a temporary network gateway fallback. Please try again."
+        );
       }
 
       setAssessmentResult(data.result);

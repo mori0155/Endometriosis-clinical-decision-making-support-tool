@@ -37,15 +37,19 @@ async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, ma
     } catch (err: any) {
       attempt++;
       const errorMessage = err?.message || String(err);
-      const isTransient = errorMessage.includes("503") ||
+      const errLower = errorMessage.toLowerCase();
+      const isTransient = (errorMessage.includes("503") ||
                           errorMessage.includes("UNAVAILABLE") ||
                           errorMessage.includes("overloaded") ||
                           errorMessage.includes("high demand") ||
-                          errorMessage.includes("429") ||
-                          errorMessage.includes("RESOURCE_EXHAUSTED") ||
-                          errorMessage.includes("quota") ||
                           err?.status === "UNAVAILABLE" ||
-                          err?.code === 503;
+                          err?.code === 503) &&
+                          !errLower.includes("429") &&
+                          !errLower.includes("resource_exhausted") &&
+                          !errLower.includes("quota") &&
+                          !errLower.includes("limit") &&
+                          !errLower.includes("exhausted") &&
+                          !errLower.includes("depleted");
 
       if (isTransient && attempt < maxRetries) {
         const delay = Math.pow(2, attempt) * 1000 + Math.random() * 500;
@@ -162,6 +166,51 @@ export default async function handler(req: any, res: any) {
       missingItems.push("First-line Pelvic Imaging (Transvaginal/Transabdominal Ultrasound or MRI status)");
     }
 
+    // Build formatters for potentially multiple diagnostic findings/records
+    const formatUltrasounds = () => {
+      const parts = [];
+      parts.push(`  * Primary Pelvic Ultrasound: Status: ${patientData.ultrasoundDone}, Findings: ${patientData.ultrasoundFindings || "None"}, Date Performed: ${patientData.ultrasoundDate || "Not entered"}`);
+      if (patientData.ultrasounds && patientData.ultrasounds.length > 0) {
+        patientData.ultrasounds.forEach((ul: any, idx: number) => {
+          parts.push(`  * Additional Pelvic Ultrasound #${idx + 1}: Status: ${ul.done}, Findings: ${ul.findings || "None"}, Date Performed: ${ul.date || "Not entered"}`);
+        });
+      }
+      return parts.join("\n");
+    };
+
+    const formatMris = () => {
+      const parts = [];
+      parts.push(`  * Primary Pelvic MRI: Status: ${patientData.mriDone}, Findings: ${patientData.mriFindings || "None"}, Date Performed: ${patientData.mriDate || "Not entered"}`);
+      if (patientData.mris && patientData.mris.length > 0) {
+        patientData.mris.forEach((m: any, idx: number) => {
+          parts.push(`  * Additional Pelvic MRI #${idx + 1}: Status: ${m.done}, Findings: ${m.findings || "None"}, Date Performed: ${m.date || "Not entered"}`);
+        });
+      }
+      return parts.join("\n");
+    };
+
+    const formatLaparoscopies = () => {
+      const parts = [];
+      parts.push(`  * Primary Diagnostic Laparoscopy: Status: ${patientData.laparoscopyDone}, Findings: ${patientData.laparoscopyFindings || "None"}, Date Performed: ${patientData.laparoscopyDate || "Not entered"}`);
+      if (patientData.laparoscopies && patientData.laparoscopies.length > 0) {
+        patientData.laparoscopies.forEach((l: any, idx: number) => {
+          parts.push(`  * Additional Diagnostic Laparoscopy #${idx + 1}: Status: ${l.done}, Findings: ${l.findings || "None"}, Date Performed: ${l.date || "Not entered"}`);
+        });
+      }
+      return parts.join("\n");
+    };
+
+    const formatCa125s = () => {
+      const parts = [];
+      parts.push(`  * Primary CA125 Biomarker: Status: ${patientData.ca125Done}, Value: ${patientData.ca125Value || "None"}, Date Performed: ${patientData.ca125Date || "Not entered"}`);
+      if (patientData.ca125s && patientData.ca125s.length > 0) {
+        patientData.ca125s.forEach((c: any, idx: number) => {
+          parts.push(`  * Additional CA125 Biomarker #${idx + 1}: Status: ${c.done}, Value: ${c.value || "None"}, Date Performed: ${c.date || "Not entered"}`);
+        });
+      }
+      return parts.join("\n");
+    };
+
     // Build the query to Gemini
     const prompt = `
 You are a highly specialised clinical AI tool designed to assist healthcare professionals in evaluating suspected or confirmed endometriosis and adenomyosis. Your evaluation and advice must be 100% strictly aligned with the attached RANZCOG living evidence guideline (provided below) as your "golden source".
@@ -210,15 +259,11 @@ Patient Profile Entered:
 - Physical Examination:
   * Performed status: ${patientData.examinationPerformed}
   * Exam notes: ${patientData.examinationDetails || "No details provided"}
-- Investigations History:
-  * Ultrasound (TVUS/TAUS) performed: ${patientData.ultrasoundDone} ${patientData.ultrasoundDate ? `(Date performed: ${patientData.ultrasoundDate})` : ""}
-  * Ultrasound findings: ${patientData.ultrasoundFindings || "No abnormal findings noted"}
-  * Pelvic MRI performed: ${patientData.mriDone} ${patientData.mriDate ? `(Date performed: ${patientData.mriDate})` : ""}
-  * pelvic MRI findings: ${patientData.mriFindings || "None"}
-  * Diagnostic Laparoscopy performed: ${patientData.laparoscopyDone} ${patientData.laparoscopyDate ? `(Date performed: ${patientData.laparoscopyDate})` : ""}
-  * Laparoscopy findings: ${patientData.laparoscopyFindings || "None"}
-  * CA125 blood marker performed: ${patientData.ca125Done} ${patientData.ca125Date ? `(Date performed: ${patientData.ca125Date})` : ""}
-  * CA125 level response: ${patientData.ca125Value || "None"}
+- Investigations and Imaging History:
+${formatUltrasounds()}
+${formatMris()}
+${formatLaparoscopies()}
+${formatCa125s()}
 
 Golden Source Guidelines (RANZCOG):
 ${RANZCOG_GUIDELINES}

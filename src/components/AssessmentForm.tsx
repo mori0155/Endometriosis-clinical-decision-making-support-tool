@@ -23,6 +23,123 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
   isLoading
 }) => {
   
+  const ultrasoundsList = formData.ultrasounds || [];
+  const mrisList = formData.mris || [];
+  const laparoscopiesList = formData.laparoscopies || [];
+  const ca125sList = formData.ca125s || [];
+
+  const addUltrasound = () => {
+    onFormChange({
+      ...formData,
+      ultrasounds: [...ultrasoundsList, { done: 'no', findings: '', date: '' }]
+    });
+  };
+
+  const removeUltrasound = (index: number) => {
+    const updated = [...ultrasoundsList];
+    updated.splice(index, 1);
+    onFormChange({
+      ...formData,
+      ultrasounds: updated
+    });
+  };
+
+  const updateUltrasound = (index: number, field: string, value: any) => {
+    const updated = [...ultrasoundsList];
+    updated[index] = {
+      ...updated[index],
+      [field]: value
+    } as any;
+    onFormChange({
+      ...formData,
+      ultrasounds: updated
+    });
+  };
+
+  const addMri = () => {
+    onFormChange({
+      ...formData,
+      mris: [...mrisList, { done: 'no', findings: '', date: '' }]
+    });
+  };
+
+  const removeMri = (index: number) => {
+    const updated = [...mrisList];
+    updated.splice(index, 1);
+    onFormChange({
+      ...formData,
+      mris: updated
+    });
+  };
+
+  const updateMri = (index: number, field: string, value: any) => {
+    const updated = [...mrisList];
+    updated[index] = {
+      ...updated[index],
+      [field]: value
+    } as any;
+    onFormChange({
+      ...formData,
+      mris: updated
+    });
+  };
+
+  const addLaparoscopy = () => {
+    onFormChange({
+      ...formData,
+      laparoscopies: [...laparoscopiesList, { done: 'no', findings: '', date: '' }]
+    });
+  };
+
+  const removeLaparoscopy = (index: number) => {
+    const updated = [...laparoscopiesList];
+    updated.splice(index, 1);
+    onFormChange({
+      ...formData,
+      laparoscopies: updated
+    });
+  };
+
+  const updateLaparoscopy = (index: number, field: string, value: any) => {
+    const updated = [...laparoscopiesList];
+    updated[index] = {
+      ...updated[index],
+      [field]: value
+    } as any;
+    onFormChange({
+      ...formData,
+      laparoscopies: updated
+    });
+  };
+
+  const addCa125 = () => {
+    onFormChange({
+      ...formData,
+      ca125s: [...ca125sList, { done: 'no', value: '', date: '' }]
+    });
+  };
+
+  const removeCa125 = (index: number) => {
+    const updated = [...ca125sList];
+    updated.splice(index, 1);
+    onFormChange({
+      ...formData,
+      ca125s: updated
+    });
+  };
+
+  const updateCa125 = (index: number, field: string, value: any) => {
+    const updated = [...ca125sList];
+    updated[index] = {
+      ...updated[index],
+      [field]: value
+    } as any;
+    onFormChange({
+      ...formData,
+      ca125s: updated
+    });
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     
@@ -101,6 +218,10 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
       ca125Done: "no",
       ca125Value: "",
       ca125Date: "",
+      ultrasounds: [],
+      mris: [],
+      laparoscopies: [],
+      ca125s: [],
       otherSymptomsFreeText: ""
     });
   };
@@ -429,14 +550,29 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* TVUS/TAUS */}
-            <div className="p-3 border border-slate-200 rounded bg-white text-xs flex flex-col justify-between">
-              <div>
-                <span className="block font-bold text-slate-700 mb-1">Pelvic Ultrasound findings</span>
+            <div className="p-3 border border-slate-200 rounded bg-white text-xs space-y-3">
+              <div className="flex justify-between items-center pb-1.5 border-b border-slate-100">
+                <span className="font-bold text-slate-700">Pelvic Ultrasound findings</span>
+                <button
+                  type="button"
+                  onClick={addUltrasound}
+                  className="text-[10px] font-bold text-yellow-600 hover:text-yellow-700 inline-flex items-center gap-1 cursor-pointer select-none"
+                >
+                  <PlusCircle className="w-3.5 h-3.5" />
+                  <span>ADD ANOTHER</span>
+                </button>
+              </div>
+
+              {/* Primary ultrasound */}
+              <div className="space-y-2 bg-slate-50/50 p-2 rounded border border-slate-150/60">
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] font-bold text-slate-400">PRIMARY RESULT</span>
+                </div>
                 <select
                   name="ultrasoundDone"
                   value={formData.ultrasoundDone}
                   onChange={handleInputChange}
-                  className="w-full px-2 py-1 border border-slate-300 rounded bg-white mb-2 text-xs"
+                  className="w-full px-2 py-1 border border-slate-300 rounded bg-white text-xs focus:ring-1 focus:ring-yellow-500 focus:outline-none"
                 >
                   <option value="no">No ultrasound done</option>
                   <option value="yes_transvaginal">Transvaginal Ultrasound (TVUS) - Preferred</option>
@@ -448,32 +584,90 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                   value={formData.ultrasoundFindings || ""}
                   onChange={handleInputChange}
                   placeholder="e.g. Left endometrioma 3.5cm"
-                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400 mb-2"
+                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400"
                   disabled={formData.ultrasoundDone === 'no'}
                 />
+                <div>
+                  <label className="block text-[9px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
+                  <input
+                    type="date"
+                    name="ultrasoundDate"
+                    value={formData.ultrasoundDate || ""}
+                    onChange={handleInputChange}
+                    className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-700 bg-white"
+                    disabled={formData.ultrasoundDone === 'no'}
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
-                <input
-                  type="date"
-                  name="ultrasoundDate"
-                  value={formData.ultrasoundDate || ""}
-                  onChange={handleInputChange}
-                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-700 bg-white"
-                  disabled={formData.ultrasoundDone === 'no'}
-                />
-              </div>
+
+              {/* Additional ultrasounds */}
+              {ultrasoundsList.map((ul, idx) => (
+                <div key={idx} className="space-y-2 bg-[#FCFDFE] p-2 rounded border border-slate-150 relative animate-in fade-in slide-in-from-top-1 duration-100">
+                  <div className="flex justify-between items-center pb-1 border-b border-dashed border-slate-150">
+                    <span className="text-[10px] font-bold text-slate-400">ADDITIONAL RESULT #{idx + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeUltrasound(idx)}
+                      className="text-red-500 hover:text-red-700 font-bold text-[10px] cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                  <select
+                    value={ul.done}
+                    onChange={(e) => updateUltrasound(idx, 'done', e.target.value)}
+                    className="w-full px-2 py-1 border border-slate-300 rounded bg-white text-xs focus:ring-1 focus:ring-yellow-500 focus:outline-none"
+                  >
+                    <option value="no">No ultrasound done</option>
+                    <option value="yes_transvaginal">Transvaginal Ultrasound (TVUS) - Preferred</option>
+                    <option value="yes_transabdominal">Transabdominal Ultrasound - Youth/Alt</option>
+                  </select>
+                  <input
+                    type="text"
+                    value={ul.findings || ""}
+                    onChange={(e) => updateUltrasound(idx, 'findings', e.target.value)}
+                    placeholder="Findings details..."
+                    className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400"
+                    disabled={ul.done === 'no'}
+                  />
+                  <div>
+                    <label className="block text-[9px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
+                    <input
+                      type="date"
+                      value={ul.date || ""}
+                      onChange={(e) => updateUltrasound(idx, 'date', e.target.value)}
+                      className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-705 bg-white"
+                      disabled={ul.done === 'no'}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Pelvic MRI */}
-            <div className="p-3 border border-slate-200 rounded bg-white text-xs flex flex-col justify-between">
-              <div>
-                <span className="block font-bold text-slate-700 mb-1">Pelvic MRI status</span>
+            <div className="p-3 border border-slate-200 rounded bg-white text-xs space-y-3">
+              <div className="flex justify-between items-center pb-1.5 border-b border-slate-100">
+                <span className="font-bold text-slate-700">Pelvic MRI status</span>
+                <button
+                  type="button"
+                  onClick={addMri}
+                  className="text-[10px] font-bold text-yellow-600 hover:text-yellow-700 inline-flex items-center gap-1 cursor-pointer select-none"
+                >
+                  <PlusCircle className="w-3.5 h-3.5" />
+                  <span>ADD ANOTHER</span>
+                </button>
+              </div>
+
+              {/* Primary MRI */}
+              <div className="space-y-2 bg-slate-50/50 p-2 rounded border border-slate-150/60">
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] font-bold text-slate-400">PRIMARY RESULT</span>
+                </div>
                 <select
                   name="mriDone"
                   value={formData.mriDone}
                   onChange={handleInputChange}
-                  className="w-full px-2 py-1 border border-slate-300 rounded bg-white mb-2 text-xs"
+                  className="w-full px-2 py-1 border border-slate-300 rounded bg-white text-xs focus:ring-1 focus:ring-yellow-500 focus:outline-none"
                 >
                   <option value="no">No MRI done</option>
                   <option value="yes">Pelvic MRI performed</option>
@@ -484,32 +678,89 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                   value={formData.mriFindings || ""}
                   onChange={handleInputChange}
                   placeholder="e.g. Suspected deep infiltration"
-                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400 mb-2"
+                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400"
                   disabled={formData.mriDone === 'no'}
                 />
+                <div>
+                  <label className="block text-[9px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
+                  <input
+                    type="date"
+                    name="mriDate"
+                    value={formData.mriDate || ""}
+                    onChange={handleInputChange}
+                    className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-700 bg-white"
+                    disabled={formData.mriDone === 'no'}
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
-                <input
-                  type="date"
-                  name="mriDate"
-                  value={formData.mriDate || ""}
-                  onChange={handleInputChange}
-                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-700 bg-white"
-                  disabled={formData.mriDone === 'no'}
-                />
-              </div>
+
+              {/* Additional MRIs */}
+              {mrisList.map((m, idx) => (
+                <div key={idx} className="space-y-2 bg-[#FCFDFE] p-2 rounded border border-slate-150 relative animate-in fade-in slide-in-from-top-1 duration-100">
+                  <div className="flex justify-between items-center pb-1 border-b border-dashed border-slate-150">
+                    <span className="text-[10px] font-bold text-slate-400">ADDITIONAL RESULT #{idx + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeMri(idx)}
+                      className="text-red-500 hover:text-red-700 font-bold text-[10px] cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                  <select
+                    value={m.done}
+                    onChange={(e) => updateMri(idx, 'done', e.target.value)}
+                    className="w-full px-2 py-1 border border-slate-300 rounded bg-white text-xs focus:ring-1 focus:ring-yellow-500 focus:outline-none"
+                  >
+                    <option value="no">No MRI done</option>
+                    <option value="yes">Pelvic MRI performed</option>
+                  </select>
+                  <input
+                    type="text"
+                    value={m.findings || ""}
+                    onChange={(e) => updateMri(idx, 'findings', e.target.value)}
+                    placeholder="Findings details..."
+                    className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400"
+                    disabled={m.done === 'no'}
+                  />
+                  <div>
+                    <label className="block text-[9px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
+                    <input
+                      type="date"
+                      value={m.date || ""}
+                      onChange={(e) => updateMri(idx, 'date', e.target.value)}
+                      className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-705 bg-white"
+                      disabled={m.done === 'no'}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Diagnostic Laparoscopy */}
-            <div className="p-3 border border-slate-200 rounded bg-white text-xs flex flex-col justify-between">
-              <div>
-                <span className="block font-bold text-slate-700 mb-1">Prior Laparoscopy status</span>
+            <div className="p-3 border border-slate-200 rounded bg-white text-xs space-y-3">
+              <div className="flex justify-between items-center pb-1.5 border-b border-slate-100">
+                <span className="font-bold text-slate-700">Prior Laparoscopy status</span>
+                <button
+                  type="button"
+                  onClick={addLaparoscopy}
+                  className="text-[10px] font-bold text-yellow-600 hover:text-yellow-700 inline-flex items-center gap-1 cursor-pointer select-none"
+                >
+                  <PlusCircle className="w-3.5 h-3.5" />
+                  <span>ADD ANOTHER</span>
+                </button>
+              </div>
+
+              {/* Primary Laparoscopy */}
+              <div className="space-y-2 bg-slate-50/50 p-2 rounded border border-slate-150/60">
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] font-bold text-slate-400">PRIMARY RESULT</span>
+                </div>
                 <select
                   name="laparoscopyDone"
                   value={formData.laparoscopyDone}
                   onChange={handleInputChange}
-                  className="w-full px-2 py-1 border border-slate-300 rounded bg-white mb-2 text-xs"
+                  className="w-full px-2 py-1 border border-slate-300 rounded bg-white text-xs focus:ring-1 focus:ring-yellow-500 focus:outline-none"
                 >
                   <option value="no">No prior laparoscopy</option>
                   <option value="yes">Laparoscopy previously done</option>
@@ -520,32 +771,89 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                   value={formData.laparoscopyFindings || ""}
                   onChange={handleInputChange}
                   placeholder="e.g. Peritoneal disease excision"
-                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400 mb-2"
+                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400"
                   disabled={formData.laparoscopyDone === 'no'}
                 />
+                <div>
+                  <label className="block text-[9px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
+                  <input
+                    type="date"
+                    name="laparoscopyDate"
+                    value={formData.laparoscopyDate || ""}
+                    onChange={handleInputChange}
+                    className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-700 bg-white"
+                    disabled={formData.laparoscopyDone === 'no'}
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
-                <input
-                  type="date"
-                  name="laparoscopyDate"
-                  value={formData.laparoscopyDate || ""}
-                  onChange={handleInputChange}
-                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-700 bg-white"
-                  disabled={formData.laparoscopyDone === 'no'}
-                />
-              </div>
+
+              {/* Additional Laparoscopies */}
+              {laparoscopiesList.map((lap, idx) => (
+                <div key={idx} className="space-y-2 bg-[#FCFDFE] p-2 rounded border border-slate-150 relative animate-in fade-in slide-in-from-top-1 duration-100">
+                  <div className="flex justify-between items-center pb-1 border-b border-dashed border-slate-150">
+                    <span className="text-[10px] font-bold text-slate-400">ADDITIONAL RESULT #{idx + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeLaparoscopy(idx)}
+                      className="text-red-500 hover:text-red-700 font-bold text-[10px] cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                  <select
+                    value={lap.done}
+                    onChange={(e) => updateLaparoscopy(idx, 'done', e.target.value)}
+                    className="w-full px-2 py-1 border border-slate-300 rounded bg-white text-xs focus:ring-1 focus:ring-yellow-500 focus:outline-none"
+                  >
+                    <option value="no">No prior laparoscopy</option>
+                    <option value="yes">Laparoscopy previously done</option>
+                  </select>
+                  <input
+                    type="text"
+                    value={lap.findings || ""}
+                    onChange={(e) => updateLaparoscopy(idx, 'findings', e.target.value)}
+                    placeholder="Findings details..."
+                    className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400"
+                    disabled={lap.done === 'no'}
+                  />
+                  <div>
+                    <label className="block text-[9px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
+                    <input
+                      type="date"
+                      value={lap.date || ""}
+                      onChange={(e) => updateLaparoscopy(idx, 'date', e.target.value)}
+                      className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-705 bg-white"
+                      disabled={lap.done === 'no'}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Serum CA125 */}
-            <div className="p-3 border border-slate-200 rounded bg-white text-xs flex flex-col justify-between">
-              <div>
-                <span className="block font-bold text-slate-700 mb-1">CA125 Biomarker</span>
+            <div className="p-3 border border-slate-200 rounded bg-white text-xs space-y-3">
+              <div className="flex justify-between items-center pb-1.5 border-b border-slate-100">
+                <span className="font-bold text-slate-700">CA125 Biomarker</span>
+                <button
+                  type="button"
+                  onClick={addCa125}
+                  className="text-[10px] font-bold text-yellow-600 hover:text-yellow-700 inline-flex items-center gap-1 cursor-pointer select-none"
+                >
+                  <PlusCircle className="w-3.5 h-3.5" />
+                  <span>ADD ANOTHER</span>
+                </button>
+              </div>
+
+              {/* Primary CA125 */}
+              <div className="space-y-2 bg-slate-50/50 p-2 rounded border border-slate-150/60">
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] font-bold text-slate-400">PRIMARY RESULT</span>
+                </div>
                 <select
                   name="ca125Done"
                   value={formData.ca125Done}
                   onChange={handleInputChange}
-                  className="w-full px-2 py-1 border border-slate-300 rounded bg-white mb-2 text-xs"
+                  className="w-full px-2 py-1 border border-slate-300 rounded bg-white text-xs focus:ring-1 focus:ring-yellow-500 focus:outline-none"
                 >
                   <option value="no">No CA125 checked</option>
                   <option value="yes">CA125 checked</option>
@@ -556,21 +864,63 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                   value={formData.ca125Value || ""}
                   onChange={handleInputChange}
                   placeholder="Result in U/mL (e.g. 42)"
-                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400 mb-2"
+                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400"
                   disabled={formData.ca125Done === 'no'}
                 />
+                <div>
+                  <label className="block text-[9px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
+                  <input
+                    type="date"
+                    name="ca125Date"
+                    value={formData.ca125Date || ""}
+                    onChange={handleInputChange}
+                    className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-700 bg-white"
+                    disabled={formData.ca125Done === 'no'}
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-[10px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
-                <input
-                  type="date"
-                  name="ca125Date"
-                  value={formData.ca125Date || ""}
-                  onChange={handleInputChange}
-                  className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-700 bg-white"
-                  disabled={formData.ca125Done === 'no'}
-                />
-              </div>
+
+              {/* Additional CA125s */}
+              {ca125sList.map((c, idx) => (
+                <div key={idx} className="space-y-2 bg-[#FCFDFE] p-2 rounded border border-slate-150 relative animate-in fade-in slide-in-from-top-1 duration-100">
+                  <div className="flex justify-between items-center pb-1 border-b border-dashed border-slate-150">
+                    <span className="text-[10px] font-bold text-slate-400">ADDITIONAL RESULT #{idx + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeCa125(idx)}
+                      className="text-red-500 hover:text-red-700 font-bold text-[10px] cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                  <select
+                    value={c.done}
+                    onChange={(e) => updateCa125(idx, 'done', e.target.value)}
+                    className="w-full px-2 py-1 border border-slate-300 rounded bg-white text-xs focus:ring-1 focus:ring-yellow-500 focus:outline-none"
+                  >
+                    <option value="no">No CA125 checked</option>
+                    <option value="yes">CA125 checked</option>
+                  </select>
+                  <input
+                    type="text"
+                    value={c.value || ""}
+                    onChange={(e) => updateCa125(idx, 'value', e.target.value)}
+                    placeholder="Result detail..."
+                    className="w-full px-2 py-1 border border-slate-300 rounded text-xs placeholder:text-slate-400"
+                    disabled={c.done === 'no'}
+                  />
+                  <div>
+                    <label className="block text-[9px] font-bold text-slate-400 uppercase mb-0.5">Date Performed:</label>
+                    <input
+                      type="date"
+                      value={c.date || ""}
+                      onChange={(e) => updateCa125(idx, 'date', e.target.value)}
+                      className="w-full px-2 py-1 border border-slate-300 rounded text-xs text-slate-705 bg-white"
+                      disabled={c.done === 'no'}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
 
           </div>
