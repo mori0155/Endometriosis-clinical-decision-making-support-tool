@@ -556,19 +556,35 @@ export default function App() {
           <span className="text-slate-750 hidden sm:inline">|</span>
           <div className="flex items-center gap-1.5 shrink-0">
             {!apiKeyStatus.checked ? (
-              <>
-                <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-ping"></span>
-                <span className="text-slate-500">Checking connection...</span>
-              </>
+              <div className="flex items-center gap-2 shrink-0" id="gemini-checking-container">
+                <span className="text-slate-500">Checking connection:</span>
+                <div className="w-24 h-1.5 bg-slate-800 rounded-full overflow-hidden relative" title="Checking Gemini API key status...">
+                  <style>{`
+                    @keyframes slideIndicator {
+                      0% { left: -40%; width: 40%; }
+                      50% { width: 60%; }
+                      100% { left: 100%; width: 40%; }
+                    }
+                    .slide-bar {
+                      position: absolute;
+                      height: 100%;
+                      background-color: #fbbf24; /* amber-400 */
+                      border-radius: 9999px;
+                      animation: slideIndicator 1.4s infinite linear;
+                    }
+                  `}</style>
+                  <div className="slide-bar"></div>
+                </div>
+              </div>
             ) : apiKeyStatus.success ? (
               <>
                 <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full shrink-0"></span>
-                <span className="text-emerald-500 font-bold" title={apiKeyStatus.message}>Gemini Key: Active</span>
+                <span className="text-emerald-500 font-bold" title={apiKeyStatus.message}>Retrieval-Augmented Generation (RAG) status: active</span>
               </>
             ) : (
               <>
                 <span className="w-1.5 h-1.5 bg-rose-500 rounded-full shrink-0 animate-pulse"></span>
-                <span className="text-rose-400 font-bold hover:underline cursor-help" title={apiKeyStatus.message}>Gemini Key: Fault ({apiKeyStatus.message.slice(0, 45)}...)</span>
+                <span className="text-rose-400 font-bold hover:underline cursor-help" title={apiKeyStatus.message}>Retrieval-Augmented Generation (RAG) status: fault ({apiKeyStatus.message.slice(0, 45)}...)</span>
               </>
             )}
           </div>
