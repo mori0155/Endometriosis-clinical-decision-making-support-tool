@@ -15,6 +15,10 @@ export interface PatientDetails {
   headache: boolean;
   urinarySymptoms: boolean; // dysuria, bladder pain, urine burn
   allergies: boolean;
+  
+  // None reported flags
+  commonNoneReported?: boolean;
+  lessCommonNoneReported?: boolean;
 
   // History
   autoimmuneHistory: boolean;

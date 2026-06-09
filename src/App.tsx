@@ -25,10 +25,10 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
     title: "CQ1: Signs & Symptoms Profiling (RANZCOG Page 14)",
     question: "Do certain signs or symptoms predict the presence of endometriosis?",
     keyRecommendations: [
-      "Commonest symptoms (25% - 70% prevalence) [RANZCOG Page 14]: severe painful periods (dysmenorrhoea), deep pain during or after sex (dyspareunia), pelvic pain (chronic or cyclical), heavy menstrual bleeding, and infertility.",
-      "Less common symptoms (10% - 25% prevalence) [RANZCOG Page 14]: bowel symptoms (constipation, pain on bowel movement/dyschezia, bloating), chronic fatigue/tiredness, back pain, sleep difficulties, headache/cyclical migraines, urinary symptoms (urine burn/dysuria), and history of allergies (such as hay fever or sinusitis).",
-      "Common signs during pelvic examination [RANZCOG Page 14]: reduced pelvic organ mobility, enlargement of pelvic organs, visible vaginal lesions, tenderness in the vagina/pelvic structures, or posterior vaginal wall nodularity.",
-      "Clinical Note [RANZCOG Page 14]: A normal pelvic examination does NOT exclude endometriosis. Examination may be inappropriate or declined (especially in adolescents or those with vaginismus/no sexual activity history)."
+      "Commonest symptoms (25% - 70% prevalence) [p14]: severe painful periods (dysmenorrhoea), deep pain during or after sex (dyspareunia), pelvic pain (chronic or cyclical), heavy menstrual bleeding, and infertility.",
+      "Less common symptoms (10% - 25% prevalence) [p14]: bowel symptoms (constipation, pain on bowel movement/dyschezia, bloating), chronic fatigue/tiredness, back pain, sleep difficulties, headache/cyclical migraines, urinary symptoms (urine burn/dysuria), and history of allergies (such as hay fever or sinusitis).",
+      "Common signs during pelvic examination [p14]: reduced pelvic organ mobility, enlargement of pelvic organs, visible vaginal lesions, tenderness in the vagina/pelvic structures, or posterior vaginal wall nodularity.",
+      "Clinical Note [p14]: A normal pelvic examination does NOT exclude endometriosis. Examination may be inappropriate or declined (especially in adolescents or those with vaginismus/no sexual activity history)."
     ],
     clinicalSignificance: "Comprehensive recording of multi-system clinical symptoms is the cornerstone of clinical suspicion, driving key decisions in accordance with RANZCOG Page 14."
   },
@@ -36,10 +36,10 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
     title: "CQ5: Referral to Secondary Care (RANZCOG Page 17, 44)",
     question: "When should a patient with suspected/confirmed endometriosis be referred?",
     keyRecommendations: [
-      "Refer to secondary gynaecology services [RANZCOG Page 17]: When first-line primary management (such as NSAIDs or combined oral contraceptives) is not effective, is poorly tolerated, or is contraindicated.",
-      "Refer upon physical signs [RANZCOG Page 17]: Refer when abnormal pelvic signs are found on physical examination and the patient fails empirical therapy.",
-      "Refer based on imaging findings [RANZCOG Page 44]: Refer immediately when diagnostic pelvic imaging (TVUS or MRI) suggests the presence of an endometrioma or deep endometriosis involving the bowel, bladder, or ureters.",
-      "Refer for advanced surgery [RANZCOG Page 44]: Suspected deep lesions involving bowel, bladder, or ureters must be referred to gynaecologists with advanced laparoscopic surgical expertise or specialized interdisciplinary services with colorectal/urological input."
+      "Refer to secondary gynaecology services [p17]: When first-line primary management (such as NSAIDs or combined oral contraceptives) is not effective, is poorly tolerated, or is contraindicated.",
+      "Refer upon physical signs [p17]: Refer when abnormal pelvic signs are found on physical examination and the patient fails empirical therapy.",
+      "Refer based on imaging findings [p44]: Refer immediately when diagnostic pelvic imaging (TVUS or MRI) suggests the presence of an endometrioma or deep endometriosis involving the bowel, bladder, or ureters.",
+      "Refer for advanced surgery [p44]: Suspected deep lesions involving bowel, bladder, or ureters must be referred to gynaecologists with advanced laparoscopic surgical expertise or specialized interdisciplinary services with colorectal/urological input."
     ],
     clinicalSignificance: "Timely referral avoids diagnostic delay and ensures patients are matched with the appropriate tier of clinical or surgical expertise in accordance with RANZCOG Page 17 & Page 44."
   },
@@ -47,10 +47,10 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
     title: "CQ7: Pelvic Diagnostic Imaging (RANZCOG Page 18, 50)",
     question: "What imaging modality should be used first-line for suspected endometriosis?",
     keyRecommendations: [
-      "First-line Pelvic Ultrasound [RANZCOG Page 18]: Offer transvaginal pelvic ultrasound (TVUS) to all patients with symptoms suggestive of endometriosis, even if examinations are normal.",
-      "Alternative Imaging for Adolescents / Non-sexually active [RANZCOG Page 50]: Offer transabdominal pelvic ultrasound (or MRI/transperineal scan if indicated) if transvaginal imaging is not appropriate, unavailable, or declined.",
-      "Alternative/Second-line Imaging [RANZCOG Page 18, Page 50]: Provide Pelvic MRI as a second-line investigation if TVUS is inconclusive, unavailable, or if deep endometriosis (bowel, bladder, ureter) or endometrioma is suspected for surgical mapping.",
-      "Exclusions & Marker limits [RANZCOG Page 18]: Do NOT use CT scan as a primary modality to investigate endometriosis due to low sensitivity and radiation exposure. Do NOT use regular serum CA125 assays as a routine diagnostic tool (low sensitivity; a normal CA125 does not exclude endometriosis)."
+      "First-line Pelvic Ultrasound [p18]: Offer transvaginal pelvic ultrasound (TVUS) to all patients with symptoms suggestive of endometriosis, even if examinations are normal.",
+      "Alternative Imaging for Adolescents / Non-sexually active [p50]: Offer transabdominal pelvic ultrasound (or MRI/transperineal scan if indicated) if transvaginal imaging is not appropriate, unavailable, or declined.",
+      "Alternative/Second-line Imaging [p18, p50]: Provide Pelvic MRI as a second-line investigation if TVUS is inconclusive, unavailable, or if deep endometriosis (bowel, bladder, ureter) or endometrioma is suspected for surgical mapping.",
+      "Exclusions & Marker limits [p18]: Do NOT use CT scan as a primary modality to investigate endometriosis due to low sensitivity and radiation exposure. Do NOT use regular serum CA125 assays as a routine diagnostic tool (low sensitivity; a normal CA125 does not exclude endometriosis)."
     ],
     clinicalSignificance: "Advanced pre-surgical imaging protocols optimize mapping of deep endometriosis lesions across pelvic structures in accordance with RANZCOG Page 18 & Page 50."
   },
@@ -58,9 +58,9 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
     title: "CQ10: Analgesic Treatments (RANZCOG Page 19, 60)",
     question: "Which non-hormonal analgesic options should be offered to control pain?",
     keyRecommendations: [
-      "First-line Analgesic Trial [RANZCOG Page 19]: Offer a short-term trial of non-steroidal anti-inflammatory drugs (NSAIDs, e.g., Naproxen or Ibuprofen) alone or in combination with Paracetamol/Acetaminophen for primary pain management.",
-      "Opioid Constraints [RANZCOG Page 19, Page 60]: Caution: Do NOT prescribe opioid medications for routine, long-term chronic pelvic pain due to severe dependency risks and minimal evidence of benefit for neuropathic cyclic pain. Use only at lowest effective doses for acute severe flare-ups.",
-      "Alternative supportive care [RANZCOG Page 60]: Discuss secondary non-pharmacological therapies such as acupuncture, low-FODMAP diet, fish oil, and vitamin D supplements, noting that evidence is limited but valuable for self-management."
+      "First-line Analgesic Trial [p19]: Offer a short-term trial of non-steroidal anti-inflammatory drugs (NSAIDs, e.g., Naproxen or Ibuprofen) alone or in combination with Paracetamol/Acetaminophen for primary pain management.",
+      "Opioid Constraints [p19, p60]: Caution: Do NOT prescribe opioid medications for routine, long-term chronic pelvic pain due to severe dependency risks and minimal evidence of benefit for neuropathic cyclic pain. Use only at lowest effective doses for acute severe flare-ups.",
+      "Alternative supportive care [p60]: Discuss secondary non-pharmacological therapies such as acupuncture, low-FODMAP diet, fish oil, and vitamin D supplements, noting that evidence is limited but valuable for self-management."
     ],
     clinicalSignificance: "Effective non-hormonal pain relief ensures physical coping capacity during diagnostic investigations or while awaiting specialist assessment in accordance with RANZCOG Page 19 & Page 60."
   },
@@ -68,10 +68,10 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
     title: "CQ12: Hormonal Suppression Trials (RANZCOG Page 20, 67)",
     question: "What are the first-line and second-line medical hormonal options?",
     keyRecommendations: [
-      "First-line Hormonals [RANZCOG Page 20]: For patients not trying to conceive, offer combined oral contraceptives (COCs) or progestogens (such as oral dienogest, medroxyprogesterone injection, or LNG-IUD) as first-line empirical treatments.",
-      "Treatment Selection [RANZCOG Page 20]: All first-line hormonal treatments demonstrate similar efficacy in controlling dysmenorrhoea and heavy bleeding; selection should depend on patient preference, side effects, and cost.",
-      "Conception Contraindications [RANZCOG Page 20, Page 67]: Hormonal suppression is strictly contraindicated in patients actively trying to conceive, as they prevent ovulation and do not improve unassisted pregnancy rates during or after treatment.",
-      "Second-line therapies [RANZCOG Page 20, Page 67]: Consider second-line therapies (GnRH agonists or antagonists) under specialist guidance for patients whose symptoms fail to respond to first-line hormonal options. Use 'add-back' hormone replacement therapy to protect bone density."
+      "First-line Hormonals [p20]: For patients not trying to conceive, offer combined oral contraceptives (COCs) or progestogens (such as oral dienogest, medroxyprogesterone injection, or LNG-IUD) as first-line empirical treatments.",
+      "Treatment Selection [p20]: All first-line hormonal treatments demonstrate similar efficacy in controlling dysmenorrhoea and heavy bleeding; selection should depend on patient preference, side effects, and cost.",
+      "Conception Contraindications [p20, p67]: Hormonal suppression is strictly contraindicated in patients actively trying to conceive, as they prevent ovulation and do not improve unassisted pregnancy rates during or after treatment.",
+      "Second-line therapies [p20, p67]: Consider second-line therapies (GnRH agonists or antagonists) under specialist guidance for patients whose symptoms fail to respond to first-line hormonal options. Use 'add-back' hormone replacement therapy to protect bone density."
     ],
     clinicalSignificance: "Empirical hormonal trials can safely bypass diagnostic delays and provide continuous relief, rendering laparoscopy unnecessary for many mild-to-moderate cases in accordance with RANZCOG Page 20 & Page 67."
   },
@@ -79,9 +79,9 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
     title: "CQ13: Adenomyosis Management (RANZCOG Page 21, 73)",
     question: "How should suspected or confirmed adenomyosis be managed?",
     keyRecommendations: [
-      "Diagnostic Suspicion [RANZCOG Page 21]: Identify suspected adenomyosis during pelvic transvaginal ultrasound or MRI via distinct heterogeneous myometrial patterns or asymmetric wall thickening.",
-      "First-line medical therapies [RANZCOG Page 21, Page 73]: Offer hormonal suppression agents—such as the levonorgestrel-releasing intrauterine system (LNG-IUD), combined oral contraceptives, oral dienogest, or etonogestrel implant—to control adenomyosis-associated pelvic pain and heavy menstrual bleeding.",
-      "Surgical considerations [RANZCOG Page 73]: Discuss surgical options (e.g., adenomyomectomy, uterine artery embolisation, or hysterectomy) if medical treatments fail and the patient has completed their family planning."
+      "Diagnostic Suspicion [p21]: Identify suspected adenomyosis during pelvic transvaginal ultrasound or MRI via distinct heterogeneous myometrial patterns or asymmetric wall thickening.",
+      "First-line medical therapies [p21, p73]: Offer hormonal suppression agents—such as the levonorgestrel-releasing intrauterine system (LNG-IUD), combined oral contraceptives, oral dienogest, or etonogestrel implant—to control adenomyosis-associated pelvic pain and heavy menstrual bleeding.",
+      "Surgical considerations [p73]: Discuss surgical options (e.g., adenomyomectomy, uterine artery embolisation, or hysterectomy) if medical treatments fail and the patient has completed their family planning."
     ],
     clinicalSignificance: "Adenomyosis frequently coexists with endometriosis and requires dedicated high-potency progestins or LNG-IUD to manage significant uterine enlargement and menorrhagia in accordance with RANZCOG Page 21 & Page 73."
   },
@@ -89,10 +89,10 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
     title: "CQ14: Surgical Excision vs. Ablation (RANZCOG Page 21, 76)",
     question: "What is the role of laparoscopy and surgical excision representing cyst treatment?",
     keyRecommendations: [
-      "Surgical Role [RANZCOG Page 21]: Select conservative laparoscopic surgery (excision or ablation of lesions) to improve pain outcomes in patients with mild-to-moderate disease.",
-      "Endometrioma Excision [RANZCOG Page 21, Page 76]: For ovarian endometriomas, laparoscopic cyst excision (cystectomy) is strongly recommended over cyst ablation or drainage alone, as excision results in lower pain and recurrence rates.",
-      "Abdominal Access [RANZCOG Page 76]: Laparoscopic approach is strongly preferred over open laparotomy to minimize adhesions, pain, and hospital stay.",
-      "Repeat Surgeries [RANZCOG Page 76]: Advise careful consideration before pursuing repeat laparoscopic surgeries, as each additional procedure increases adhesion severity and risk of bowel/bladder injury."
+      "Surgical Role [p21]: Select conservative laparoscopic surgery (excision or ablation of lesions) to improve pain outcomes in patients with mild-to-moderate disease.",
+      "Endometrioma Excision [p21, p76]: For ovarian endometriomas, laparoscopic cyst excision (cystectomy) is strongly recommended over cyst ablation or drainage alone, as excision results in lower pain and recurrence rates.",
+      "Abdominal Access [p76]: Laparoscopic approach is strongly preferred over open laparotomy to minimize adhesions, pain, and hospital stay.",
+      "Repeat Surgeries [p76]: Advise careful consideration before pursuing repeat laparoscopic surgeries, as each additional procedure increases adhesion severity and risk of bowel/bladder injury."
     ],
     clinicalSignificance: "Laparoscopic cystectomy remains the most durable option for endometriomas, balancing recurrence prevention with ovarian reserve protection in accordance with RANZCOG Page 21 & Page 76."
   },
@@ -100,9 +100,9 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
     title: "CQ19: Asymptomatic Surveillance (RANZCOG Page 25, 96)",
     question: "How should an incidental finding of asymptomatic endometriosis be approached?",
     keyRecommendations: [
-      "Avoid Treatment [RANZCOG Page 25]: Do NOT offer medical or surgical treatment for incidental findings of asymptomatic endometriosis or endometriomas on imaging or other unrelated surgeries.",
-      "Expectant Surveillance [RANZCOG Page 25, Page 96]: Inform the patient about the low likelihood of rapid progression and recommend expectant, individualized, non-invasive surveillance.",
-      "Mitigate Risk [RANZCOG Page 96]: Avoid unnecessary medical therapies or clearance surgeries, which could introduce unnecessary operative risks, hormonal side effects, and patient anxiety."
+      "Avoid Treatment [p25]: Do NOT offer medical or surgical treatment for incidental findings of asymptomatic endometriosis or endometriomas on imaging or other unrelated surgeries.",
+      "Expectant Surveillance [p25, p96]: Inform the patient about the low likelihood of rapid progression and recommend expectant, individualized, non-invasive surveillance.",
+      "Mitigate Risk [p96]: Avoid unnecessary medical therapies or clearance surgeries, which could introduce unnecessary operative risks, hormonal side effects, and patient anxiety."
     ],
     clinicalSignificance: "Observing asymptomatic disease minimizes over-treatment and focuses medical resources on quality-of-life-limiting symptomatology in accordance with RANZCOG Page 25 & Page 96."
   }
@@ -118,7 +118,13 @@ const getFriendlyErrorMessage = (raw: string): string => {
   if (raw.includes("503") || raw.includes("UNAVAILABLE") || raw.includes("overloaded")) {
     return "Service Temporarily Unavailable (503)";
   }
-  if (raw.includes("API_KEY") || raw.includes("not defined") || raw.includes("Secrets")) {
+  if (raw.includes("Google API key format") || raw.includes("start with 'AIzaSy'")) {
+    return "Invalid Key Format (Must start with AIzaSy)";
+  }
+  if (raw.includes("not defined") || raw.includes("not configured") || raw.trim() === "") {
+    return "Secrets Key Missing";
+  }
+  if (raw.includes("API_KEY") || raw.includes("Secrets")) {
     return "Secrets Key Misconfigured";
   }
 
@@ -369,16 +375,15 @@ export default function App() {
         {/* Clinical Tracking Metadata bar (Excluded Patient Status) */}
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-slate-650 font-medium">
           <div className="flex flex-col">
-            <span className="text-slate-400 font-bold text-[9px] uppercase tracking-wider">CURRENT AGE</span>
-            <span className="font-bold text-slate-700">
-              {formData.age ? `${formData.age} Years` : "Unspecified Value"}
-            </span>
-          </div>
-          <div className="flex flex-col border-l border-slate-200 pl-4">
             <span className="text-slate-400 font-bold text-[9px] uppercase tracking-wider">SECURED EVIDENCE SOURCE</span>
-            <span className="font-bold text-yellow-605 underline flex items-center gap-1 hover:text-yellow-750 transition-colors">
+            <a 
+              href="https://ranzcog.edu.au/wp-content/uploads/2024/02/Australian-Living-Evidence-Clinical-Guideline-for-the-Diagnosis-and-Management-of-Endometriosis.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="font-bold text-yellow-600 underline flex items-center gap-1 hover:text-yellow-750 transition-colors"
+            >
               RANZCOG_Living_Guideline_Endo.pdf
-            </span>
+            </a>
           </div>
         </div>
       </header>

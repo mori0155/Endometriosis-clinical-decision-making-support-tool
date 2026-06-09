@@ -28,10 +28,34 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
     
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
-      onFormChange({
+      let updatedData = {
         ...formData,
         [name]: checked
-      });
+      };
+      
+      if (name === 'commonNoneReported' && checked) {
+        updatedData.severePainfulPeriods = false;
+        updatedData.painWithSex = false;
+        updatedData.infertility = false;
+        updatedData.pelvicPain = false;
+        updatedData.heavyMenstrualBleeding = false;
+      } else if (['severePainfulPeriods', 'painWithSex', 'infertility', 'pelvicPain', 'heavyMenstrualBleeding'].includes(name) && checked) {
+        updatedData.commonNoneReported = false;
+      }
+      
+      if (name === 'lessCommonNoneReported' && checked) {
+        updatedData.bowelSymptoms = false;
+        updatedData.severeTiredness = false;
+        updatedData.backPain = false;
+        updatedData.sleepDifficulty = false;
+        updatedData.headache = false;
+        updatedData.urinarySymptoms = false;
+        updatedData.allergies = false;
+      } else if (['bowelSymptoms', 'severeTiredness', 'backPain', 'sleepDifficulty', 'headache', 'urinarySymptoms', 'allergies'].includes(name) && checked) {
+        updatedData.lessCommonNoneReported = false;
+      }
+      
+      onFormChange(updatedData);
     } else {
       onFormChange({
         ...formData,
@@ -56,6 +80,8 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
       headache: false,
       urinarySymptoms: false,
       allergies: false,
+      commonNoneReported: false,
+      lessCommonNoneReported: false,
       autoimmuneHistory: false,
       autoimmuneDetails: "none",
       familyHistory: false,
@@ -130,10 +156,10 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
         {/* Section 2: Clinical Symptoms */}
         <div className="space-y-3" id="symptoms-section-box">
           
-          {/* Commonest Symptoms Area */}
+          {/* Common Symptoms Area */}
           <div className="space-y-2">
             <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
-              2. Commonest Symptoms (Associated with 25% – 70% of cases)
+              2. Common Symptoms
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {[
@@ -141,7 +167,8 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                 { label: "Deep pain with sex (dyspareunia)", key: "painWithSex", id: "chk-dyspareunia" },
                 { label: "Infertility / conceiving delay", key: "infertility", id: "chk-infertility" },
                 { label: "Chronic / cyclic pelvic pain", key: "pelvicPain", id: "chk-pelvic-pain" },
-                { label: "Heavy menstrual bleeding", key: "heavyMenstrualBleeding", id: "chk-hmb" }
+                { label: "Heavy menstrual bleeding", key: "heavyMenstrualBleeding", id: "chk-hmb" },
+                { label: "None reported", key: "commonNoneReported", id: "chk-common-none" }
               ].map((symptom) => {
                 const isChecked = !!(formData as any)[symptom.key];
                 return (
@@ -181,7 +208,8 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                 { label: "Sleep difficulty / insomnia", key: "sleepDifficulty" },
                 { label: "Headache / cyclical migraine", key: "headache" },
                 { label: "Urinary symptoms (urine burn/dysuria)", key: "urinarySymptoms" },
-                { label: "Allergies history (hay fever/sinusitis)", key: "allergies" }
+                { label: "Allergies history (hay fever/sinusitis)", key: "allergies" },
+                { label: "None reported", key: "lessCommonNoneReported" }
               ].map((symptom) => {
                 const isChecked = !!(formData as any)[symptom.key];
                 return (
