@@ -310,11 +310,27 @@ You must return a raw JSON response strictly conforming to the response schema. 
   } catch (error: any) {
     console.error("Clinical assessment error:", error);
     
-    // Check if the error is due to Model 503 high demand/rate limits
     const errMsg = error?.message || String(error);
-    if (errMsg.includes("503") || errMsg.includes("UNAVAILABLE") || errMsg.includes("high demand") || errMsg.includes("overloaded")) {
+    const lowErrMsg = errMsg.toLowerCase();
+    
+    // Check if the error is due to quota / limit / rate exhaustion
+    if (
+      lowErrMsg.includes("429") || 
+      lowErrMsg.includes("resource_exhausted") || 
+      lowErrMsg.includes("quota") || 
+      lowErrMsg.includes("limit") || 
+      lowErrMsg.includes("exhausted") || 
+      lowErrMsg.includes("depleted")
+    ) {
+      return res.status(429).json({ 
+        error: "Your daily Gemini API key request limit has been exhausted. Please configure your own active API key in Settings > Secrets to continue generating reviews, or try again tomorrow." 
+      });
+    }
+
+    // Check if the error is due to Model 503 high demand/rate limits
+    if (lowErrMsg.includes("503") || lowErrMsg.includes("unavailable") || lowErrMsg.includes("high demand") || lowErrMsg.includes("overloaded")) {
       return res.status(503).json({ 
-        error: "The clinical analysis engine (Gemini API) is currently experiencing peak high demand and rate limits. Please click 'Run Clinical Evaluation' again in 5-10 seconds to retry. We apologize for the transient delay." 
+        error: "The clinical analysis engine (Gemini API) is currently experiencing peak high demand or transient server overload. Please click 'Run Clinical Evaluation' again in 5-10 seconds to retry." 
       });
     }
     

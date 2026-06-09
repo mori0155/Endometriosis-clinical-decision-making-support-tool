@@ -46,15 +46,14 @@ export default async function handler(req: any, res: any) {
       });
     }
 
-    // Verify key format locally instead of making an expensive, rate-limited live network call to Gemini API.
+    // Verify key locally (just checking presence and minimal length) instead of making an expensive, rate-limited live network call to Gemini API.
     // This saves your free requests/day limit from being consumed on simple, automated page loads!
-    const startsWithAIza = key.trim().startsWith("AIzaSy");
-    const hasCorrectLength = key.trim().length >= 30;
+    const hasCorrectLength = key.trim().length >= 5;
     
-    if (!startsWithAIza || !hasCorrectLength) {
+    if (!hasCorrectLength) {
       return res.status(200).json({
         success: false,
-        message: "GEMINI_API_KEY is present, but does not match standard Google API key format (should start with 'AIzaSy' and be at least 30 characters long)."
+        message: "GEMINI_API_KEY is present, but appears too short to be a valid API key."
       });
     }
 

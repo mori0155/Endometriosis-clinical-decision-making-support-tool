@@ -111,15 +111,22 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
 const getFriendlyErrorMessage = (raw: string): string => {
   if (!raw) return "Unknown evaluation mismatch";
   
-  // Quick checks first for standard codes
-  if (raw.includes("429") || raw.includes("RESOURCE_EXHAUSTED") || raw.includes("quota")) {
-    return "Quota Exceeded (429 Rate Limit)";
+  const low = raw.toLowerCase();
+  if (
+    low.includes("429") || 
+    low.includes("resource_exhausted") || 
+    low.includes("quota") || 
+    low.includes("limit") || 
+    low.includes("exhausted") || 
+    low.includes("depleted")
+  ) {
+    return "Daily Request Limit Exhausted (429)";
   }
-  if (raw.includes("503") || raw.includes("UNAVAILABLE") || raw.includes("overloaded")) {
+  if (low.includes("503") || low.includes("unavailable") || low.includes("overloaded")) {
     return "Service Temporarily Unavailable (503)";
   }
   if (raw.includes("Google API key format") || raw.includes("start with 'AIzaSy'")) {
-    return "Invalid Key Format (Must start with AIzaSy)";
+    return "Invalid Key Format";
   }
   if (raw.includes("not defined") || raw.includes("not configured") || raw.trim() === "") {
     return "Secrets Key Missing";
@@ -304,7 +311,21 @@ export default function App() {
       setAssessmentResult(data.result);
     } catch (err: any) {
       console.error(err);
-      setClinicalError(err.message || "Failed to successfully complete the clinical evaluation. Please check your network connection.");
+      const rawMsg = err.message || "Failed to successfully complete the clinical evaluation. Please check your network connection.";
+      const lowMsg = rawMsg.toLowerCase();
+      
+      if (
+        lowMsg.includes("429") || 
+        lowMsg.includes("resource_exhausted") || 
+        lowMsg.includes("quota") || 
+        lowMsg.includes("limit") || 
+        lowMsg.includes("exhausted") || 
+        lowMsg.includes("depleted")
+      ) {
+        setClinicalError("Your daily Gemini API key request limit has been exhausted. Please configure your own active API key in Settings > Secrets to continue generating reviews, or try again tomorrow.");
+      } else {
+        setClinicalError(rawMsg);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -377,7 +398,7 @@ export default function App() {
           <div className="flex flex-col">
             <span className="text-slate-400 font-bold text-[9px] uppercase tracking-wider">SECURED EVIDENCE SOURCE</span>
             <a 
-              href="https://ranzcog.edu.au/wp-content/uploads/2024/02/Australian-Living-Evidence-Clinical-Guideline-for-the-Diagnosis-and-Management-of-Endometriosis.pdf" 
+              href="https://ranzcog.edu.au/wp-content/uploads/Endometriosis-Clinical-Practice-Guideline.pdf" 
               target="_blank" 
               rel="noopener noreferrer"
               className="font-bold text-yellow-600 underline flex items-center gap-1 hover:text-yellow-750 transition-colors"
