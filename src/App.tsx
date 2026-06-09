@@ -108,6 +108,51 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
   }
 };
 
+const getFriendlyErrorMessage = (raw: string): string => {
+  if (!raw) return "Unknown evaluation mismatch";
+  
+  // Quick checks first for standard codes
+  if (raw.includes("429") || raw.includes("RESOURCE_EXHAUSTED") || raw.includes("quota")) {
+    return "Quota Exceeded (429 Rate Limit)";
+  }
+  if (raw.includes("503") || raw.includes("UNAVAILABLE") || raw.includes("overloaded")) {
+    return "Service Temporarily Unavailable (503)";
+  }
+  if (raw.includes("API_KEY") || raw.includes("not defined") || raw.includes("Secrets")) {
+    return "Secrets Key Misconfigured";
+  }
+
+  try {
+    // Try to extract JSON from string if it's wrapped in other text
+    const jsonMatch = raw.match(/(\{.*\})/);
+    const parsed = JSON.parse(jsonMatch ? jsonMatch[1] : raw);
+    
+    if (parsed && parsed.error) {
+      if (parsed.error.message) {
+        const msg = parsed.error.message;
+        if (msg.includes("quota") || msg.includes("exceeded")) {
+          return "Quota Exceeded (429 Rate Limit)";
+        }
+        return msg;
+      }
+      if (parsed.error.status === "RESOURCE_EXHAUSTED") {
+        return "Quota Exceeded (429 Rate Limit)";
+      }
+    }
+    if (parsed && parsed.message) {
+      return parsed.message;
+    }
+  } catch (_) {
+    // Fail-safe to standard match
+  }
+
+  // Clean substring fallback if it's too long
+  if (raw.length > 50) {
+    return `${raw.slice(0, 47)}...`;
+  }
+  return raw;
+};
+
 export default function App() {
   // Disclaimer state (shows immediately on initial app render)
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(true);
@@ -584,7 +629,7 @@ export default function App() {
             ) : (
               <>
                 <span className="w-1.5 h-1.5 bg-rose-500 rounded-full shrink-0 animate-pulse"></span>
-                <span className="text-rose-400 font-bold hover:underline cursor-help" title={apiKeyStatus.message}>Retrieval-Augmented Generation (RAG) status: fault ({apiKeyStatus.message.slice(0, 45)}...)</span>
+                <span className="text-rose-400 font-bold hover:underline cursor-help" title={apiKeyStatus.message}>Retrieval-Augmented Generation (RAG) status: fault ({getFriendlyErrorMessage(apiKeyStatus.message)})</span>
               </>
             )}
           </div>
