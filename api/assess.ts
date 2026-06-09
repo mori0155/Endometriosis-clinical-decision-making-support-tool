@@ -29,37 +29,67 @@ interface RetryParams {
   config: any;
 }
 
-async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, maxRetries = 3): Promise<any> {
-  let attempt = 0;
-  while (attempt < maxRetries) {
-    try {
-      return await ai.models.generateContent(params);
-    } catch (err: any) {
-      attempt++;
-      const errorMessage = err?.message || String(err);
-      const errLower = errorMessage.toLowerCase();
-      const isTransient = (errorMessage.includes("503") ||
-                          errorMessage.includes("UNAVAILABLE") ||
-                          errorMessage.includes("overloaded") ||
-                          errorMessage.includes("high demand") ||
-                          err?.status === "UNAVAILABLE" ||
-                          err?.code === 503) &&
-                          !errLower.includes("429") &&
-                          !errLower.includes("resource_exhausted") &&
-                          !errLower.includes("quota") &&
-                          !errLower.includes("limit") &&
-                          !errLower.includes("exhausted") &&
-                          !errLower.includes("depleted");
+async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, maxRetries = 2): Promise<any> {
+  const modelsToTry = [params.model, "gemini-3.1-flash-lite"];
+  let lastError: any = null;
 
-      if (isTransient && attempt < maxRetries) {
-        const delay = Math.pow(2, attempt) * 1000 + Math.random() * 500;
-        console.warn(`[GEMINI RETRY] API transient load/congestion error (attempt ${attempt}/${maxRetries}): ${errorMessage}. Retrying in ${Math.round(delay)}ms...`);
-        await new Promise((resolve) => setTimeout(resolve, delay));
-        continue;
+  for (const modelName of modelsToTry) {
+    let attempt = 0;
+    while (attempt < maxRetries) {
+      try {
+        console.log(`[GEMINI REQUEST] Querying model: ${modelName} (attempt ${attempt + 1}/${maxRetries})`);
+        return await ai.models.generateContent({
+          ...params,
+          model: modelName,
+        });
+      } catch (err: any) {
+        attempt++;
+        const errorMessage = err?.message || String(err);
+        const errLower = errorMessage.toLowerCase();
+        
+        // Detect quota or resource exhaustion limits
+        const isQuotaExceeded = 
+          errLower.includes("429") ||
+          errLower.includes("resource_exhausted") ||
+          errLower.includes("quota") ||
+          errLower.includes("limit") ||
+          errLower.includes("exhausted") ||
+          errLower.includes("depleted") ||
+          err?.status === "RESOURCE_EXHAUSTED" ||
+          err?.code === 429;
+
+        if (isQuotaExceeded) {
+          console.warn(`[GEMINI QUOTA] Quota limit hit on model ${modelName}: ${errorMessage}`);
+          const currentIdx = modelsToTry.indexOf(modelName);
+          if (currentIdx < modelsToTry.length - 1) {
+            const nextModel = modelsToTry[currentIdx + 1];
+            console.warn(`[GEMINI FALLBACK] Automatically falling back to model: ${nextModel}`);
+            break; // Break the current retry loop, moves to the next model in modelsToTry
+          }
+          lastError = err;
+          throw err;
+        }
+
+        const isTransient = (errorMessage.includes("503") ||
+                            errorMessage.includes("UNAVAILABLE") ||
+                            errorMessage.includes("overloaded") ||
+                            errorMessage.includes("high demand") ||
+                            err?.status === "UNAVAILABLE" ||
+                            err?.code === 503);
+
+        if (isTransient && attempt < maxRetries) {
+          const delay = Math.pow(2, attempt) * 1000 + Math.random() * 500;
+          console.warn(`[GEMINI RETRY] API transient load/congestion error on ${modelName} (attempt ${attempt}/${maxRetries}): ${errorMessage}. Retrying in ${Math.round(delay)}ms...`);
+          await new Promise((resolve) => setTimeout(resolve, delay));
+          continue;
+        }
+
+        lastError = err;
+        throw err;
       }
-      throw err;
     }
   }
+  throw lastError || new Error("Failed to generate content after trying fallback models");
 }
 
 const Type = {
