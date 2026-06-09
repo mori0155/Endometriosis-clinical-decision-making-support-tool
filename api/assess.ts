@@ -205,7 +205,7 @@ Patient Profile Entered:
 - Additional user-specified custom symptoms (free-text):
   * ${patientData.otherSymptomsFreeText || "None entered"}
 - Medical and Family History:
-  * Autoimmune history: ${patientData.autoimmuneHistory ? "YES" : "NO"}${patientData.autoimmuneHistory && patientData.autoimmuneDetails && patientData.autoimmuneDetails !== 'none' ? ` (Specific condition: ${patientData.autoimmuneDetails.replace('_', ' ')})` : ""}
+  * Autoimmune history: ${patientData.autoimmuneHistory ? "YES" : "NO"}${patientData.autoimmuneHistory && patientData.autoimmuneDetails && patientData.autoimmuneDetails !== 'none' ? ` (Specific condition: ${patientData.autoimmuneDetails === 'other' ? (patientData.autoimmuneOtherText || "Other") : patientData.autoimmuneDetails.replace('_', ' ')})` : ""}
   * First-degree relatives with endometriosis history: ${patientData.familyHistory ? "YES" : "NO"}${patientData.familyHistory && patientData.familyHistoryRelation && patientData.familyHistoryRelation !== 'none' ? ` (Relation: ${patientData.familyHistoryRelation})` : ""}
 - Physical Examination:
   * Performed status: ${patientData.examinationPerformed}

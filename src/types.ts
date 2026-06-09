@@ -23,6 +23,7 @@ export interface PatientDetails {
   // History
   autoimmuneHistory: boolean;
   autoimmuneDetails?: 'none' | 'sjogrens' | 'lupus' | 'rheumatoid_arthritis' | 'celiac' | 'other';
+  autoimmuneOtherText?: string;
   familyHistory: boolean; // first-degree relative
   familyHistoryRelation?: 'none' | 'mother' | 'sister' | 'both';
 

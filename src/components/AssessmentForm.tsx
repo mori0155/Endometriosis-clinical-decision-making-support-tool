@@ -84,6 +84,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
       lessCommonNoneReported: false,
       autoimmuneHistory: false,
       autoimmuneDetails: "none",
+      autoimmuneOtherText: "",
       familyHistory: false,
       familyHistoryRelation: "none",
       examinationPerformed: "no",
@@ -174,7 +175,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                 return (
                   <label
                     key={symptom.key}
-                    className={`flex items-center p-2 rounded border text-xs cursor-pointer select-none transition-all duration-150 ${
+                    className={`flex items-center p-2 rounded border text-xs cursor-pointer select-none transition-all duration-150 w-full h-full min-h-[52px] ${
                       isChecked 
                         ? "border-yellow-400 bg-yellow-50 text-slate-900 font-semibold" 
                         : "border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50/50"
@@ -215,7 +216,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                 return (
                   <label
                     key={symptom.key}
-                    className={`flex items-center p-2 rounded border text-xs cursor-pointer select-none transition-all duration-150 ${
+                    className={`flex items-center p-2 rounded border text-xs cursor-pointer select-none transition-all duration-150 w-full h-full min-h-[52px] ${
                       isChecked 
                         ? "border-yellow-400 bg-yellow-50 text-slate-900 font-semibold" 
                         : "border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50/50"
@@ -352,6 +353,24 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                   );
                 })}
               </div>
+
+              {formData.autoimmuneDetails === "other" && (
+                <div className="pt-2 animate-in slide-in-from-top-1 fade-in duration-150" id="other-autoimmune-field-wrapper">
+                  <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                    Please specify other condition <span className="text-red-500 font-bold">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="autoimmuneOtherText"
+                    required
+                    value={formData.autoimmuneOtherText || ""}
+                    onChange={handleInputChange}
+                    placeholder="e.g. Hashimoto's Thyroiditis, Crohn's Disease, etc."
+                    className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none placeholder:text-slate-400 font-medium text-slate-800"
+                    id="txt-custom-autoimmune-details"
+                  />
+                </div>
+              )}
             </div>
 
           </div>
