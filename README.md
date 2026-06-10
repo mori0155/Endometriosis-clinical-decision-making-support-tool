@@ -1,5 +1,5 @@
 
-# ENDOASSESSOR | ## Clinical Decision Support System for Endometriosis
+# ENDOASSESSOR | Clinical Decision Support System for Endometriosis
 
 This tool has been developed to reduce the lengthy wait times for women in Australia to be diagnosed with endometriosis, and to provide appropriate strategies for symptom management in line with curremt evidence. 
 
