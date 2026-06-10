@@ -1,10 +1,20 @@
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-# ENDOASSESSOR | Clinical Decision Support System for Endometriosis
+# Run and deploy your AI Studio app
 
-This tool has been developed to reduce the lengthy wait times for women in Australia to be diagnosed with endometriosis, and to provide appropriate strategies for symptom management in line with the current evidence base. 
-The timely and correct diagnosis of endometriosis will result in significant improvements in quality of life, fertility outcomes, mental health, and productivity among affected patients.
+This contains everything you need to run your app locally.
+
+View your app in AI Studio: https://ai.studio/apps/018596c0-dac5-411a-b444-028f8e18fc6a
+
+## Run Locally
+
+**Prerequisites:**  Node.js
 
 
-"As a clinician, I want to be able to accurately and reliably diagnose endometriosis in a timely manner, and provide recommendations for appropriate symtpom management to improve quality of life for all affected Australian women"
-
-
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
