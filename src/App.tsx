@@ -245,6 +245,8 @@ export default function App() {
     headache: false,
     urinarySymptoms: false,
     allergies: false,
+    commonNoneReported: false,
+    lessCommonNoneReported: false,
 
     // History
     autoimmuneHistory: false,
@@ -287,6 +289,36 @@ export default function App() {
     // Quick validate basic field
     if (!formData.age) {
       setClinicalError("Clinical Prerequisite Failed: Patient age is required to perform an accurate assessment in accordance with RANZCOG guidelines.");
+      return;
+    }
+
+    // Validate if anything is selected in Question 2 and Question 3
+    const commonKeys = [
+      "severePainfulPeriods",
+      "painWithSex",
+      "infertility",
+      "pelvicPain",
+      "heavyMenstrualBleeding",
+      "commonNoneReported"
+    ];
+    const hasCommon = commonKeys.some(key => !!(formData as any)[key]);
+
+    const lessCommonKeys = [
+      "bowelSymptoms",
+      "severeTiredness",
+      "backPain",
+      "sleepDifficulty",
+      "headache",
+      "urinarySymptoms",
+      "allergies",
+      "lessCommonNoneReported"
+    ];
+    const hasLessCommon = lessCommonKeys.some(key => !!(formData as any)[key]);
+
+    if (!hasCommon || !hasLessCommon) {
+      setClinicalError(
+        "Please review your responses for Question 2 (Common Symptoms) and/or Question 3 (Less Common Symptoms) and select at least one symptom option. If no symptoms are experienced, please select 'None reported' for that section to proceed."
+      );
       return;
     }
 
@@ -467,7 +499,7 @@ export default function App() {
             <div className="bg-rose-50 border border-rose-150 rounded-lg p-4 text-rose-800 text-xs leading-relaxed shadow-sm transition-all space-y-2" id="dashboard-clinical-error-banner">
               <div className="flex items-center justify-center gap-2.5">
                 <AlertCircle className="w-6 h-6 text-rose-600 shrink-0" />
-                <strong className="font-bold text-rose-900 text-sm">Unable to generate clinical analysis</strong>
+                <strong className="font-bold text-rose-900 text-sm">Unable to generate clinical evaluation</strong>
               </div>
               <p className="text-center text-rose-800">
                 {clinicalError}

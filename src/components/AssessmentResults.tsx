@@ -41,18 +41,20 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
       setProgress(0);
       const interval = setInterval(() => {
         setProgress((prev) => {
-          if (prev < 35) {
-            return prev + Math.floor(Math.random() * 6) + 4; // fast early jump
+          if (prev < 45) {
+            return prev + Math.floor(Math.random() * 4) + 3; // smooth early jump
           } else if (prev < 75) {
-            return prev + Math.floor(Math.random() * 3) + 2; // slow down a bit
-          } else if (prev < 93) {
-            return prev + Math.floor(Math.random() * 2) + 1; // very slow approach
+            return prev + Math.floor(Math.random() * 2) + 1; // slow down a bit
+          } else if (prev < 90) {
+            return prev + (Math.random() > 0.4 ? 1 : 0); // slow approach
+          } else if (prev < 98) {
+            return prev + (Math.random() > 0.85 ? 1 : 0); // micro-increments
           } else if (prev < 99) {
-            return prev + (Math.random() > 0.8 ? 1 : 0); // micro-increments
+            return prev + (Math.random() > 0.95 ? 1 : 0); // extremely slow final steps
           }
           return prev;
         });
-      }, 120);
+      }, 250);
 
       return () => {
         clearInterval(interval);
@@ -122,7 +124,7 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
         <Stethoscope className="w-9 h-9 text-slate-400 mx-auto" strokeWidth={1.5} />
         <h3 className="text-slate-800 text-xs font-bold uppercase tracking-wide">Ready for Clinical Evaluation</h3>
         <p className="text-[11px] text-slate-500 max-w-sm mx-auto leading-relaxed">
-          Please fill out the patient's symptomatic details, demographics, and prior investigations on the left, then click <strong>"Generate Clinical Analysis"</strong> to produce an evidence-backed insight report.
+          Please fill out the patient's symptomatic details, demographics, and prior investigations on the left, then click <strong>"Generate Clinical Evaluation"</strong> to produce an evidence-backed insight report.
         </p>
       </div>
     );

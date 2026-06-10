@@ -248,13 +248,14 @@ You are a highly specialised clinical AI tool designed to assist healthcare prof
 Instructions:
 1. Conduct a rigorous, critical review of the patient's symptoms, clinical history, pain patterns, and imaging findings against the RANZCOG guideline recommendations.
 2. Ensure your language is strictly clinical, objective, and neutral in tone. Avoid promotional, creative, or non-medical adjectives.
-3. If critical pieces of information are missing (such as Age, Fertility priorities, or Pelvic imaging status), you MUST formally acknowledge this. Do not make inferences or draw information from external sources. You must explicitly state why the absence of this information impairs the formulation of safe, accurate recommendations.
-4. If they are young / adolescent (under 19), make sure you address the special considerations for adolescents defined in RANZCOG CQ18 (e.g. transabdominal ultrasound preference over transvaginal, validity of period pain, avoiding certain invasive procedures, referencing pediatric gynaecologist).
-5. Address the levels of suspicion dynamically (Low, Moderate, High, or Insufficient Information) and explain your reasoning by citing RANZCOG recommendations directly.
-6. Provide referrals that closely correspond to the guideline criteria.
-7. Break down management options exactly into Medical/Hormonal, Analgesics, Non-Pharmacological, and Surgical categories. Ensure you pay extreme attention to the contraception choice and fertility planning (e.g., highlighting that hormonal suppression is strictly contraindicated in patients attempting to conceive, citing CQ18 Recommendation 64).
-8. Generate a "clinicSummary": a formal, professional clinic EMR note that the clinician can copy directly into their records. The summary should write out: clinical profile, level of suspicion, reference justifications, first-line imaging needs, and clinical recommendations.
-9. Crucially, if the patient's age lies outside the typical range of 15-45 (e.g., under 15 or over 45), you must explicitly address this in your clinicalReasoning and clinicSummary. Discuss any clinical implications, guideline deviations, or required differential diagnostics (e.g., prepubertal or postmenopausal etiology).
+3. Keep all text sections extremely concise, direct, and well-structured. Set a target length of under 180 words for clinicalReasoning and under 150 words for clinicSummary. Avoid fluff, repetitive sentences, or long essays.
+4. If critical pieces of information are missing (such as Age, Fertility priorities, or Pelvic imaging status), you MUST formally acknowledge this. Do not make inferences or draw information from external sources. You must explicitly state why the absence of this information impairs the formulation of safe, accurate recommendations.
+5. If they are young / adolescent (under 19), make sure you address the special considerations for adolescents defined in RANZCOG CQ18 (e.g. transabdominal ultrasound preference over transvaginal, validity of period pain, avoiding certain invasive procedures, referencing pediatric gynaecologist).
+6. Address the levels of suspicion dynamically (Low, Moderate, High, or Insufficient Information) and explain your reasoning by citing RANZCOG recommendations directly.
+7. Provide referrals that closely correspond to the guideline criteria.
+8. Break down management options exactly into Medical/Hormonal, Analgesics, Non-Pharmacological, and Surgical categories. Ensure you pay extreme attention to the contraception choice and fertility planning (e.g., highlighting that hormonal suppression is strictly contraindicated in patients attempting to conceive, citing CQ18 Recommendation 64).
+9. Generate a "clinicSummary": a concise, formal, professional clinic EMR note (under 150 words using bullet points) that the clinician can copy directly into their records. The summary should clearly outline: clinical profile, level of suspicion, reference justifications, first-line imaging needs, and clinical recommendations in brief points.
+10. Crucially, if the patient's age lies outside the typical range of 15-45 (e.g., under 15 or over 45), you must explicitly address this in your clinicalReasoning and clinicSummary. Discuss any clinical implications, guideline deviations, or required differential diagnostics (e.g., prepubertal or postmenopausal etiology) concisely.
 
 Patient Profile Entered:
 - Age: ${patientData.age || "Not entered"}${(() => {
@@ -325,7 +326,7 @@ You must return a raw JSON response strictly conforming to the response schema. 
             },
             clinicalReasoning: {
               type: Type.STRING,
-              description: "Step-by-step professional clinical evaluation of the symptoms and examinations against the RANZCOG guideline."
+              description: "Concise step-by-step professional clinical evaluation of symptoms against RANZCOG guidelines. Must be strictly under 180 words."
             },
             citations: {
               type: Type.ARRAY,
@@ -357,7 +358,7 @@ You must return a raw JSON response strictly conforming to the response schema. 
             },
             clinicSummary: {
               type: Type.STRING,
-              description: "A comprehensive, formal clinical note to be imported directly into the EMR clinic notes. This note is intended to be editable by the clinician."
+              description: "A concise, formal clinical note to be imported directly into the EMR clinic notes (strictly under 150 words) using clean bullet points."
             }
           },
           required: [
