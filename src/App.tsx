@@ -470,6 +470,9 @@ export default function App() {
       }
 
       if (!response.ok) {
+        if (response.status === 504 || response.status === 502 || response.status === 503 || responseText.toLowerCase().includes("timeout") || responseText.toLowerCase().includes("function_invocation_timeout")) {
+          throw new Error("The AI clinical evaluator is temporarily busy or timed out. This is a temporary connection issue and is NOT a problem with the app itself. Please wait 10-15 seconds and try clicking 'Generate Clinical Evaluation' again.");
+        }
         if (isHtml) {
           throw new Error(`The clinical evaluator is currently experiencing server-side congestion (Status ${response.status}). Please wait 10-15 seconds and try again.`);
         }
@@ -500,6 +503,14 @@ export default function App() {
         lowMsg.includes("depleted")
       ) {
         setClinicalError("The EndoAssessor has reached its daily capacity for analysing patient profiles. Access will be restored tomorrow. For urgent clinical use, please contact your local system support team/administrator.");
+      } else if (
+        lowMsg.includes("504") ||
+        lowMsg.includes("timeout") ||
+        lowMsg.includes("gateway") ||
+        lowMsg.includes("502") ||
+        lowMsg.includes("503")
+      ) {
+        setClinicalError("The AI clinical evaluator timed out or is temporarily busy. This is a temporary server communication delay and is NOT a problem with the app itself. Please wait 10-15 seconds and try clicking 'Generate' again.");
       } else {
         setClinicalError(rawMsg);
       }
