@@ -275,7 +275,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
             </div>
           </div>
           {formData.fertilityPriority === 'yes' && (
-            <div className="bg-amber-50/40 border border-amber-200/80 rounded p-2.5 mt-2 animate-fadeIn" id="trying-to-conceive-duration-container">
+            <div className="bg-amber-50/40 border border-amber-200/80 rounded p-2.5 mt-2 animate-fadeIn flex flex-col items-center text-center" id="trying-to-conceive-duration-container">
               <label className="block text-[11px] font-semibold text-slate-700 mb-1">
                 Estimated duration actively trying to conceive (in months)
               </label>
@@ -287,7 +287,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                 placeholder="e.g. 6, 12, etc."
                 min="0"
                 max="300"
-                className="w-full sm:max-w-[200px] px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400 font-medium"
+                className="w-full sm:max-w-[200px] px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400 font-medium text-center"
                 id="input-trying-to-conceive-months"
               />
             </div>
