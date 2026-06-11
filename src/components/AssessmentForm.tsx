@@ -276,8 +276,8 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
             </div>
           </div>
           {formData.fertilityPriority === 'yes' && (
-            <div className="bg-amber-50/40 border border-amber-200/80 rounded p-3 mt-2 animate-fadeIn flex flex-col items-center gap-3 text-center" id="trying-to-conceive-duration-container">
-              <div className="w-full flex flex-col items-center">
+            <div className="bg-amber-50/40 border border-amber-200/80 rounded p-3 mt-2 animate-fadeIn grid grid-cols-1 sm:grid-cols-2 gap-3" id="trying-to-conceive-duration-container">
+              <div>
                 <label className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Estimated duration actively trying to conceive (in months)
                 </label>
@@ -286,15 +286,15 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                   name="tryingToConceiveMonths"
                   value={formData.tryingToConceiveMonths || ""}
                   onChange={handleInputChange}
-                  placeholder="e.g. 6, 12, etc."
+                  placeholder="e.g. 6 or 12"
                   min="0"
                   max="300"
-                  className="w-full sm:max-w-[200px] px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400 font-medium text-center"
+                  className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400 font-medium bg-white"
                   id="input-trying-to-conceive-months"
                 />
               </div>
 
-              <div className="w-full flex flex-col items-center">
+              <div>
                 <label className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Partner Fertility Evaluation Status
                 </label>
@@ -302,7 +302,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                   name="partnerFertilityStatus"
                   value={formData.partnerFertilityStatus || "unspecified"}
                   onChange={handleInputChange}
-                  className="w-full sm:max-w-[200px] px-2 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none bg-white font-medium text-center"
+                  className="w-full px-2 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none bg-white font-medium"
                   id="select-partner-fertility-status"
                 >
                   <option value="unspecified">-- Choose Partner Status --</option>
