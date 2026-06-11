@@ -256,6 +256,7 @@ Instructions:
 8. Break down management options exactly into Medical/Hormonal, Analgesics, Non-Pharmacological, and Surgical categories. Ensure you pay extreme attention to the contraception choice and fertility planning (e.g., highlighting that hormonal suppression is strictly contraindicated in patients attempting to conceive, citing CQ18 Recommendation 64).
 9. Generate a "clinicSummary": a concise, formal, professional clinic EMR note (under 150 words using bullet points) that the clinician can copy directly into their records. The summary should clearly outline: clinical profile, level of suspicion, reference justifications, first-line imaging needs, and clinical recommendations in brief points.
 10. Crucially, if the patient's age lies outside the typical range of 15-45 (e.g., under 15 or over 45), you must explicitly address this in your clinicalReasoning and clinicSummary. Discuss any clinical implications, guideline deviations, or required differential diagnostics (e.g., prepubertal or postmenopausal etiology) concisely.
+11. Crucially, you MUST embed the GRADE Evidence base citation directly into the clinicalReasoning (i.e., the Assessment Analysis & Guideline Alignment) using page numbers in the format [pX] (e.g., [p14] for signs, [p18] or [p50] for imaging, [p17] or [p44] for referral, [p19] or [p60] for analgesic, [p20] or [p67] for hormonal, [p21] or [p73] for adenomyosis, [p21] or [p76] for laparoscopy/cystectomy, etc.). Ensure there are multiple page number citations embedded naturally in the paragraph text corresponding exactly to the guideline sections discussed.
 
 Patient Profile Entered:
 - Age: ${patientData.age || "Not entered"}${(() => {
@@ -267,7 +268,7 @@ Patient Profile Entered:
   }
   return "";
 })()}
-- Desire for Fertility (Trying to conceive?): ${patientData.fertilityPriority}
+- Desire for Fertility (Trying to conceive?): ${patientData.fertilityPriority}${patientData.fertilityPriority === 'yes' ? ` (Duration trying to conceive: ${patientData.tryingToConceiveMonths || "Not specified"} months)` : ""}
 - Primary symptoms:
   * Severe painful periods (dysmenorrhea): ${patientData.severePainfulPeriods ? "YES" : "NO"}
   * Pain during or after sex (dyspareunia): ${patientData.painWithSex ? "YES" : "NO"}
@@ -326,7 +327,7 @@ You must return a raw JSON response strictly conforming to the response schema. 
             },
             clinicalReasoning: {
               type: Type.STRING,
-              description: "Concise step-by-step professional clinical evaluation of symptoms against RANZCOG guidelines. Must be strictly under 180 words."
+              description: "Concise step-by-step professional clinical evaluation of symptoms against RANZCOG guidelines. MUST include embedded page number citations in [pX] format (e.g. [p14]) throughout the paragraph text and be strictly under 180 words."
             },
             citations: {
               type: Type.ARRAY,

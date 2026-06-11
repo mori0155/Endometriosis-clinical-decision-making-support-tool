@@ -32,6 +32,36 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
     ],
     clinicalSignificance: "Comprehensive recording of multi-system clinical symptoms is the cornerstone of clinical suspicion, driving key decisions in accordance with page 14 of the RANZCOG Australian Living Evidence Guideline for Endometriosis."
   },
+  CQ2: {
+    title: "CQ2: Patient Information Needs & Experiences (pages 15 & 30 of the RANZCOG Australian Living Evidence Guideline)",
+    question: "What information and support do patients with endometriosis find most beneficial?",
+    keyRecommendations: [
+      "Offer personalized, high-quality information upon diagnosis [p15]: Ensure educational materials address disease mechanisms, treatment possibilities, fertility impacts, and physiological coping strategies.",
+      "Promote cooperative clinician-patient communication models [p30]: Actively validate chronic period pain as real, mitigating feelings of being dismissed by medical practitioners.",
+      "Tailor support options dynamically based on patient age groups [p30]: Offer targeted resources for adolescents versus patients nearing postmenopause."
+    ],
+    clinicalSignificance: "Validating patient experiences and providing high-quality educational material significantly reduces psychological stress, builds self-efficacy, and shortens diagnostic pathways."
+  },
+  CQ3: {
+    title: "CQ3: Support Groups & Self-Management (pages 16 & 35 of the RANZCOG Australian Living Evidence Guideline)",
+    question: "What has been shown to improve self-efficacy and coping in endometriosis self-management?",
+    keyRecommendations: [
+      "Acknowledge patient peer support networks [p16]: Joining verified peer support groups can improve community connections, decrease functional isolation, and enhance continuous coping.",
+      "Recommend self-management toolkits [p35]: Guide patients toward evidence-informed trackers, educational modules, and pain-coping diaries.",
+      "Acknowledge partner and family involvement [p35]: Educating caregivers or partners on the functional impact of chronic pain enhances relationship resilience and coping."
+    ],
+    clinicalSignificance: "Self-management strategies combined with structured support networks empower patients to take an active role in their ongoing physical and mental care plans."
+  },
+  CQ4: {
+    title: "CQ4: Diagnostic Delay and Health Pathways (pages 16 & 40 of the RANZCOG Australian Living Evidence Guideline)",
+    question: "How can the diagnostic delay (averaging 6.5 - 8 years) be reduced in clinical practice?",
+    keyRecommendations: [
+      "Improve early symptom tracking [p16]: Utilize standardized clinical symptom questionnaires (like the pelvic pain index) to identify cyclical signs early.",
+      "Establish structured diagnostic pathways [p40]: Create automated prompts in Electronic Medical Records (EMR) for persistent painful periods failing first-line remedies.",
+      "Enhance professional education [p40]: Educate primary care providers to avoid normalizing severe cyclic pelvic pain as standard menstruation."
+    ],
+    clinicalSignificance: "Proactive symptom mapping and optimized primary care pathways successfully reduce diagnostic latency, preventing long-term pain centralisation."
+  },
   CQ5: {
     title: "CQ5: Referral to Secondary Care (pages 17 & 44 of the RANZCOG Australian Living Evidence Guideline for Endometriosis)",
     question: "When should a patient with suspected/confirmed endometriosis be referred?",
@@ -42,6 +72,16 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
       "Refer for advanced surgery [p44]: Suspected deep lesions involving bowel, bladder, or ureters must be referred to gynaecologists with advanced laparoscopic surgical expertise or specialized interdisciplinary services with colorectal/urological input."
     ],
     clinicalSignificance: "Timely referral avoids diagnostic delay and ensures patients are matched with the appropriate tier of clinical or surgical expertise in accordance with pages 17 & 44 of the RANZCOG Australian Living Evidence Guideline for Endometriosis."
+  },
+  CQ6: {
+    title: "CQ6: Pelvic Examination and Clinical Signs (pages 17 & 48 of the RANZCOG Australian Living Evidence Guideline)",
+    question: "When and how should physical pelvic examinations be offered for suspected endometriosis?",
+    keyRecommendations: [
+      "Perform clinical pelvic examination [p17]: Offer checking for pelvic tenderness, organ mobility, retroversion, adnexal masses, or vaginal nodularity to establish baseline findings.",
+      "Contraindications / Decline criteria [p17, p48]: A pelvic exam is inappropriate for pediatric/adolescent patients, patients with no coital history, or patients with severe vaginismus; respect all patient decisions to decline.",
+      "Examination Limitations [p48]: A normal physical examination does NOT exclude the presence of superficial or deep endometriosis; pelvic imaging is still recommended if symptoms persist."
+    ],
+    clinicalSignificance: "Physical examinations provide valuable direct markers of deep pelvic disease (such as nodularity or fixation), but must be performed with strict clinical consent and age-specific safety protocols."
   },
   CQ7: {
     title: "CQ7: Pelvic Diagnostic Imaging (pages 18 & 50 of the RANZCOG Australian Living Evidence Guideline for Endometriosis)",
@@ -54,6 +94,26 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
     ],
     clinicalSignificance: "Advanced pre-surgical imaging protocols optimize mapping of deep endometriosis lesions across pelvic structures in accordance with pages 18 & 50 of the RANZCOG Australian Living Evidence Guideline for Endometriosis."
   },
+  CQ8: {
+    title: "CQ8: Biomarkers in Diagnosis (pages 18 & 54 of the RANZCOG Australian Living Evidence Guideline)",
+    question: "What is the diagnostic value of blood, serum, or urine biomarkers for endometriosis?",
+    keyRecommendations: [
+      "Do NOT use serum CA125 as a primary diagnostic assay [p18]: Regular serum CA125 assays are unreliable for screening or detecting superficial disease due to poor clinical specificity and high false-negatives.",
+      "Acknowledge normal biomarkers do NOT exclude disease [p54]: Do not reassure patients that they do not have endometriosis based only on regular blood panels.",
+      "Do NOT use endometrial biopsy or urine biomarkers [p54] for routine screening, as there is insufficient diagnostic evidence to justify clinical utility."
+    ],
+    clinicalSignificance: "Over-reliance on blood markers can delay care; negative assays cannot rule out pelvic lesions and must always be supplemented by high-quality imaging trials."
+  },
+  CQ9: {
+    title: "CQ9: Diagnostic Laparoscopy (pages 19 & 56 of the RANZCOG Australian Living Evidence Guideline)",
+    question: "When is a diagnostic laparoscopy indicated for establishing an endometriosis diagnosis?",
+    keyRecommendations: [
+      "Offer laparoscopy for definitive histological diagnosis [p19]: Diagnostic laparoscopy with biopsy remains the gold standard, although empirical management can be attempted first.",
+      "Failed Medical Trial Preference [p19]: Diagnostic or therapeutic laparoscopy should preferably be considered after a failed first-line medical/suppressive trial.",
+      "Surgical mapping requirement [p56]: Ensure high-quality pre-surgical imaging (ultrasound or pelvic MRI) is performed prior to schedules to map deep peritoneal layout."
+    ],
+    clinicalSignificance: "While gold standard for tissue evidence, diagnostic laparoscopy carries operative risks and should be reserved for therapeutic excision or patients who do not respond to clinical therapies."
+  },
   CQ10: {
     title: "CQ10: Analgesic Treatments (pages 19 & 60 of the RANZCOG Australian Living Evidence Guideline for Endometriosis)",
     question: "Which non-hormonal analgesic options should be offered to control pain?",
@@ -63,6 +123,16 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
       "Alternative supportive care [p60]: Discuss secondary non-pharmacological therapies such as acupuncture, low-FODMAP diet, fish oil, and vitamin D supplements, noting that evidence is limited but valuable for self-management."
     ],
     clinicalSignificance: "Effective non-hormonal pain relief ensures physical coping capacity during diagnostic investigations or while awaiting specialist assessment in accordance with pages 19 & 60 of the RANZCOG Australian Living Evidence Guideline for Endometriosis."
+  },
+  CQ11: {
+    title: "CQ11: Neuromodulators & Adjunctive Pain Therapies (pages 20 & 64 of the RANZCOG Australian Living Evidence Guideline)",
+    question: "What is the role of neuromodulating medications in treating chronic pelvic pain?",
+    keyRecommendations: [
+      "Consider neuromodulators under specialist guidance [p20]: Offer trying low-dose Amitriptyline, Gabapentin, or Pregabalin for patients with centralized chronic pelvic pain.",
+      "Monitor adverse neuropathic profiles [p64]: Conduct regular evaluations of cognitive, depressive, and somnolence side effects associated with gabapentinoids.",
+      "Integrate with multidisciplinary pathways [p64]: Neuromodulators are most effective when combined with pelvic physiotherapy, pain counseling, and clinical cycle controls."
+    ],
+    clinicalSignificance: "Neuropathy and centralization often sustain pelvic pain even after surgical clearing; neuromodulation can safely re-regulate sensory pathways under supervision."
   },
   CQ12: {
     title: "CQ12: Hormonal Suppression Trials (pages 20 & 67 of the RANZCOG Australian Living Evidence Guideline for Endometriosis)",
@@ -95,6 +165,47 @@ const CQ_DETAILS: Record<string, CQGuideline> = {
       "Repeat Surgeries [p76]: Advise careful consideration before pursuing repeat laparoscopic surgeries, as each additional procedure increases adhesion severity and risk of bowel/bladder injury."
     ],
     clinicalSignificance: "Laparoscopic cystectomy remains the most durable option for endometriomas, balancing recurrence prevention with ovarian reserve protection in accordance with pages 21 & 76 of the RANZCOG Australian Living Evidence Guideline for Endometriosis."
+  },
+  CQ15: {
+    title: "CQ15: Surgical Treatment of Deep Endometriosis (pages 22 & 79 of the RANZCOG Australian Living Evidence Guideline)",
+    question: "What are the recommended surgical protocols for deep endometriosis involving bowel, bladder, or ureter?",
+    keyRecommendations: [
+      "Refer to highly specialized interdisciplinary units [p22]: Complex surgeries involving bowel shaving, discoid excision, segmental resection, or ureterolysis should only be performed by expert multidisciplinary teams.",
+      "Balance surgical hazards against functional gains [p79]: Evaluate potential complications (such as nerve damage, anastomotic leakage, or neurogenic bladder) against symptomatic severity.",
+      "Ensure pre-operative mapping is thorough [p79]: Utilize dedicated deep endometriosis transvaginal ultrasound protocols and pelvic MRI prior to scheduling deep resections."
+    ],
+    clinicalSignificance: "Deep endometriosis surgery is highly technical and risk-prone; restricting procedures to accredited advanced laparoscopy specialized centers ensures lower morbidity and better long-term recovery."
+  },
+  CQ16: {
+    title: "CQ16: Non-Pharmacological & Integrative Support Options (pages 23 & 86 of the RANZCOG Australian Living Evidence Guideline)",
+    question: "What physical, dietary, or psychological non-pharmacological therapies are helpful?",
+    keyRecommendations: [
+      "Offer Pelvic Physiotherapy [p23]: Recommend a course of pelvic floor muscle therapy or massage to reduce myofascial pain, pelvic hypertonicity, and pain with sex (dyspareunia).",
+      "Support psychological counseling [p86]: Discuss psychological therapies (CBT, mindfulness, or acceptance and commitment therapy) to support quality-of-life and clinical pain coping.",
+      "Advise on dietary modifications [p23, p86]: Offer trying a low-FODMAP diet, fish oil, or vitamin D supplements to help manage chronic abdominal bloating, noting evidence is low.",
+      "Discuss acupuncture [p86]: Acupuncture can be considered for short-term clinical pelvic pain relief and functional wellness benefits."
+    ],
+    clinicalSignificance: "Multimodal non-pharmacological therapies addressing pelvic hypertonicity, digestive symptoms, and psychological coping are core assets of a functional multidisciplinary care plan."
+  },
+  CQ17: {
+    title: "CQ17: Medicinal Cannabis (pages 24 & 90 of the RANZCOG Australian Living Evidence Guideline)",
+    question: "What are the clinical guidelines and prescribing requirements for medicinal cannabis?",
+    keyRecommendations: [
+      "Acknowledge open discussion of cannabis [p24]: Clinicians can discuss cannabis openly due to high patient prevalence, but must clarify that formal clinical evidence is very limited.",
+      "Explain regulatory prescribing limits [p90]: Medicinal cannabis is not government-subsidized, requires authorized prescriber/SAS approvals, and has strict driving rules.",
+      "Advise on risk evaluation [p90]: Discuss possible side effects like somnolence, cognitive impairment, medication interactions, and risk of dependence before prescribing."
+    ],
+    clinicalSignificance: "While clinical research is emergent, open and legal risk profiling helps patients avoid unprescribed illicit purchase and ensures structured clinical safety supervision."
+  },
+  CQ18: {
+    title: "CQ18: Specialist Pediatric & Adolescent Referrals (pages 24 & 93 of the RANZCOG Australian Living Evidence Guideline)",
+    question: "What are the specific referral guidelines for adolescents with suspected pelvic pathology?",
+    keyRecommendations: [
+      "Refer adolescents under 19 with suspected or confirmed endometriosis [p24] to a pediatric and adolescent gynaecologist, or a high-experience pediatric clinician.",
+      "Prioritise non-invasive clinical investigations [p93]: Offer transabdominal pelvic ultrasound or transperineal scans, strictly avoiding transvaginal investigations in non-sexually active profiles.",
+      "Avoid early invasive laparoscopies [p93] for mild-to-moderate cyclic pain unless first-line empirical medical treatments fail or pelvic imaging suggests distinct structural pathology."
+    ],
+    clinicalSignificance: "Adolescent endometriosis displays distinct peritoneal patterns and requires early non-surgical trials, validation of periodic pain, and expert developmental gynaecology guidance."
   },
   CQ19: {
     title: "CQ19: Asymptomatic Surveillance (pages 25 & 96 of the RANZCOG Australian Living Evidence Guideline for Endometriosis)",
@@ -231,6 +342,7 @@ export default function App() {
   const [formData, setFormData] = useState<PatientDetails>({
     age: "",
     fertilityPriority: "unspecified",
+    tryingToConceiveMonths: "",
     severePainfulPeriods: false,
     painWithSex: false,
     infertility: false,
@@ -288,7 +400,16 @@ export default function App() {
     
     // Quick validate basic field
     if (!formData.age) {
-      setClinicalError("Clinical Prerequisite Failed: Patient age is required to perform an accurate assessment in accordance with RANZCOG guidelines.");
+      setClinicalError(
+        "Please review your responses for Question 1 (Patient Demographics & Fertility Intention) and provide the patient's age. Patient age is required to perform an accurate assessment in accordance with RANZCOG guidelines."
+      );
+      return;
+    }
+
+    if (formData.fertilityPriority === "unspecified") {
+      setClinicalError(
+        "Please review your responses for Question 1 (Patient Demographics & Fertility Intention) and select the desire for unassisted fertility option. This selection is required to perform an accurate assessment in accordance with RANZCOG guidelines."
+      );
       return;
     }
 
@@ -522,71 +643,22 @@ export default function App() {
               <p>
                 Select a Clinical Question (CQ) below to view its specific RANZCOG gold-standard recommendations, evidence outcomes, and diagnostic parameters directly:
               </p>
-              <div className="grid grid-cols-1 gap-2 text-slate-700 font-bold">
-                <button
-                  type="button"
-                  onClick={() => setSelectedCQKey('CQ1')}
-                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
-                >
-                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>Signs & Symptoms profiling</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedCQKey('CQ5')}
-                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
-                >
-                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>Referral to Secondary Care</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedCQKey('CQ7')}
-                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
-                >
-                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>Pelvic Diagnostic Imaging</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedCQKey('CQ10')}
-                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
-                >
-                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>Analgesic Treatments</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedCQKey('CQ12')}
-                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
-                >
-                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>Hormonal Suppression trials</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedCQKey('CQ13')}
-                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
-                >
-                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>Adenomyosis Management</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedCQKey('CQ14')}
-                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
-                >
-                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>Surgical Excision vs. Ablation</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedCQKey('CQ19')}
-                  className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98]"
-                >
-                  <ChevronRight className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
-                  <span>Asymptomatic Surveillance</span>
-                </button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700 font-bold">
+                {Object.keys(CQ_DETAILS).map((key) => {
+                  const titleParts = CQ_DETAILS[key].title.split(':');
+                  const titleText = titleParts[1] ? titleParts[1].split('(')[0].trim() : CQ_DETAILS[key].title;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setSelectedCQKey(key)}
+                      className="w-full text-left flex items-center gap-1.5 p-2 rounded bg-slate-50 border border-slate-200 transition-all hover:bg-yellow-50/60 hover:border-yellow-400 hover:text-slate-900 cursor-pointer active:scale-[0.98] text-[11px]"
+                    >
+                      <ChevronRight className="w-3.5 h-3.5 text-yellow-605 shrink-0" />
+                      <span className="truncate">{key}: {titleText}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>

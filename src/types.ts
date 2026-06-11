@@ -1,6 +1,7 @@
 export interface PatientDetails {
   age: string; // empty string or number string
   fertilityPriority: 'yes' | 'no' | 'unspecified' | 'unknown';
+  tryingToConceiveMonths?: string;
   severePainfulPeriods: boolean;
   painWithSex: boolean;
   infertility: boolean;

@@ -185,6 +185,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
     onFormChange({
       age: "",
       fertilityPriority: "unspecified",
+      tryingToConceiveMonths: "",
       severePainfulPeriods: false,
       painWithSex: false,
       infertility: false,
@@ -273,6 +274,24 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
               </select>
             </div>
           </div>
+          {formData.fertilityPriority === 'yes' && (
+            <div className="bg-amber-50/40 border border-amber-200/80 rounded p-2.5 mt-2 animate-fadeIn" id="trying-to-conceive-duration-container">
+              <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                Estimated duration actively trying to conceive (in months)
+              </label>
+              <input
+                type="number"
+                name="tryingToConceiveMonths"
+                value={formData.tryingToConceiveMonths || ""}
+                onChange={handleInputChange}
+                placeholder="e.g. 6, 12, etc."
+                min="0"
+                max="300"
+                className="w-full sm:max-w-[200px] px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400 font-medium"
+                id="input-trying-to-conceive-months"
+              />
+            </div>
+          )}
         </div>
 
         {/* Section 2: Clinical Symptoms */}
