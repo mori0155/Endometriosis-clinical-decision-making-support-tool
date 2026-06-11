@@ -187,6 +187,9 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
       fertilityPriority: "unspecified",
       tryingToConceiveMonths: "",
       partnerFertilityStatus: "unspecified",
+      menstrualCycleRegularity: "unspecified",
+      menstrualCycleLength: "",
+      menstrualBleedingDuration: "",
       severePainfulPeriods: false,
       painWithSex: false,
       infertility: false,
@@ -235,9 +238,9 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
       <div className="space-y-4" id="demographics-form-fields">
         
         {/* Section 1: Demographics & Gynaecological Plans */}
-        <div className="space-y-2">
+        <div className="space-y-3 bg-slate-50/25 border border-slate-100 rounded-lg p-3.5" id="demographics-section-container">
           <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
-            1. Patient Demographics & Fertility Intention
+            1. Patient Demographics
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
@@ -252,14 +255,14 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                 placeholder="e.g. 15 or 32"
                 min="1"
                 max="120"
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400 font-medium"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400 font-medium bg-white"
                 id="input-patient-age"
               />
             </div>
 
             <div>
               <label className="block text-[11px] font-semibold text-slate-700 mb-1">
-                Desire for Unassisted Fertility <span className="text-red-500 font-bold">*</span>
+                Fertility Goal <span className="text-red-500 font-bold">*</span>
               </label>
               <select
                 name="fertilityPriority"
@@ -276,7 +279,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
             </div>
           </div>
           {formData.fertilityPriority === 'yes' && (
-            <div className="bg-amber-50/40 border border-amber-200/80 rounded p-3 mt-2 animate-fadeIn grid grid-cols-1 sm:grid-cols-2 gap-3" id="trying-to-conceive-duration-container">
+            <div className="bg-amber-50/40 border border-amber-200/80 rounded p-3 mt-1 animate-fadeIn grid grid-cols-1 sm:grid-cols-2 gap-3" id="trying-to-conceive-duration-container">
               <div>
                 <label className="block text-[11px] font-semibold text-slate-700 mb-1">
                   Estimated duration actively trying to conceive (in months)
@@ -313,6 +316,69 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
               </div>
             </div>
           )}
+
+          {/* Menstrual Cycle Regularity & Duration */}
+          <div className="p-3 border border-slate-205 rounded-md bg-white space-y-2 mt-2.5" id="menstrual-cycle-info-box">
+            <span className="block text-xs font-bold text-slate-700">
+              Menstrual Cycle Regularity & Duration
+            </span>
+            <p className="text-[10px] text-slate-450 leading-relaxed">
+              Define predictability, typical cycle interval, and duration of active bleeding.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                  Menstrual Cycle Regularity
+                </label>
+                <select
+                  name="menstrualCycleRegularity"
+                  value={formData.menstrualCycleRegularity || "unspecified"}
+                  onChange={handleInputChange}
+                  className="w-full px-2 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none bg-white font-medium"
+                  id="select-menstrual-cycle-regularity"
+                >
+                  <option value="unspecified">-- Choose Regularity --</option>
+                  <option value="regular">Regular</option>
+                  <option value="irregular">Irregular</option>
+                  <option value="amenorrhea">Amenorrhea (absent period)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                  Typical Cycle Length (days)
+                </label>
+                <input
+                  type="number"
+                  name="menstrualCycleLength"
+                  value={formData.menstrualCycleLength || ""}
+                  onChange={handleInputChange}
+                  placeholder="e.g. 28"
+                  min="0"
+                  max="100"
+                  className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400 font-medium bg-white"
+                  id="input-menstrual-cycle-length"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                  Bleeding/Period Duration (days)
+                </label>
+                <input
+                  type="number"
+                  name="menstrualBleedingDuration"
+                  value={formData.menstrualBleedingDuration || ""}
+                  onChange={handleInputChange}
+                  placeholder="e.g. 5"
+                  min="0"
+                  max="30"
+                  className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400 font-medium bg-white"
+                  id="input-menstrual-bleeding-duration"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Section 2: Clinical Symptoms */}

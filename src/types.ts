@@ -3,6 +3,9 @@ export interface PatientDetails {
   fertilityPriority: 'yes' | 'no' | 'unspecified' | 'unknown';
   tryingToConceiveMonths?: string;
   partnerFertilityStatus?: 'normal' | 'abnormal' | 'not_performed' | 'unspecified';
+  menstrualCycleRegularity?: 'regular' | 'irregular' | 'amenorrhea' | 'unspecified';
+  menstrualCycleLength?: string;
+  menstrualBleedingDuration?: string;
   severePainfulPeriods: boolean;
   painWithSex: boolean;
   infertility: boolean;

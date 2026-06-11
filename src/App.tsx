@@ -344,6 +344,9 @@ export default function App() {
     fertilityPriority: "unspecified",
     tryingToConceiveMonths: "",
     partnerFertilityStatus: "unspecified",
+    menstrualCycleRegularity: "unspecified",
+    menstrualCycleLength: "",
+    menstrualBleedingDuration: "",
     severePainfulPeriods: false,
     painWithSex: false,
     infertility: false,
@@ -402,14 +405,14 @@ export default function App() {
     // Quick validate basic field
     if (!formData.age) {
       setClinicalError(
-        "Please review your responses for Question 1 (Patient Demographics & Fertility Intention) and provide the patient's age. Patient age is required to perform an accurate assessment in accordance with RANZCOG guidelines."
+        "Please review your responses for Question 1 (Patient Demographics) and provide the patient's age. Patient age is required to perform an accurate assessment in accordance with RANZCOG guidelines."
       );
       return;
     }
 
     if (formData.fertilityPriority === "unspecified") {
       setClinicalError(
-        "Please review your responses for Question 1 (Patient Demographics & Fertility Intention) and select the desire for unassisted fertility option. This selection is required to perform an accurate assessment in accordance with RANZCOG guidelines."
+        "Please review your responses for Question 1 (Patient Demographics) and select the fertility goal. This selection is required to perform an accurate assessment in accordance with RANZCOG guidelines."
       );
       return;
     }
