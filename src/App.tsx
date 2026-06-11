@@ -343,6 +343,7 @@ export default function App() {
     age: "",
     fertilityPriority: "unspecified",
     tryingToConceiveMonths: "",
+    partnerFertilityStatus: "unspecified",
     severePainfulPeriods: false,
     painWithSex: false,
     infertility: false,

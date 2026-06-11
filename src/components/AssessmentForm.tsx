@@ -186,6 +186,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
       age: "",
       fertilityPriority: "unspecified",
       tryingToConceiveMonths: "",
+      partnerFertilityStatus: "unspecified",
       severePainfulPeriods: false,
       painWithSex: false,
       infertility: false,
@@ -275,21 +276,41 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
             </div>
           </div>
           {formData.fertilityPriority === 'yes' && (
-            <div className="bg-amber-50/40 border border-amber-200/80 rounded p-2.5 mt-2 animate-fadeIn flex flex-col items-center text-center" id="trying-to-conceive-duration-container">
-              <label className="block text-[11px] font-semibold text-slate-700 mb-1">
-                Estimated duration actively trying to conceive (in months)
-              </label>
-              <input
-                type="number"
-                name="tryingToConceiveMonths"
-                value={formData.tryingToConceiveMonths || ""}
-                onChange={handleInputChange}
-                placeholder="e.g. 6, 12, etc."
-                min="0"
-                max="300"
-                className="w-full sm:max-w-[200px] px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400 font-medium text-center"
-                id="input-trying-to-conceive-months"
-              />
+            <div className="bg-amber-50/40 border border-amber-200/80 rounded p-3 mt-2 animate-fadeIn flex flex-col items-center gap-3 text-center" id="trying-to-conceive-duration-container">
+              <div className="w-full flex flex-col items-center">
+                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                  Estimated duration actively trying to conceive (in months)
+                </label>
+                <input
+                  type="number"
+                  name="tryingToConceiveMonths"
+                  value={formData.tryingToConceiveMonths || ""}
+                  onChange={handleInputChange}
+                  placeholder="e.g. 6, 12, etc."
+                  min="0"
+                  max="300"
+                  className="w-full sm:max-w-[200px] px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none transition-all placeholder:text-slate-400 font-medium text-center"
+                  id="input-trying-to-conceive-months"
+                />
+              </div>
+
+              <div className="w-full flex flex-col items-center">
+                <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                  Partner Fertility Evaluation Status
+                </label>
+                <select
+                  name="partnerFertilityStatus"
+                  value={formData.partnerFertilityStatus || "unspecified"}
+                  onChange={handleInputChange}
+                  className="w-full sm:max-w-[200px] px-2 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none bg-white font-medium text-center"
+                  id="select-partner-fertility-status"
+                >
+                  <option value="unspecified">-- Choose Partner Status --</option>
+                  <option value="normal">Normal</option>
+                  <option value="abnormal">Abnormal</option>
+                  <option value="not_performed">Not performed</option>
+                </select>
+              </div>
             </div>
           )}
         </div>

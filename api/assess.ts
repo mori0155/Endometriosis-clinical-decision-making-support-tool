@@ -268,7 +268,7 @@ Patient Profile Entered:
   }
   return "";
 })()}
-- Desire for Fertility (Trying to conceive?): ${patientData.fertilityPriority}${patientData.fertilityPriority === 'yes' ? ` (Duration trying to conceive: ${patientData.tryingToConceiveMonths || "Not specified"} months)` : ""}
+- Desire for Fertility (Trying to conceive?): ${patientData.fertilityPriority}${patientData.fertilityPriority === 'yes' ? ` (Duration trying to conceive: ${patientData.tryingToConceiveMonths || "Not specified"} months; Partner fertility evaluation status: ${patientData.partnerFertilityStatus || "Not specified"})` : ""}
 - Primary symptoms:
   * Severe painful periods (dysmenorrhea): ${patientData.severePainfulPeriods ? "YES" : "NO"}
   * Pain during or after sex (dyspareunia): ${patientData.painWithSex ? "YES" : "NO"}
