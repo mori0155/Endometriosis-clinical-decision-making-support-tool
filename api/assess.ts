@@ -314,7 +314,7 @@ You must return a raw JSON response strictly conforming to the response schema. 
       contents: prompt,
       config: {
         thinkingConfig: {
-          thinkingLevel: ThinkingLevel.LOW,
+          thinkingLevel: ThinkingLevel.MINIMAL,
         },
         responseMimeType: "application/json",
         responseSchema: {
