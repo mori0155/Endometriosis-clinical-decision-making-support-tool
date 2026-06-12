@@ -64,7 +64,6 @@ async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, ma
         attempt++;
         const errorMessage = err?.message || String(err);
         const errLower = errorMessage.toLowerCase();
-        console.error(`[GEMINI ERROR] Model ${modelName} returned error:`, errorMessage);
         
         // Detect quota or resource exhaustion limits
         const isQuotaExceeded = 
@@ -80,17 +79,17 @@ async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, ma
         const isTimeout = errLower.includes("timeout") || errLower.includes("exceeded");
 
         if (isQuotaExceeded || isTimeout) {
-          if (isQuotaExceeded) {
-            console.warn(`[GEMINI QUOTA] Quota limit hit on model ${modelName}: ${errorMessage}`);
-          } else {
-            console.warn(`[GEMINI TIMEOUT] Timeout on model ${modelName}: ${errorMessage}`);
-          }
           const currentIdx = modelsToTry.indexOf(modelName);
           if (currentIdx < modelsToTry.length - 1) {
             const nextModel = modelsToTry[currentIdx + 1];
-            console.warn(`[GEMINI FALLBACK] Automatically falling back to model: ${nextModel}`);
+            if (isQuotaExceeded) {
+              console.warn(`[GEMINI QUOTA] Quota limit hit on model ${modelName}: [Bypassing with fallback to ${nextModel}]`);
+            } else {
+              console.warn(`[GEMINI TIMEOUT] Timeout on model ${modelName}: [Bypassing with fallback to ${nextModel}]`);
+            }
             break; // Break the current inner attempt loop, moves to the next model in modelsToTry
           }
+          console.error(`[GEMINI FATAL] All fallback options exhausted. Primary and secondary models are rate-limited:`, errorMessage);
           lastError = err;
           throw err;
         }
@@ -104,11 +103,12 @@ async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, ma
 
         if (isTransient && attempt < maxRetries) {
           const delay = Math.pow(2, attempt) * 1000 + Math.random() * 500;
-          console.warn(`[GEMINI RETRY] API transient load/congestion error on ${modelName} (attempt ${attempt}/${maxRetries}): ${errorMessage}. Retrying in ${Math.round(delay)}ms...`);
+          console.warn(`[GEMINI RETRY] API transient load/congestion error on ${modelName} (attempt ${attempt}/${maxRetries}). Retrying in ${Math.round(delay)}ms...`);
           await new Promise((resolve) => setTimeout(resolve, delay));
           continue;
         }
 
+        console.error(`[GEMINI ERROR] Model ${modelName} returned unexpected error:`, errorMessage);
         lastError = err;
         throw err;
       }
