@@ -264,14 +264,14 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
 
       {/* Main clinical insights header row */}
       <div className="bg-white border border-slate-200 rounded-lg shadow-xs overflow-hidden" id="report-suspicion-level">
-        <div className="p-3 bg-white border-b border-slate-200 flex justify-between items-center bg-slate-50/50">
-          <h2 className="text-xs font-bold text-slate-705 uppercase tracking-wider flex items-center gap-1.5">
-            <BadgeAlert className="w-4 h-4 text-slate-500" />
+        <div className="p-4 bg-white border-b border-slate-200 flex flex-col items-center justify-center text-center gap-2.5 bg-slate-50/50">
+          <h2 className="text-xs font-bold text-slate-705 uppercase tracking-wider flex items-center justify-center gap-1.5 w-full">
+            <BadgeAlert className="w-4.5 h-4.5 text-slate-500" />
             Clinical Insights & Guidelines Diagnosis
           </h2>
-          <div className="flex items-center space-x-2">
-            <span className="text-[10px] font-bold text-slate-400">DIAGNOSTIC PROBABILITY FOR ENDOMETRIOSIS:</span>
-            <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${getProbabilityBadge(assessment.diagnosticProbability)}`}>
+          <div className="flex flex-col items-center justify-center gap-1.5 w-full">
+            <span className="text-[10px] font-bold text-slate-505 uppercase tracking-wider">DIAGNOSTIC PROBABILITY FOR ENDOMETRIOSIS:</span>
+            <span className={`px-3 py-1 text-[10.5px] font-bold rounded-full border ${getProbabilityBadge(assessment.diagnosticProbability)}`}>
               {assessment.diagnosticProbability.toUpperCase()}
               {typeof assessment.confidencePercentage === 'number' && ` (${assessment.confidencePercentage}% CONFIDENCE)`}
             </span>

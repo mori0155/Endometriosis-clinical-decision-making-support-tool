@@ -187,6 +187,43 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [clinicalError, setClinicalError] = useState<string | null>(null);
 
+  // Scroll to the very top using multiple robust DOM/window strategies to support iframe sandboxes and layout wrappers
+  const scrollToTop = () => {
+    const performScroll = () => {
+      const header = document.getElementById("main-header");
+      if (header) {
+        header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      
+      // Secondary fallback on html/body and outer container
+      const docEl = document.documentElement || document.body;
+      if (docEl) {
+        docEl.scrollTop = 0;
+      }
+      
+      const dashboard = document.getElementById("main-clinician-dashboard");
+      if (dashboard) {
+        dashboard.scrollTop = 0;
+        dashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    // Run scrolling immediately and at scheduled intervals to guarantee scroll handles standard layout expansion
+    performScroll();
+    setTimeout(performScroll, 50);
+    setTimeout(performScroll, 150);
+    setTimeout(performScroll, 350);
+  };
+
+  // Automatically scroll to the top of the page when an error is set, so the clinician can see it immediately
+  useEffect(() => {
+    if (clinicalError) {
+      scrollToTop();
+    }
+  }, [clinicalError]);
+
   const handleAssessSubmit = async () => {
     setClinicalError(null);
     
@@ -195,6 +232,7 @@ export default function App() {
       setClinicalError(
         "Please review your responses for Question 1 (Patient Demographics) and provide the patient's age. Patient age is required to perform an accurate assessment in accordance with RANZCOG guidelines."
       );
+      scrollToTop();
       return;
     }
 
@@ -202,6 +240,7 @@ export default function App() {
       setClinicalError(
         "Please review your responses for Question 1 (Patient Demographics) and select the fertility goal. This selection is required to perform an accurate assessment in accordance with RANZCOG guidelines."
       );
+      scrollToTop();
       return;
     }
 
@@ -209,6 +248,7 @@ export default function App() {
       setClinicalError(
         "Inconsistency detected: 'Infertility / conceiving delay' is checked in Question 2, but the patient's Fertility Goal in Question 1 is not set to 'Yes, actively trying to conceive'. Please either update the Fertility Goal to 'Yes, actively trying to conceive' or uncheck 'Infertility / conceiving delay' to proceed."
       );
+      scrollToTop();
       return;
     }
 
@@ -241,10 +281,12 @@ export default function App() {
       setClinicalError(
         "Please review your responses for Question 2 (Common Symptoms) and/or Question 3 (Less Common Symptoms) and select at least one symptom option. If no symptoms are experienced (and no other related symptoms are specified), please select 'None reported' for that section to proceed."
       );
+      scrollToTop();
       return;
     }
 
     setIsLoading(true);
+    scrollToTop();
     try {
       const response = await fetch("/api/assess", {
         method: "POST",
