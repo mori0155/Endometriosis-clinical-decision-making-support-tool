@@ -235,9 +235,11 @@ export default function App() {
     ];
     const hasLessCommon = lessCommonKeys.some(key => !!(formData as any)[key]);
 
-    if (!hasCommon || !hasLessCommon) {
+    const hasFreeText = !!(formData.otherSymptomsFreeText && formData.otherSymptomsFreeText.trim());
+
+    if (!hasFreeText && (!hasCommon || !hasLessCommon)) {
       setClinicalError(
-        "Please review your responses for Question 2 (Common Symptoms) and/or Question 3 (Less Common Symptoms) and select at least one symptom option. If no symptoms are experienced, please select 'None reported' for that section to proceed."
+        "Please review your responses for Question 2 (Common Symptoms) and/or Question 3 (Less Common Symptoms) and select at least one symptom option. If no symptoms are experienced (and no other related symptoms are specified), please select 'None reported' for that section to proceed."
       );
       return;
     }
