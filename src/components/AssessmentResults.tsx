@@ -24,6 +24,7 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
   const [editedSummary, setEditedSummary] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [showDeclaration, setShowDeclaration] = useState(false);
 
   // Sync edited summary with incoming assessment summaries
@@ -35,26 +36,29 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
     }
   }, [assessment]);
 
-  // Generate simulated percentage progress
+  // Generate realistic percentage progress synced with duration
   useEffect(() => {
     if (isLoading) {
       setProgress(0);
+      setElapsedSeconds(0);
+      const startTime = Date.now();
+
       const interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev < 45) {
-            return prev + Math.floor(Math.random() * 4) + 3; // smooth early jump
-          } else if (prev < 75) {
-            return prev + Math.floor(Math.random() * 2) + 1; // slow down a bit
-          } else if (prev < 90) {
-            return prev + (Math.random() > 0.4 ? 1 : 0); // slow approach
-          } else if (prev < 98) {
-            return prev + (Math.random() > 0.85 ? 1 : 0); // micro-increments
-          } else if (prev < 99) {
-            return prev + (Math.random() > 0.95 ? 1 : 0); // extremely slow final steps
-          }
-          return prev;
-        });
-      }, 250);
+        const secs = Math.floor((Date.now() - startTime) / 1000);
+        setElapsedSeconds(secs);
+        
+        // Paced progress to reach around 96% by 95 seconds (estimating ~2 mins total API time safely)
+        const ESTIMATED_TOTAL_SECONDS = 95;
+        let pct = 0;
+        if (secs < ESTIMATED_TOTAL_SECONDS) {
+          pct = Math.floor((secs / ESTIMATED_TOTAL_SECONDS) * 96);
+        } else {
+          // Extra slow drift from 96% to 99% for safety over the next 120 seconds
+          const extra = secs - ESTIMATED_TOTAL_SECONDS;
+          pct = Math.min(99, 96 + Math.floor((extra / 120) * 3));
+        }
+        setProgress(pct);
+      }, 1000);
 
       return () => {
         clearInterval(interval);
@@ -94,26 +98,73 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
   };
 
   if (isLoading) {
+    const radius = 24;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDashoffset = circumference - (progress / 100) * circumference;
+    const ESTIMATED_TOTAL_SECONDS = 95;
+    const isOverrun = elapsedSeconds >= ESTIMATED_TOTAL_SECONDS;
+    const secondsRemaining = Math.max(0, ESTIMATED_TOTAL_SECONDS - elapsedSeconds);
+
     return (
-      <div className="bg-white border border-slate-200 rounded-lg p-10 text-center space-y-5 shadow-sm" id="results-skeleton">
+      <div className="bg-white border border-slate-200 rounded-lg p-10 text-center space-y-6 shadow-sm" id="results-skeleton">
         <div className="flex justify-center">
           <div className="relative flex items-center justify-center w-16 h-16" id="results-skeleton-spinner">
-            {/* Spinning track ring */}
-            <div className="absolute inset-0 rounded-full border-4 border-slate-100"></div>
-            {/* Active spinning partial border indicator */}
-            <div className="absolute inset-0 rounded-full border-4 border-yellow-400 border-t-transparent animate-spin"></div>
+            {/* SVG Progress Circle */}
+            <svg className="w-16 h-16 transform -rotate-90 absolute">
+              {/* Spinning track ring */}
+              <circle
+                className="text-slate-100"
+                strokeWidth="4"
+                stroke="currentColor"
+                fill="transparent"
+                r={radius}
+                cx="32"
+                cy="32"
+              />
+              {/* Active filled progress indicator */}
+              <circle
+                className="text-yellow-550 transition-all duration-300 ease-out"
+                strokeWidth="4"
+                strokeDasharray={circumference}
+                strokeDashoffset={strokeDashoffset}
+                strokeLinecap="round"
+                stroke="currentColor"
+                fill="transparent"
+                r={radius}
+                cx="32"
+                cy="32"
+              />
+            </svg>
+            
+            {/* Subtle outer rotating track to show background processing is active */}
+            <div className="absolute inset-0 rounded-full border border-yellow-200/40 border-t-yellow-500 animate-spin opacity-80"></div>
+
             {/* Centered progress text */}
-            <span className="text-xs font-mono font-bold text-slate-800">
+            <span className="text-xs font-mono font-bold text-slate-800 z-10">
               {progress}%
             </span>
           </div>
         </div>
-        <p className="text-slate-700 text-xs font-bold uppercase tracking-wider">
-          {getProgressLabel(progress)}
-        </p>
-        <p className="text-[11px] text-slate-400 max-w-sm mx-auto leading-relaxed">
-          {getProgressSubtext(progress)}
-        </p>
+
+        <div className="space-y-1">
+          <p className="text-slate-700 text-xs font-bold uppercase tracking-wider">
+            {getProgressLabel(progress)}
+          </p>
+          <p className="text-[11px] text-slate-400 max-w-sm mx-auto leading-relaxed">
+            {getProgressSubtext(progress)}
+          </p>
+        </div>
+
+        {/* Estimated Time Remaining Reassuring Box */}
+        <div className="bg-slate-50 border border-slate-150 rounded-md py-2.5 px-4 inline-flex flex-col items-center gap-0.5 shadow-xs mx-auto text-center" id="progress-time-remaining">
+          <span className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Estimated Remaining</span>
+          <span className="text-[11px] font-mono font-bold text-slate-700">
+            {!isOverrun ? `~${secondsRemaining} seconds` : "Finalizing comprehensive clinical report..."}
+          </span>
+          <span className="text-[9px] text-slate-400">
+            {!isOverrun ? "Processing evidence-based guidelines" : "Generating diagnostic options, please wait"}
+          </span>
+        </div>
       </div>
     );
   }
