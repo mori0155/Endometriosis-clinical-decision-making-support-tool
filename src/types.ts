@@ -92,9 +92,10 @@ export interface Citation {
 }
 
 export interface ClinicalAssessmentResult {
-  missingVariables: string[];
+  missingItemsList: string[];
   missingExplanation: string | null;
-  levelOfSuspicion: 'Low' | 'Moderate' | 'High' | 'Insufficient Information';
+  diagnosticProbability: 'Low' | 'Moderate' | 'High' | 'Insufficient Information';
+  confidencePercentage: number;
   clinicalReasoning: string;
   citations: Citation[];
   referrals: string[];

@@ -96,6 +96,7 @@ const Type = {
   OBJECT: "OBJECT" as const,
   ARRAY: "ARRAY" as const,
   STRING: "STRING" as const,
+  INTEGER: "INTEGER" as const,
 };
 
 const RANZCOG_GUIDELINES = `
@@ -251,10 +252,10 @@ Instructions:
 3. Keep all text sections extremely concise, direct, and well-structured. Set a target length of under 180 words for clinicalReasoning and under 150 words for clinicSummary. Avoid fluff, repetitive sentences, or long essays.
 4. If critical pieces of information are missing (such as Age, Fertility priorities, or Pelvic imaging status), you MUST formally acknowledge this. Do not make inferences or draw information from external sources. You must explicitly state why the absence of this information impairs the formulation of safe, accurate recommendations.
 5. If they are young / adolescent (under 19), make sure you address the special considerations for adolescents defined in RANZCOG CQ18 (e.g. transabdominal ultrasound preference over transvaginal, validity of period pain, avoiding certain invasive procedures, referencing pediatric gynaecologist).
-6. Address the levels of suspicion dynamically (Low, Moderate, High, or Insufficient Information) and explain your reasoning by citing RANZCOG recommendations directly.
+6. Determine the diagnostic probability of endometriosis dynamically ('Low', 'Moderate', 'High', or 'Insufficient Information') and explain your reasoning by citing RANZCOG recommendations directly. Assign a numeric confidencePercentage (0-100) reflecting how securely the patient's symptomatic burden, duration, history, exam details, and imaging align with established endometriosis benchmarks (e.g., highly suggestive ultrasound combined with multi-system symptoms would warrant both High Diagnostic Probability and high confidence (>90%), while subtle unsupported symptoms without positive imaging warrants lower diagnostic probability/confidence).
 7. Provide referrals that closely correspond to the guideline criteria.
 8. Break down management options exactly into Medical/Hormonal, Analgesics, Non-Pharmacological, and Surgical categories. Ensure you pay extreme attention to the contraception choice and fertility planning (e.g., highlighting that hormonal suppression is strictly contraindicated in patients attempting to conceive, citing CQ18 Recommendation 64).
-9. Generate a "clinicSummary": a concise, formal, professional clinic EMR note (under 120 words using brief bullet points) that the clinician can copy directly into their records. Do NOT include full reference justifications, bibliography explanations, page-number brackets, or citations in this string itself (as they are already listed in the clinical insights section of the UI). Instead, focus strictly on summarizing the patient's objective clinical profile, level of suspicion, first-line imaging status, and core clinical recommendations in brief points.
+9. Generate a "clinicSummary": a concise, formal, professional clinic EMR note (under 120 words using brief bullet points) that the clinician can copy directly into their records. Do NOT include full reference justifications, bibliography explanations, page-number brackets, or citations in this string itself (as they are already listed in the clinical insights section of the UI). Instead, focus strictly on summarizing the patient's objective clinical profile, diagnostic probability, confidence, first-line imaging status, and core clinical recommendations in brief points.
 10. Crucially, if the patient's age lies outside the typical range of 15-45 (e.g., under 15 or over 45), you must explicitly address this in your clinicalReasoning and clinicSummary. Discuss any clinical implications or required differential diagnostics concisely.
 11. Crucially, you MUST embed the GRADE Evidence base citation directly into the clinicalReasoning (i.e., the Assessment Analysis & Guideline Alignment) using page numbers in the format [pX] (e.g., [p14] for signs, [p18] or [p50] for imaging, [p17] or [p44] for referral, [p19] or [p60] for analgesic, [p20] or [p67] for hormonal, [p21] or [p73] for adenomyosis, [p21] or [p76] for laparoscopy/cystectomy, etc.). Ensure there are multiple page number citations embedded naturally in the paragraph text corresponding exactly to the guideline sections discussed.
 
@@ -325,9 +326,13 @@ You must return a raw JSON response strictly conforming to the response schema. 
               type: Type.STRING,
               description: "Clear clinical explanation of what cannot be decided because certain items are missing. Neutral clinical language."
             },
-            levelOfSuspicion: {
+            diagnosticProbability: {
               type: Type.STRING,
               description: "Must be one of: 'Low', 'Moderate', 'High', or 'Insufficient Information'."
+            },
+            confidencePercentage: {
+              type: Type.INTEGER,
+              description: "An estimated model confidence percentage (0 to 100) representing how securely the patient's symptomatic burden, duration, history, and imaging align with established endometriosis levels under the guidelines."
             },
             clinicalReasoning: {
               type: Type.STRING,
@@ -369,7 +374,8 @@ You must return a raw JSON response strictly conforming to the response schema. 
           required: [
             "missingItemsList",
             "missingExplanation",
-            "levelOfSuspicion",
+            "diagnosticProbability",
+            "confidencePercentage",
             "clinicalReasoning",
             "citations",
             "referrals",

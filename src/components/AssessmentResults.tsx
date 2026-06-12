@@ -218,8 +218,8 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
     );
   }
 
-  // Determine badge styling for level of suspicion
-  const getSuspicionBadge = (level: string) => {
+  // Determine badge styling for level of diagnostic probability
+  const getProbabilityBadge = (level: string) => {
     switch (level) {
       case 'High':
         return 'bg-red-50 text-red-700 border-red-200';
@@ -270,9 +270,10 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
             Clinical Insights & Guidelines Diagnosis
           </h2>
           <div className="flex items-center space-x-2">
-            <span className="text-[10px] font-bold text-slate-400">SUSPICION LEVEL:</span>
-            <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${getSuspicionBadge(assessment.levelOfSuspicion)}`}>
-              {assessment.levelOfSuspicion.toUpperCase()}
+            <span className="text-[10px] font-bold text-slate-400">DIAGNOSTIC PROBABILITY FOR ENDOMETRIOSIS:</span>
+            <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${getProbabilityBadge(assessment.diagnosticProbability)}`}>
+              {assessment.diagnosticProbability.toUpperCase()}
+              {typeof assessment.confidencePercentage === 'number' && ` (${assessment.confidencePercentage}% CONFIDENCE)`}
             </span>
           </div>
         </div>
