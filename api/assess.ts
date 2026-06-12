@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -107,7 +107,7 @@ Australian Living Evidence Guideline: Endometriosis (RANZCOG) Guidelines:
    - Less common symptoms (associated with endometriosis in 10 to 25% of cases): bowel symptoms (constipation, diarrhoea, pain with bowel movement/dyschezia), severe tiredness, back pain, sleep difficulty, headache, urinary symptoms (dysuria, bladder pain, urine burn), allergies.
    - Clinical signs upon pelvic examination: reduced pelvic organ mobility, pelvic organ enlargement, posterior vaginal wall nodularity, pelvic and vaginal tenderness, visible vaginal endometriosis lesions. A normal examination does NOT exclude endometriosis.
    - Pelvic examination may be inappropriate or declined for some patients (e.g., adolescents, those who have not been sexually active, or those with vaginismus/vaginal muscle pain).
-   - Medical history: Enquire about history of autoimmune disease (Sjogren's, Lupus, RA, Celiac) or first-degree relatives with a history of endometriosis (increases risk up to 30%).
+   - Medical history: Enquire about history of autoimmune disease (Sjogren's, Lupus, RA, Celiac) or first-degree relatives with a history of endometriosis.
 
 2. Diagnosis and Pelvic Imaging (CQ 7 / Page 18, 50):
    - First-line investigation: Offer transvaginal pelvic ultrasound (TVUS) to all patients with symptoms suggestive of endometriosis, even if examinations are normal.
@@ -313,6 +313,9 @@ You must return a raw JSON response strictly conforming to the response schema. 
       model: "gemini-3.5-flash",
       contents: prompt,
       config: {
+        thinkingConfig: {
+          thinkingLevel: ThinkingLevel.LOW,
+        },
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,

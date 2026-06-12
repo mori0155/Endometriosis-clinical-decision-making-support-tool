@@ -477,22 +477,6 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
             </div>
           </div>
 
-          {/* CUSTOM SYMPTOMS FREE TEXT BOX */}
-          <div className="space-y-1.5 pt-1">
-            <label className="block text-[11px] font-semibold text-slate-700">
-              Other Related Symptoms & Custom Observations (Specify below)
-            </label>
-            <textarea
-              name="otherSymptomsFreeText"
-              value={formData.otherSymptomsFreeText || ""}
-              onChange={handleInputChange}
-              rows={2}
-              placeholder="Enter details on specific pain thresholds, chest symptoms, cyclical flares, or custom symptoms..."
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none resize-none text-slate-800"
-              id="txt-custom-other-symptoms"
-            />
-          </div>
-
         </div>
 
         {/* Section 4: History & Diagnostics */}
@@ -508,11 +492,11 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                 <span>First-Degree Relative History</span>
               </span>
               <p className="text-[10px] text-slate-450 leading-relaxed">
-                Confirmed endometriosis diagnosis in immediate family (increases risk up to 30%).
+                Confirmed endometriosis diagnosis in immediate family.
               </p>
               <div className="space-y-1.5 pt-1">
                 {[
-                  { label: "No family history in first-degree relatives", value: "none" },
+                  { label: "No confirmed endometriosis diagnosis among first-degree relatives", value: "none" },
                   { label: "Mother has confirmed diagnosis", value: "mother" },
                   { label: "Sister has confirmed diagnosis", value: "sister" },
                   { label: "Both Mother and Sister have confirmed diagnosis", value: "both" }
@@ -562,8 +546,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                   { label: "Sjögren's Syndrome", value: "sjogrens" },
                   { label: "Lupus (Systemic Lupus Erythematosus)", value: "lupus" },
                   { label: "Rheumatoid Arthritis", value: "rheumatoid_arthritis" },
-                  { label: "Celiac Disease", value: "celiac" },
-                  { label: "Other Autoimmune Condition", value: "other" }
+                  { label: "Celiac Disease", value: "celiac" }
                 ].map((option) => {
                   const isSelected = (formData.autoimmuneDetails || "none") === option.value;
                   return (
@@ -594,27 +577,26 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                   );
                 })}
               </div>
-
-              {formData.autoimmuneDetails === "other" && (
-                <div className="pt-2 animate-in slide-in-from-top-1 fade-in duration-150" id="other-autoimmune-field-wrapper">
-                  <label className="block text-[11px] font-semibold text-slate-700 mb-1">
-                    Please specify other condition <span className="text-red-500 font-bold">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="autoimmuneOtherText"
-                    required
-                    value={formData.autoimmuneOtherText || ""}
-                    onChange={handleInputChange}
-                    placeholder="e.g. Hashimoto's Thyroiditis, Crohn's Disease, etc."
-                    className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none placeholder:text-slate-400 font-medium text-slate-800"
-                    id="txt-custom-autoimmune-details"
-                  />
-                </div>
-              )}
             </div>
 
           </div>
+
+          {/* CUSTOM SYMPTOMS FREE TEXT BOX */}
+          <div className="space-y-1.5 pt-1">
+            <label className="block text-[11px] font-semibold text-slate-700">
+              Other Related Symptoms & Comorbidities (Specify below)
+            </label>
+            <textarea
+              name="otherSymptomsFreeText"
+              value={formData.otherSymptomsFreeText || ""}
+              onChange={handleInputChange}
+              rows={5}
+              placeholder="Enter details on specific pain thresholds, chest symptoms, cyclical flares, or custom symptoms..."
+              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 focus:outline-none resize-y min-h-[100px] text-slate-800"
+              id="txt-custom-other-symptoms"
+            />
+          </div>
+
         </div>
 
         {/* Practical Pelvic Exam section with warning guidance */}
