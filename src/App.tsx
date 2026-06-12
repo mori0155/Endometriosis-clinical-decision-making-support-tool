@@ -417,6 +417,13 @@ export default function App() {
       return;
     }
 
+    if (formData.infertility && formData.fertilityPriority !== "yes") {
+      setClinicalError(
+        "Inconsistency detected: 'Infertility / conceiving delay' is checked in Question 2, but the patient's Fertility Goal in Question 1 is not set to 'Yes, actively trying to conceive'. Please either update the Fertility Goal to 'Yes, actively trying to conceive' or uncheck 'Infertility / conceiving delay' to proceed."
+      );
+      return;
+    }
+
     // Validate if anything is selected in Question 2 and Question 3
     const commonKeys = [
       "severePainfulPeriods",

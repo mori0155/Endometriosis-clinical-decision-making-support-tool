@@ -421,6 +421,20 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                 );
               })}
             </div>
+            {formData.infertility && formData.fertilityPriority !== "yes" && (
+              <div className="mt-2.5 p-3 bg-amber-50 border border-amber-200 rounded-md flex gap-2.5 items-start animate-fadeIn" id="infertility-goal-conflict-warning">
+                <svg className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div className="space-y-0.5">
+                  <span className="block text-xs font-bold text-amber-900 leading-tight">Fertility Goal Alignment Needed</span>
+                  <p className="text-[10px] text-amber-800 leading-relaxed">
+                    You checked <strong>Infertility / conceiving delay</strong>, but the patient's Fertility Goal under Section 1 is currently set to <strong>"{formData.fertilityPriority === 'no' ? 'No active pregnancy plan' : formData.fertilityPriority === 'unknown' ? 'Unknown / Not determined' : 'Unspecified'}"</strong>. 
+                    Please align these inputs by updating the Fertility Goal to <strong>"Yes, actively trying to conceive"</strong> or unchecking this symptom.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Less Common Symptoms Area */}
