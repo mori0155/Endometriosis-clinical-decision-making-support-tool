@@ -30,7 +30,7 @@ interface RetryParams {
 }
 
 async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, maxRetries = 2): Promise<any> {
-  const modelsToTry = [params.model, "gemini-3.1-flash-lite"];
+  const modelsToTry = [params.model, "gemini-3.1-flash-lite", "gemini-flash-latest"];
   let lastError: any = null;
 
   for (const modelName of modelsToTry) {
@@ -38,14 +38,33 @@ async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, ma
     while (attempt < maxRetries) {
       try {
         console.log(`[GEMINI REQUEST] Querying model: ${modelName} (attempt ${attempt + 1}/${maxRetries})`);
-        return await ai.models.generateContent({
+        
+        // Prepare config - delete thinkingConfig for non-gemini-3 models
+        const configToUse = { ...params.config };
+        if (!modelName.startsWith("gemini-3")) {
+          delete configToUse.thinkingConfig;
+        }
+
+        // Set up a fast timeout race of 8 seconds per retry to maintain speed
+        const apiCallPromise = ai.models.generateContent({
           ...params,
           model: modelName,
+          config: configToUse,
         });
+
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Timeout (8000ms exceeded)")), 8000)
+        );
+
+        // Race them!
+        const result = await Promise.race([apiCallPromise, timeoutPromise]);
+        return result;
+
       } catch (err: any) {
         attempt++;
         const errorMessage = err?.message || String(err);
         const errLower = errorMessage.toLowerCase();
+        console.error(`[GEMINI ERROR] Model ${modelName} returned error:`, errorMessage);
         
         // Detect quota or resource exhaustion limits
         const isQuotaExceeded = 
@@ -58,13 +77,19 @@ async function generateContentWithRetry(ai: GoogleGenAI, params: RetryParams, ma
           err?.status === "RESOURCE_EXHAUSTED" ||
           err?.code === 429;
 
-        if (isQuotaExceeded) {
-          console.warn(`[GEMINI QUOTA] Quota limit hit on model ${modelName}: ${errorMessage}`);
+        const isTimeout = errLower.includes("timeout") || errLower.includes("exceeded");
+
+        if (isQuotaExceeded || isTimeout) {
+          if (isQuotaExceeded) {
+            console.warn(`[GEMINI QUOTA] Quota limit hit on model ${modelName}: ${errorMessage}`);
+          } else {
+            console.warn(`[GEMINI TIMEOUT] Timeout on model ${modelName}: ${errorMessage}`);
+          }
           const currentIdx = modelsToTry.indexOf(modelName);
           if (currentIdx < modelsToTry.length - 1) {
             const nextModel = modelsToTry[currentIdx + 1];
             console.warn(`[GEMINI FALLBACK] Automatically falling back to model: ${nextModel}`);
-            break; // Break the current retry loop, moves to the next model in modelsToTry
+            break; // Break the current inner attempt loop, moves to the next model in modelsToTry
           }
           lastError = err;
           throw err;
