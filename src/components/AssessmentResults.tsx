@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ClinicalAssessmentResult } from '../types';
 import { 
   Clipboard, 
@@ -26,11 +26,36 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
   const [progress, setProgress] = useState(0);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [showDeclaration, setShowDeclaration] = useState(false);
+  
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Sync edited summary with incoming assessment summaries and append processed RANZCOG citations
+  // Sync edited summary with incoming assessment summaries, append management options and processed RANZCOG citations
   useEffect(() => {
     if (assessment) {
       let summary = assessment.clinicSummary || '';
+
+      // Append evidence-based management options
+      const opts = assessment.managementOptions;
+      if (opts) {
+        const sections: string[] = [];
+        if (opts.medical && opts.medical.length > 0) {
+          sections.push(`  - Hormonal Trials: ${opts.medical.join('; ')}`);
+        }
+        if (opts.analgesic && opts.analgesic.length > 0) {
+          sections.push(`  - Analgesics: ${opts.analgesic.join('; ')}`);
+        }
+        if (opts.nonPharmacological && opts.nonPharmacological.length > 0) {
+          sections.push(`  - Supportive & Non-Pharm Options: ${opts.nonPharmacological.join('; ')}`);
+        }
+        if (opts.surgical && opts.surgical.length > 0) {
+          sections.push(`  - Surgical Considerations: ${opts.surgical.join('; ')}`);
+        }
+
+        if (sections.length > 0) {
+          summary = `${summary}\n\nEvidence-Based Management Options:\n${sections.join('\n')}`;
+        }
+      }
+
       if (assessment.citations && assessment.citations.length > 0) {
         const citationList = assessment.citations.map(c => `Ref: ${c.recommendationNo}`).join(', ');
         summary = `${summary}\n\nProcessed RANZCOG Citations: ${citationList}`;
@@ -40,6 +65,14 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
       setEditedSummary('');
     }
   }, [assessment]);
+
+  // Auto-resize textarea to fit entire content height without a scroll bar
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [editedSummary]);
 
   // Generate realistic percentage progress synced with duration
   useEffect(() => {
@@ -407,10 +440,10 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
             Review, append, or copy these draft records directly into EMR software. They include clinical metrics and citations:
           </p>
           <textarea
+            ref={textareaRef}
             value={editedSummary}
             onChange={(e) => setEditedSummary(e.target.value)}
-            rows={10}
-            className="w-full bg-[#FCFDFE] border border-slate-300 rounded p-3 text-slate-800 text-[11px] font-mono focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 leading-relaxed resize-y select-text font-medium"
+            className="w-full bg-[#FCFDFE] border border-slate-300 rounded p-3 text-slate-800 text-[11px] font-mono focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 leading-relaxed resize-none overflow-hidden select-text font-medium"
             id="clinical-summary-editable-textarea"
           />
           <p className="text-[9px] text-slate-405 mt-1.5 italic">
