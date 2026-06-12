@@ -270,7 +270,7 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
             Clinical Insights & Guidelines Diagnosis
           </h2>
           <div className="flex flex-col items-center justify-center gap-1.5 w-full">
-            <span className="text-[10px] font-bold text-slate-505 uppercase tracking-wider">DIAGNOSTIC PROBABILITY FOR ENDOMETRIOSIS:</span>
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">DIAGNOSTIC PROBABILITY FOR ENDOMETRIOSIS:</span>
             <span className={`px-3 py-1 text-[10.5px] font-bold rounded-full border ${getProbabilityBadge(assessment.diagnosticProbability)}`}>
               {assessment.diagnosticProbability.toUpperCase()}
               {typeof assessment.confidencePercentage === 'number' && ` (${assessment.confidencePercentage}% CONFIDENCE)`}
