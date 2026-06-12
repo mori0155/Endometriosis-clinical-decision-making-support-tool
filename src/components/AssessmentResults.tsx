@@ -27,10 +27,15 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [showDeclaration, setShowDeclaration] = useState(false);
 
-  // Sync edited summary with incoming assessment summaries
+  // Sync edited summary with incoming assessment summaries and append processed RANZCOG citations
   useEffect(() => {
     if (assessment) {
-      setEditedSummary(assessment.clinicSummary || '');
+      let summary = assessment.clinicSummary || '';
+      if (assessment.citations && assessment.citations.length > 0) {
+        const citationList = assessment.citations.map(c => `Ref: ${c.recommendationNo}`).join(', ');
+        summary = `${summary}\n\nProcessed RANZCOG Citations: ${citationList}`;
+      }
+      setEditedSummary(summary);
     } else {
       setEditedSummary('');
     }
@@ -155,15 +160,14 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
           </p>
         </div>
 
-        {/* Estimated Time Remaining Reassuring Box */}
-        <div className="bg-slate-50 border border-slate-150 rounded-md py-2.5 px-4 inline-flex flex-col items-center gap-0.5 shadow-xs mx-auto text-center" id="progress-time-remaining">
-          <span className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Estimated Remaining</span>
-          <span className="text-[11px] font-mono font-bold text-slate-700">
-            {!isOverrun ? `~${secondsRemaining} seconds` : "Finalizing comprehensive clinical report..."}
-          </span>
-          <span className="text-[9px] text-slate-400">
+        {/* Estimated Time Remaining Section */}
+        <div className="text-center space-y-1 py-1" id="progress-time-remaining">
+          <p className="text-xs font-bold text-yellow-600 uppercase tracking-wider">
+            {!isOverrun ? `Estimated Time Remaining: ~${secondsRemaining} seconds` : "Finalizing comprehensive clinical report..."}
+          </p>
+          <p className="text-[10px] text-slate-400">
             {!isOverrun ? "Processing evidence-based guidelines" : "Generating diagnostic options, please wait"}
-          </span>
+          </p>
         </div>
       </div>
     );
@@ -415,15 +419,7 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
         </div>
       </div>
 
-      {/* Citation Tracking Footer strip */}
-      <div className="px-4 py-2.5 bg-white border border-slate-250 rounded-md flex space-x-4 items-center">
-        <div className="text-[9.5px] text-slate-450 font-bold flex items-center flex-wrap gap-1.5">
-          <span className="text-slate-600">PROCESSED CITATIONS:</span>
-          <span className="bg-slate-100 hover:bg-slate-150 px-1.5 py-0.5 rounded border border-slate-200 select-all font-mono">Ref: CQ1-Rec_1</span>
-          <span className="bg-slate-100 hover:bg-slate-150 px-1.5 py-0.5 rounded border border-slate-200 select-all font-mono">Ref: CQ7-Rec_14</span>
-          <span className="bg-slate-100 hover:bg-slate-150 px-1.5 py-0.5 rounded border border-slate-200 select-all font-mono">Ref: CQ12-Rec_35</span>
-        </div>
-      </div>
+
 
       {showDeclaration && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-[1px] flex items-center justify-center p-4 z-50 animate-in fade-in duration-200" id="declaration-modal-overlay">
