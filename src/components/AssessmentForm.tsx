@@ -499,7 +499,7 @@ export const AssessmentForm: React.FC<AssessmentFormProps> = ({
                   { label: "No confirmed endometriosis diagnosis among first-degree relatives", value: "none" },
                   { label: "Mother has confirmed diagnosis", value: "mother" },
                   { label: "Sister has confirmed diagnosis", value: "sister" },
-                  { label: "Both Mother and Sister have confirmed diagnosis", value: "both" }
+                  { label: "Both mother and sister have confirmed diagnosis", value: "both" }
                 ].map((option) => {
                   const isSelected = (formData.familyHistoryRelation || "none") === option.value;
                   return (

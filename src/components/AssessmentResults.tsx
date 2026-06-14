@@ -85,15 +85,15 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
         const secs = Math.floor((Date.now() - startTime) / 1000);
         setElapsedSeconds(secs);
         
-        // Paced progress to reach around 96% by 95 seconds (estimating ~2 mins total API time safely)
-        const ESTIMATED_TOTAL_SECONDS = 95;
+        // Paced progress to reach around 96% by 15 seconds (reflecting the new faster thinking capability)
+        const ESTIMATED_TOTAL_SECONDS = 15;
         let pct = 0;
         if (secs < ESTIMATED_TOTAL_SECONDS) {
           pct = Math.floor((secs / ESTIMATED_TOTAL_SECONDS) * 96);
         } else {
-          // Extra slow drift from 96% to 99% for safety over the next 120 seconds
+          // Extra slow drift from 96% to 99% for safety over the next 30 seconds
           const extra = secs - ESTIMATED_TOTAL_SECONDS;
-          pct = Math.min(99, 96 + Math.floor((extra / 120) * 3));
+          pct = Math.min(99, 96 + Math.floor((extra / 30) * 3));
         }
         setProgress(pct);
       }, 1000);
@@ -139,7 +139,7 @@ export const AssessmentResults: React.FC<AssessmentResultsProps> = ({
     const radius = 24;
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (progress / 100) * circumference;
-    const ESTIMATED_TOTAL_SECONDS = 95;
+    const ESTIMATED_TOTAL_SECONDS = 15;
     const isOverrun = elapsedSeconds >= ESTIMATED_TOTAL_SECONDS;
     const secondsRemaining = Math.max(0, ESTIMATED_TOTAL_SECONDS - elapsedSeconds);
 
